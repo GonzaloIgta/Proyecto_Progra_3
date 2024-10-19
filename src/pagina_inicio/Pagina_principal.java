@@ -79,12 +79,25 @@ public class Pagina_principal extends JFrame{
         gbc.anchor = GridBagConstraints.CENTER; //aseguramos que este centro
 		ventana_principal.add(rutinas_guardadas,gbc);
 		
+		//Separar botones
+		ImageIcon separar = new ImageIcon("resourses/images/foto_separar.jpg");
+		Image separar_i = separar.getImage(); // Obtener la imagen original
+        Image separar_redimensionada = separar_i.getScaledInstance(100, 100, Image.SCALE_SMOOTH); // Redimensionar a 100x100 píxeles
+        ImageIcon separar_redimensionado = new ImageIcon(separar_redimensionada); 
+		JLabel para_separar = new JLabel();
+		para_separar.setIcon(separar_redimensionado);
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        //gbc.anchor = GridBagConstraints.NORTH; // aseguramos que esté en la parte superior
+		ventana_principal.add(para_separar,gbc);
 		
 		//añadir boton añadir
 		JButton añadir = new JButton();
 		añadir.setText("Añadir nueva rutina");
 		gbc.gridx = 1;
-		gbc.gridy = 2;
+		gbc.gridy = 3;
 		gbc.gridwidth = 1;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.SOUTH; //aseguramos que este abajo
