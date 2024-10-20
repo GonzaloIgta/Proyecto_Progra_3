@@ -42,7 +42,7 @@ public class Pagina_principal extends JFrame{
 		
 		
 		ventana_principal.setLayout(new GridBagLayout());
-		ventana_principal.setBackground(Color.GREEN);
+		ventana_principal.setBackground(Color.BLUE);
 		
 		
 		//añadimos el icono de la aplicacion en la parte de arriba
@@ -109,7 +109,14 @@ public class Pagina_principal extends JFrame{
 		this.add(ventana_principal);
         
         // Definimos el tamaño de la ventana
-        setSize(3000, 3000);  //FALTA HACER QUE SEA AUTOAJUSTABLE
+        //setSize(3000, 3000);  //FALTA HACER QUE SEA AUTOAJUSTABLE
+        setExtendedState(JFrame.MAXIMIZED_BOTH);    //Hace que se abra en pantalla completa
+        
+     // Definir el tamaño mínimo de la ventana (ancho, alto en píxeles)
+     	setMinimumSize(new Dimension(500, 400));
+     	
+     // Centrar la ventana en la pantalla
+     	setLocationRelativeTo(null);
 
         // Hacemos visible la ventana principal
         setVisible(true);
