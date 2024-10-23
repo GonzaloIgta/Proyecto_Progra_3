@@ -71,6 +71,7 @@ public class Pagina_principal extends JFrame{
 		
 		//añadir boton Rutinas guardadas
 		JButton rutinas_guardadas = new JButton();
+		rutinas_guardadas.setFocusable(false);
 		rutinas_guardadas.setText("Rutinas guardadas");
 		gbc.gridx = 1;
 		gbc.gridy = 1;
@@ -90,11 +91,12 @@ public class Pagina_principal extends JFrame{
 		gbc.gridy = 2;
 		gbc.gridwidth = 1;
         gbc.weightx = 1.0;
-        //gbc.anchor = GridBagConstraints.NORTH; // aseguramos que esté en la parte superior
+        gbc.anchor = GridBagConstraints.NORTH; // aseguramos que esté en la parte superior
 		ventana_principal.add(para_separar,gbc);
 		
 		//añadir boton añadir
 		JButton añadir = new JButton();
+		añadir.setFocusable(false);
 		añadir.setText("Añadir nueva rutina");
 		gbc.gridx = 1;
 		gbc.gridy = 3;
