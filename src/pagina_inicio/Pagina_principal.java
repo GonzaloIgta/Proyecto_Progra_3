@@ -112,10 +112,11 @@ public class Pagina_principal extends JFrame{
         
         // Definimos el tamaño de la ventana
         //setSize(3000, 3000);  //FALTA HACER QUE SEA AUTOAJUSTABLE
-        setExtendedState(JFrame.MAXIMIZED_BOTH);    //Hace que se abra en pantalla completa
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);    //Hace que se abra en pantalla completa
         
      // Definir el tamaño mínimo de la ventana (ancho, alto en píxeles)
-     	setMinimumSize(new Dimension(500, 400));
+     	setSize(350, 600);
+		setResizable(false);
      	
      // Centrar la ventana en la pantalla
      	setLocationRelativeTo(null);
