@@ -1,4 +1,4 @@
-package interfaz_grafica.pagina_inicio;
+package pagina_inicio;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -143,11 +142,7 @@ public class Pagina_principal extends JFrame{
 	
 	
 	
-	 public static void main(String[] args) {
-		 
-		 Pagina_principal pagina = new Pagina_principal();
-		 
-	 }
+
 }
 
 
