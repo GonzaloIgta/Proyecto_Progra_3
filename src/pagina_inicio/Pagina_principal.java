@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -90,7 +91,6 @@ public class Pagina_principal extends JFrame{
 		gbc.gridy = 2;
 		gbc.gridwidth = 1;
         gbc.weightx = 1.0;
-        //gbc.anchor = GridBagConstraints.NORTH; // aseguramos que esté en la parte superior
 		ventana_principal.add(para_separar,gbc);
 		
 		//añadir boton añadir
@@ -102,7 +102,11 @@ public class Pagina_principal extends JFrame{
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.SOUTH; //aseguramos que este abajo
 		ventana_principal.add(añadir,gbc);
-		
+		ActionListener listener_boton_añadir = e -> {
+	            JButton botonPresionado = (JButton) e.getSource();
+	            //AÑADIR QUE HABRA PANTALLA
+	        };
+	    añadir.addActionListener(listener_boton_añadir)  ;
 		
 		
 		
