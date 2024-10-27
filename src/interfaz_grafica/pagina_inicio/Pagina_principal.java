@@ -1,11 +1,10 @@
-package pagina_inicio;
+package interfaz_grafica.pagina_inicio;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.util.List;
 
@@ -79,6 +78,11 @@ public class Pagina_principal extends JFrame{
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.CENTER; //aseguramos que este centro
 		ventana_principal.add(rutinas_guardadas,gbc);
+		ActionListener listener_rutinas_guardadas = e -> {
+            //cuando tengamos hecho siguiente pantalla aqui la inicia
+        };
+		rutinas_guardadas.addActionListener(listener_rutinas_guardadas);
+		
 		
 		//Separar botones
 		ImageIcon separar = new ImageIcon("resourses/images/foto_separar.jpg");
@@ -103,27 +107,37 @@ public class Pagina_principal extends JFrame{
         gbc.anchor = GridBagConstraints.SOUTH; //aseguramos que este abajo
 		ventana_principal.add(añadir,gbc);
 		ActionListener listener_boton_añadir = e -> {
-	            JButton botonPresionado = (JButton) e.getSource();
-	            //AÑADIR QUE HABRA PANTALLA
+	            //cuando tengamos hecho siguiente pantalla aqui la inicia
 	        };
-	    añadir.addActionListener(listener_boton_añadir)  ;
+	    añadir.addActionListener(listener_boton_añadir);
 		
 		
 		
-		this.add(ventana_principal);
         
-        // Definimos el tamaño de la ventana
-        //setSize(3000, 3000);  //FALTA HACER QUE SEA AUTOAJUSTABLE
-        setExtendedState(JFrame.MAXIMIZED_BOTH);    //Hace que se abra en pantalla completa
-        
-     // Definir el tamaño mínimo de la ventana (ancho, alto en píxeles)
-     	setMinimumSize(new Dimension(500, 400));
+		
+		//FUENTE-EXTERNA
+				//URL: (https://www.forosdelweb.com/f45/ajuste-automatico-jframe-853529/)
+				//SIN-CAMBIOS
+		//Hacer que la pantalla se habra a la mitad del tamaño
+		float escalar = 0.5F; // una ventana al 50% del tamaño de la pantalla
+		int ancho = (int)(Toolkit.getDefaultToolkit().getScreenSize(). width*escalar);
+		int alto = (int)(Toolkit.getDefaultToolkit().getScreenSize(). height*escalar);
+		this.setSize(ancho,alto);
+
+        // Permitir que el JFrame sea redimensionable
+        this.setResizable(true);
+
+
      	
-     // Centrar la ventana en la pantalla
+        // Centrar la ventana en la pantalla
      	setLocationRelativeTo(null);
 
         // Hacemos visible la ventana principal
         setVisible(true);
+
+        
+        
+		this.add(ventana_principal);
 
 	}
 	
