@@ -15,6 +15,12 @@ import javax.swing.JPanel;
 
 public class Pagina_principal extends JFrame{
 	private static final long serialVersionUID = 1L;
+	private String prueba;
+	private String prueba1;
+	private String prueba2;
+	private String prueba3;
+	private String prueba4;
+
 
 
 
