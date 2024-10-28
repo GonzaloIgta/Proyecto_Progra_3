@@ -1,12 +1,11 @@
 package pagina_inicio;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.util.List;
+import java.awt.Toolkit;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,10 +24,7 @@ public class Pagina_principal extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //titulo de la ventana
-        setTitle("GYMAPP");
-
-        //Le añadimos color de fondo
-		this.setBackground(new Color(130, 195, 65));
+        setTitle("DEUSTOGYM");
 
         // Creamos la ventana y definimos distribucion
 		JPanel ventana_principal = new JPanel();
@@ -42,7 +38,8 @@ public class Pagina_principal extends JFrame{
 		
 		
 		ventana_principal.setLayout(new GridBagLayout());
-		ventana_principal.setBackground(Color.BLUE);
+		
+		ventana_principal.setBackground(new Color(130, 195, 65));
 		
 		
 		//añadimos el icono de la aplicacion en la parte de arriba
@@ -70,15 +67,21 @@ public class Pagina_principal extends JFrame{
 		
 		
 		//añadir boton Rutinas guardadas
-		JButton rutinas_guardadas = new JButton();
-		rutinas_guardadas.setFocusable(false);
-		rutinas_guardadas.setText("Rutinas guardadas");
+		JButton boton_rutinas_guardadas = new JButton();
+		boton_rutinas_guardadas.setText("Rutinas guardadas");
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.CENTER; //aseguramos que este centro
-		ventana_principal.add(rutinas_guardadas,gbc);
+		ventana_principal.add(boton_rutinas_guardadas,gbc);
+		ActionListener listener_rutinas_guardadas = e -> {
+            //cuando tengamos hecho siguiente pantalla aqui la inicia
+        };
+        
+        
+		boton_rutinas_guardadas.addActionListener(listener_rutinas_guardadas);
+		
 		
 		//Separar botones
 		ImageIcon separar = new ImageIcon("resourses/images/foto_separar.jpg");
@@ -91,12 +94,10 @@ public class Pagina_principal extends JFrame{
 		gbc.gridy = 2;
 		gbc.gridwidth = 1;
         gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.NORTH; // aseguramos que esté en la parte superior
 		ventana_principal.add(para_separar,gbc);
 		
 		//añadir boton añadir
 		JButton añadir = new JButton();
-		añadir.setFocusable(false);
 		añadir.setText("Añadir nueva rutina");
 		gbc.gridx = 1;
 		gbc.gridy = 3;
@@ -104,11 +105,13 @@ public class Pagina_principal extends JFrame{
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.SOUTH; //aseguramos que este abajo
 		ventana_principal.add(añadir,gbc);
+		ActionListener listener_boton_añadir = e -> {
+	            //cuando tengamos hecho siguiente pantalla aqui la inicia
+	        };
+	    añadir.addActionListener(listener_boton_añadir);
 		
 		
 		
-		
-		this.add(ventana_principal);
         
         // Definimos el tamaño de la ventana
         //setSize(3000, 3000);  //FALTA HACER QUE SEA AUTOAJUSTABLE
@@ -117,22 +120,36 @@ public class Pagina_principal extends JFrame{
      // Definir el tamaño mínimo de la ventana (ancho, alto en píxeles)
      	setSize(350, 600);
 		setResizable(false);
+		
+		//FUENTE-EXTERNA
+				//URL: (https://www.forosdelweb.com/f45/ajuste-automatico-jframe-853529/)
+				//SIN-CAMBIOS
+		//Hacer que la pantalla se habra a la mitad del tamaño
+		float escalar = 0.5F; // una ventana al 50% del tamaño de la pantalla
+		int ancho = (int)(Toolkit.getDefaultToolkit().getScreenSize(). width*escalar);
+		int alto = (int)(Toolkit.getDefaultToolkit().getScreenSize(). height*escalar);
+		this.setSize(ancho,alto);
+
+        // Permitir que el JFrame sea redimensionable
+        this.setResizable(true);
+
+
      	
-     // Centrar la ventana en la pantalla
+        // Centrar la ventana en la pantalla
      	setLocationRelativeTo(null);
 
         // Hacemos visible la ventana principal
         setVisible(true);
 
+        
+        
+		this.add(ventana_principal);
+
 	}
 	
 	
 	
-	 public static void main(String[] args) {
-		 
-		 Pagina_principal pagina = new Pagina_principal();
-		 
-	 }
+
 }
 
 
