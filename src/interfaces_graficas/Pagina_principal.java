@@ -1,4 +1,4 @@
-package pagina_inicio;
+package interfaces_graficas;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -113,6 +113,9 @@ public class Pagina_principal extends JFrame{
 		ventana_principal.add(añadir,gbc);
 		ActionListener listener_boton_añadir = e -> {
 	            //cuando tengamos hecho siguiente pantalla aqui la inicia
+			
+			new Nueva_Rutina();
+			dispose();
 	        };
 	    añadir.addActionListener(listener_boton_añadir);
 		

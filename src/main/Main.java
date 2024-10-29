@@ -1,6 +1,6 @@
 package main;
 
-import pagina_inicio.Pagina_principal;
+import interfaces_graficas.Pagina_principal;
 
 public class Main {
 
