@@ -48,15 +48,15 @@ public class Nueva_Rutina extends JFrame{
 		
 		ventana2.add(layout_botones, BorderLayout.NORTH);
 
-
+//
 		
 		//GridBagConstraints gbc = new GridBagConstraints();
 		
 		
 		//ventana_nueva_rutina.setLayout(new GridBagLayout());
-		
+		JTree arbol = new JTree();
 		ventana.add(new JComboBox());
-		ventana2.add(new JTree(), BorderLayout.WEST);
+		ventana2.add(arbol, BorderLayout.WEST);
         ventana2.add(ventana);
         
         
@@ -136,9 +136,7 @@ public class Nueva_Rutina extends JFrame{
 		
 		
         
-        // Definimos el tamaño de la ventana
-        //setSize(3000, 3000);  //FALTA HACER QUE SEA AUTOAJUSTABLE
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);    //Hace que se abra en pantalla completa
+    
         
      // Definir el tamaño mínimo de la ventana (ancho, alto en píxeles)
      	setSize(350, 600);

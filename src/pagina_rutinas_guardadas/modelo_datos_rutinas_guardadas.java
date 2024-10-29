@@ -14,7 +14,7 @@ private static final long serialVersionUID = 1L;
 	private final List<String> headers = Arrays.asList(
 			"Nombre",
 			"Numero de ejercicio", 
-			"Tipo rutina"
+			"Objetivo de la sesión"
 			);
 
 	public modelo_datos_rutinas_guardadas(List<Rutina> rutinas) {
@@ -54,7 +54,7 @@ private static final long serialVersionUID = 1L;
 	    switch (columnIndex) {
 	    	case 1: return rutina.getNombre();
 	    	case 2: return rutina.getLista_ejercicios().size();
-	    	case 3: return rutina.getTipo_rutina();
+	    	case 3: return rutina.getObjetivo();
 	    	default: return null;
 	    }
 		
