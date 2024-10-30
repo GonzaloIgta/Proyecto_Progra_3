@@ -41,7 +41,7 @@ public class Nueva_Rutina extends JFrame{
 		//ADAPTADO (hemos analizado el codigo para entender como funcionaba el layout y modificado para añadirle los elementos que necesitabamos)
 
 		JPanel layout_botones = new JPanel(new FlowLayout());
-		
+		//
 		layout_botones.add(new JButton("Fuerza"));
 		layout_botones.add(new JButton("Cardio"));
 		layout_botones.add(new JButton("Natación"));
