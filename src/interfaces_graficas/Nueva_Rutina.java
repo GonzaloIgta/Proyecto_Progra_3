@@ -62,9 +62,15 @@ public class Nueva_Rutina extends JFrame{
 		JPanel layout_botones = new JPanel(new FlowLayout());
 		layout_botones.setBorder(new TitledBorder("Selecciona el tipo de entrenamiento que quieres añadir: "));
 		//
-		layout_botones.add(new JButton("Fuerza"));
-		layout_botones.add(new JButton("Cardio"));
-		layout_botones.add(new JButton("Natación"));
+		JButton fuerza = new JButton("Fuerza");
+		fuerza.setFocusable(false);
+		layout_botones.add(fuerza);
+		JButton cardio = new JButton("Cardio");
+		cardio.setFocusable(false);
+		layout_botones.add(cardio);
+		JButton natacion = new JButton("Natacion");
+		natacion.setFocusable(false);
+		layout_botones.add(natacion);
 		
 		ventanaPrincipal_nuevaRutina.add(layout_botones, BorderLayout.NORTH);
 
@@ -92,8 +98,8 @@ public class Nueva_Rutina extends JFrame{
         
     
         
-     // Definir el tamaño mínimo de la ventana (ancho, alto en píxeles)
-     	setSize(350, 600);
+     
+     	
 		setResizable(false);
 		
 		//FUENTE-EXTERNA
@@ -105,8 +111,7 @@ public class Nueva_Rutina extends JFrame{
 		int alto = (int)(Toolkit.getDefaultToolkit().getScreenSize(). height*escalar);
 		this.setSize(ancho,alto);
 
-        // Permitir que el JFrame sea redimensionable
-        this.setResizable(true);
+        
 
 
      	

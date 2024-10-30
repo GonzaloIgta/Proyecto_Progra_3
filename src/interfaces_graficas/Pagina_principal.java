@@ -67,20 +67,35 @@ public class Pagina_principal extends JFrame{
 		JLabel icono = new JLabel();
 		icono.setIcon(icono_redimensionado);
 		gbc.gridx = 1;
-		gbc.gridy = 0;
+		gbc.gridy = 1;
 		gbc.gridwidth = 1;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.NORTH; // aseguramos que esté en la parte superior
 		ventana_principal.add(icono,gbc);
 		
-		
+		//añadir boton planning
+		JButton planning = new JButton();
+		planning.setFocusable(false);
+		planning.setText("Planning semanal");
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		gbc.gridwidth = 1;
+		gbc.weightx = 1.0;
+		gbc.anchor = GridBagConstraints.NORTH; //aseguramos que este arriba
+		ventana_principal.add(planning,gbc);
+		ActionListener listener_boton_planning = e -> {
+				
+			new Planning();
+			dispose();
+			};
+		planning.addActionListener(listener_boton_planning);
 		
 		//añadir boton Rutinas guardadas
 		JButton boton_rutinas_guardadas = new JButton();
 		boton_rutinas_guardadas.setFocusable(false);
 		boton_rutinas_guardadas.setText("Rutinas guardadas");
 		gbc.gridx = 1;
-		gbc.gridy = 1;
+		gbc.gridy = 2;
 		gbc.gridwidth = 1;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.CENTER; //aseguramos que este centro
@@ -106,7 +121,7 @@ public class Pagina_principal extends JFrame{
 		JLabel para_separar = new JLabel();
 		para_separar.setIcon(separar_redimensionado);
 		gbc.gridx = 1;
-		gbc.gridy = 2;
+		gbc.gridy = 3;
 		gbc.gridwidth = 1;
         gbc.weightx = 1.0;
 		ventana_principal.add(para_separar,gbc);
@@ -116,7 +131,7 @@ public class Pagina_principal extends JFrame{
 		añadir.setFocusable(false);
 		añadir.setText("Añadir nueva rutina");
 		gbc.gridx = 1;
-		gbc.gridy = 3;
+		gbc.gridy = 4;
 		gbc.gridwidth = 1;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.SOUTH; //aseguramos que este abajo
