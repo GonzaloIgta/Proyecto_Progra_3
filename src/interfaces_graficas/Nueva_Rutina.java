@@ -31,10 +31,10 @@ public class Nueva_Rutina extends JFrame{
         setTitle("Nueva Rutina");
 
         // Creamos la ventana y definimos distribucion
-		JPanel ventana2 = new JPanel(new BorderLayout());
+		JPanel ventanaPrincipal_nuevaRutina = new JPanel(new BorderLayout());
 				
-		JPanel ventana = new JPanel(new GridLayout());
-		ventana.setSize(10, 10);
+		JPanel ventana_central_MuestraRutinas = new JPanel(new GridLayout());
+		ventana_central_MuestraRutinas.setSize(10, 10);
 
 		//FUENTE-EXTERNA
 		//URL: (https://chuidiang.org/index.php?title=Uso_de_Layouts)
@@ -46,7 +46,7 @@ public class Nueva_Rutina extends JFrame{
 		layout_botones.add(new JButton("Cardio"));
 		layout_botones.add(new JButton("Natación"));
 		
-		ventana2.add(layout_botones, BorderLayout.NORTH);
+		ventanaPrincipal_nuevaRutina.add(layout_botones, BorderLayout.NORTH);
 
 
 		
@@ -55,12 +55,11 @@ public class Nueva_Rutina extends JFrame{
 		
 		//ventana_nueva_rutina.setLayout(new GridBagLayout());
 		
-		ventana.add(new JComboBox());
-		ventana2.add(new JTree(), BorderLayout.WEST);
-        ventana2.add(ventana);
+		ventanaPrincipal_nuevaRutina.add(new JTree(), BorderLayout.WEST);
+		ventanaPrincipal_nuevaRutina.add(ventana_central_MuestraRutinas);
         
         
-		ventana2.setBackground(new Color(130, 195, 65));
+		ventanaPrincipal_nuevaRutina.setBackground(new Color(130, 195, 65));
 		
 		
 		//añadimos el icono de la aplicacion en la parte de arriba
@@ -166,7 +165,7 @@ public class Nueva_Rutina extends JFrame{
 
         
         
-		this.add(ventana2);
+		this.add(ventanaPrincipal_nuevaRutina);
 
 	}
 
