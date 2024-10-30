@@ -74,6 +74,7 @@ public class Pagina_principal extends JFrame{
 		
 		//añadir boton Rutinas guardadas
 		JButton boton_rutinas_guardadas = new JButton();
+		boton_rutinas_guardadas.setFocusable(false);
 		boton_rutinas_guardadas.setText("Rutinas guardadas");
 		gbc.gridx = 1;
 		gbc.gridy = 1;
@@ -104,6 +105,7 @@ public class Pagina_principal extends JFrame{
 		
 		//añadir boton añadir
 		JButton añadir = new JButton();
+		añadir.setFocusable(false);
 		añadir.setText("Añadir nueva rutina");
 		gbc.gridx = 1;
 		gbc.gridy = 3;
@@ -112,7 +114,6 @@ public class Pagina_principal extends JFrame{
         gbc.anchor = GridBagConstraints.SOUTH; //aseguramos que este abajo
 		ventana_principal.add(añadir,gbc);
 		ActionListener listener_boton_añadir = e -> {
-	            //cuando tengamos hecho siguiente pantalla aqui la inicia
 			
 			new Nueva_Rutina();
 			dispose();
@@ -122,9 +123,6 @@ public class Pagina_principal extends JFrame{
 		
 		
         
-        // Definimos el tamaño de la ventana
-        //setSize(3000, 3000);  //FALTA HACER QUE SEA AUTOAJUSTABLE
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);    //Hace que se abra en pantalla completa
         
      // Definir el tamaño mínimo de la ventana (ancho, alto en píxeles)
      	setSize(350, 600);
