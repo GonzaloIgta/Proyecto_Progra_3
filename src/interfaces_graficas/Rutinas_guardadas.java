@@ -18,7 +18,9 @@ import javax.swing.table.DefaultTableModel;
 
 import clases_de_apyo.Modelo_de_datos_rutinas;
 import clases_de_apyo.Rutina;
-
+//FUENTE-EXTERNA
+//URL: (swing p4)
+//ADAPTADO (Adaptada a necesidades de la clase rutina)
 public class Rutinas_guardadas extends JFrame {
 	private ArrayList<Rutina> rutinas;
 	private JTextField txtFiltro;	
