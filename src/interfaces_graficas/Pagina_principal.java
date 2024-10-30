@@ -1,6 +1,7 @@
 package interfaces_graficas;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -39,10 +40,6 @@ public class Pagina_principal extends JFrame{
 		JPanel ventana_principal = new JPanel();
 		
 		
-		//FUENTE-EXTERNA
-		//URL: (https://chuidiang.org/index.php?title=Uso_de_Layouts)
-		//ADAPTADO (hemos analizado el codigo para entender como funcionaba el layout y modificado para añadirle los elementos que necesitabamos)
-
 		GridBagConstraints gbc = new GridBagConstraints();
 		
 		
@@ -51,38 +48,37 @@ public class Pagina_principal extends JFrame{
 		ventana_principal.setBackground(new Color(130, 195, 65));
 		
 		
-		//añadimos el icono de la aplicacion en la parte de arriba
-		ImageIcon icono_aplicacion = new ImageIcon("resourses/images/logotipo.png");
+		//BOTON RUTINAS GUARDADAS -----------------------------------------------------
 		
-		//FUENTE-EXTERNA
-				//URL: (https://blog.aspose.com/es/imaging/resize-images-in-java/)
-				/*ADAPTADO (hemos modificado el tipo de escalado asi como las dimensiones 
-				en el codigo de la web se guardaba la imagen una vez procesada y nosotros lo hemos 
-				modificado de tal manera que vuelva crear otra imagen )
-				 */
-		// Redimensionar el icono
-        Image imagen_original = icono_aplicacion.getImage(); // Obtener la imagen original
-        Image imagen_redimensionada = imagen_original.getScaledInstance(100, 100, Image.SCALE_SMOOTH); // Redimensionar a 100x100 píxeles
-        ImageIcon icono_redimensionado = new ImageIcon(imagen_redimensionada); 
-		JLabel icono = new JLabel();
-		icono.setIcon(icono_redimensionado);
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.NORTH; // aseguramos que esté en la parte superior
-		ventana_principal.add(icono,gbc);
+		JButton boton_rutinas_guardadas = new JButton("Rutinas guardadas");
 		
-		//añadir boton planning
-		JButton planning = new JButton();
+		boton_rutinas_guardadas.setPreferredSize(new Dimension(150,70));
+		boton_rutinas_guardadas.setFocusable(false);
+		gbc.gridx = 0; //posicion de columna 0
+		gbc.gridy = 1; //posicion de fila 1
+		gbc.gridwidth = 1; //el componente ocupara 1 solo espacio en el eje de columnas
+		gbc.gridheight = 1; //el componente ocupara 1 solo espacio en el eje de filas
+        gbc.weighty = 1.0;  //se distribuye el componente en el 100% del espacio      //FUENTE-EXTERNA, URL :https://stackoverflow.com/questions/5789513/weightx-and-weighty-in-java-gridbaglayout
+        gbc.anchor = GridBagConstraints.CENTER; //AL NO CAMBIAR LUEGO EL GBC, TODOS LOS BOTONES ESTARAN CENTRADOS
+        
+		ventana_principal.add(boton_rutinas_guardadas,gbc); //añadir el boton al GridBagConstraints
+		
+		
+		//BOTON PLANNING -------------------------------------------------------------
+		
+		JButton planning = new JButton("Planning semanal");
+		
+		planning.setPreferredSize(new Dimension(150,70));
 		planning.setFocusable(false);
-		planning.setText("Planning semanal");
-		gbc.gridx = 1;
-		gbc.gridy = 0;
+		gbc.gridx = 0;
+		gbc.gridy = 2;
 		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
 		gbc.weightx = 1.0;
-		gbc.anchor = GridBagConstraints.NORTH; //aseguramos que este arriba
+		
 		ventana_principal.add(planning,gbc);
+		
+		
 		ActionListener listener_boton_planning = e -> {
 				
 			//new Planning();
@@ -91,15 +87,9 @@ public class Pagina_principal extends JFrame{
 		planning.addActionListener(listener_boton_planning);
 		
 		//añadir boton Rutinas guardadas
-		JButton boton_rutinas_guardadas = new JButton();
-		boton_rutinas_guardadas.setFocusable(false);
-		boton_rutinas_guardadas.setText("Rutinas guardadas");
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		gbc.gridwidth = 1;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.CENTER; //aseguramos que este centro
-		ventana_principal.add(boton_rutinas_guardadas,gbc);
+		
+		
+		
 		ActionListener listener_rutinas_guardadas = e -> {
 	        Rutina rutina = new Rutina("Rutina de Fuerza", Rutina.Objetivo_de_la_sesion.MUSCULACION, new ArrayList<>());
 			ArrayList<Rutina> rutinas = new ArrayList<>();
@@ -113,35 +103,29 @@ public class Pagina_principal extends JFrame{
 		boton_rutinas_guardadas.addActionListener(listener_rutinas_guardadas);
 		
 		
-		//Separar botones
-		ImageIcon separar = new ImageIcon("resourses/images/foto_separar.jpg");
-		Image separar_i = separar.getImage(); // Obtener la imagen original
-        Image separar_redimensionada = separar_i.getScaledInstance(100, 100, Image.SCALE_SMOOTH); // Redimensionar a 100x100 píxeles
-        ImageIcon separar_redimensionado = new ImageIcon(separar_redimensionada); 
-		JLabel para_separar = new JLabel();
-		para_separar.setIcon(separar_redimensionado);
-		gbc.gridx = 1;
+		
+		
+		//BOTON AÑADIR RUTINA ---------------------------
+		JButton boton_añadir_rutina = new JButton("Añadir nueva rutina");
+		
+		boton_añadir_rutina.setPreferredSize(new Dimension(150,70));
+		boton_añadir_rutina.setFocusable(false);
+		gbc.gridx = 0;
 		gbc.gridy = 3;
 		gbc.gridwidth = 1;
-        gbc.weightx = 1.0;
-		ventana_principal.add(para_separar,gbc);
+		gbc.gridheight = 1;
+        gbc.weighty = 1.0;
+
+        //gbc.anchor = GridBagConstraints.SOUTH; //aseguramos que este abajo
 		
-		//añadir boton añadir
-		JButton añadir = new JButton();
-		añadir.setFocusable(false);
-		añadir.setText("Añadir nueva rutina");
-		gbc.gridx = 1;
-		gbc.gridy = 4;
-		gbc.gridwidth = 1;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.SOUTH; //aseguramos que este abajo
-		ventana_principal.add(añadir,gbc);
+		
+		ventana_principal.add(boton_añadir_rutina,gbc);
 		ActionListener listener_boton_añadir = e -> {
 			
 			new Nueva_Rutina();
 			dispose();
 	        };
-	    añadir.addActionListener(listener_boton_añadir);
+	        boton_añadir_rutina.addActionListener(listener_boton_añadir);
 		
 		
 		
@@ -152,15 +136,21 @@ public class Pagina_principal extends JFrame{
 				//URL: (https://www.forosdelweb.com/f45/ajuste-automatico-jframe-853529/)
 				//SIN-CAMBIOS
 		//Hacer que la pantalla se habra a la mitad del tamaño
+	    
+	    /*
 		float escalar = 0.5F; // una ventana al 50% del tamaño de la pantalla
 		int ancho = (int)(Toolkit.getDefaultToolkit().getScreenSize(). width*escalar);
 		int alto = (int)(Toolkit.getDefaultToolkit().getScreenSize(). height*escalar);
 		this.setSize(ancho,alto);
 
+		*/
+	    
+	    
         // Permitir que el JFrame sea redimensionable
         this.setResizable(true);
 
 
+        setSize(480,680);
      	
         // Centrar la ventana en la pantalla
      	setLocationRelativeTo(null);
