@@ -62,7 +62,9 @@ public class Rutinas_guardadas extends JFrame {
         JPanel panelFiltro = new JPanel();
         panelFiltro.add(new JLabel("Filtro por nombre: "));
         panelFiltro.add(txtFiltro);
-
+    	//FUENTE-EXTERNA
+		//URL: (https://es.stackoverflow.com/questions/312310/colocar-grid-layout-en-mas-de-una-columna-solo-se-coloca-en-una)
+		//ADAPTADO : (Apaptado a las medidas necesarias de nuestri layout)
         constantes.gridx = 1;
         constantes.gridy = 2;
         constantes.gridwidth = 1;
