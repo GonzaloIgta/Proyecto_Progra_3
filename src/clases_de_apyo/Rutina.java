@@ -85,6 +85,13 @@ public class Rutina {
 		return Objects.equals(lista_ejercicios, other.lista_ejercicios) && Objects.equals(nombre, other.nombre)
 				&& objetivo == other.objetivo;
 	}
+
+	public int getNumeroEjercicios() {
+		if(this.lista_ejercicios!=null) {
+			return lista_ejercicios.size();
+		}
+		return 0;
+	}
 	
 	
 }

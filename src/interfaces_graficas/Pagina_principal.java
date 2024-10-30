@@ -6,12 +6,15 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import clases_de_apyo.Rutina;
 
 public class Pagina_principal extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -83,7 +86,12 @@ public class Pagina_principal extends JFrame{
         gbc.anchor = GridBagConstraints.CENTER; //aseguramos que este centro
 		ventana_principal.add(boton_rutinas_guardadas,gbc);
 		ActionListener listener_rutinas_guardadas = e -> {
-            //cuando tengamos hecho siguiente pantalla aqui la inicia
+	        Rutina rutina = new Rutina("Rutina de Fuerza", Rutina.Objetivo_de_la_sesion.MUSCULACION, new ArrayList<>());
+			ArrayList<Rutina> rutinas = new ArrayList<>();
+			rutinas.add(rutina);
+			new Rutinas_guardadas(rutinas);
+			dispose();
+			//HAY QUE PASARLE RUTINAS
         };
         
         
