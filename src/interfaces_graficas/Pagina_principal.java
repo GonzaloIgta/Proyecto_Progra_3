@@ -85,8 +85,8 @@ public class Pagina_principal extends JFrame{
 		ventana_principal.add(planning,gbc);
 		ActionListener listener_boton_planning = e -> {
 				
-			new Planning();
-			dispose();
+			//new Planning();
+			//dispose();
 			};
 		planning.addActionListener(listener_boton_planning);
 		
