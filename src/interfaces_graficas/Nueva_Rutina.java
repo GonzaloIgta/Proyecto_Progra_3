@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,11 +18,21 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import es.deusto.prog3.swing.p4.domain.Personaje.Editorial;
 
 public class Nueva_Rutina extends JFrame{
 	private static final long serialVersionUID = 1L;
+	
+	private JTable tablaRutina;
+	private DefaultTableModel modeloDatosTablaRutina;
 
 
 	public Nueva_Rutina() {
@@ -30,12 +42,17 @@ public class Nueva_Rutina extends JFrame{
         
         //titulo de la ventana
         setTitle("Nueva Rutina");
-
+        
         // Creamos la ventana y definimos distribucion
 		JPanel ventanaPrincipal_nuevaRutina = new JPanel(new BorderLayout());
-				
-		JPanel ventana_central_MuestraRutinas = new JPanel(new GridLayout());
-		ventana_central_MuestraRutinas.setSize(10, 10);
+		initTableRutina();
+		
+		
+		
+		
+		
+		JPanel ventana_central_MuestraRutinas = new JPanel();
+		
 
 		//FUENTE-EXTERNA
 		//URL: (https://chuidiang.org/index.php?title=Uso_de_Layouts)
@@ -70,75 +87,7 @@ public class Nueva_Rutina extends JFrame{
 		//añadimos el icono de la aplicacion en la parte de arriba
 		ImageIcon icono_aplicacion = new ImageIcon("resourses/images/logotipo.png");
 		
-		//FUENTE-EXTERNA
-				//URL: (https://blog.aspose.com/es/imaging/resize-images-in-java/)
-				/*ADAPTADO (hemos modificado el tipo de escalado asi como las dimensiones 
-				en el codigo de la web se guardaba la imagen una vez procesada y nosotros lo hemos 
-				modificado de tal manera que vuelva crear otra imagen )
-				 */
-
 	
-		//desde aqui
-		
-		
-		//hasta aqui
-		
-		
-		/*
-		//añadir boton Rutinas guardadas
-		JButton btn_rutina_fuerza = new JButton();
-		btn_rutina_fuerza.setText("Fuerza");
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 1;
-        gbc.weightx = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        ventana_nueva_rutina.add(btn_rutina_fuerza,gbc);
-		ActionListener listener_fuerza = e -> {
-			
-        };
-        
-        btn_rutina_fuerza.addActionListener(listener_fuerza);
-
-        
-		
-		//añadir boton Rutinas guardadas
-		JButton btn_rutina_cardio = new JButton();
-		btn_rutina_cardio.setText("Cardio");
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-        gbc.weightx = 1.0;
-       gbc.fill = GridBagConstraints.HORIZONTAL; 
-        ventana_nueva_rutina.add(btn_rutina_cardio,gbc);
-		ActionListener listener_cardio = e -> {
-			
-        };
-        
-        btn_rutina_cardio.addActionListener(listener_cardio);
-        
-		//añadir boton Rutinas guardadas
-		JButton btn_rutina_natacion = new JButton();
-		btn_rutina_natacion.setText("Natación");
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.gridwidth = 1;
-        gbc.weightx = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        ventana_nueva_rutina.add(btn_rutina_natacion,gbc);
-		ActionListener listener_natacion= e -> {
-			
-        };
-        
-        btn_rutina_natacion.addActionListener(listener_natacion);
-		*/
-		
-		
-
-
-	
-		
-		
         
     
         
@@ -171,5 +120,27 @@ public class Nueva_Rutina extends JFrame{
 		this.add(ventanaPrincipal_nuevaRutina);
 
 	}
+	
+	private void initTableRutina() {
+        // Crear cabecera de la tabla
+        Vector<String> cabeceraTabla = new Vector<String>(
+            Arrays.asList("Tipo Entrenamiento", "Ejercicio", "Musculo", "Series", "Repeticiones", "Tiempo")
+        );
+        // Crear el modelo de datos de la tabla
+        this.modeloDatosTablaRutina = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraTabla);
 
-}
+        // Crear la tabla y configurar celdas editables
+        this.tablaRutina = new JTable(this.modeloDatosTablaRutina) {
+            public boolean isCellEditable(int row, int column) {
+                return column == 3 || column == 4 || column == 5;
+            }
+        };
+
+        // Añadir la tabla a un JScrollPane y agregar el JScrollPane al panel central
+        JScrollPane scrollPane = new JScrollPane(this.tablaRutina);
+        JPanel ventana_central_MuestraRutinas = new JPanel(new BorderLayout());
+        ventana_central_MuestraRutinas.add(scrollPane, BorderLayout.CENTER);
+        
+        // Añadir el panel de la tabla al panel principal
+    }}
+
