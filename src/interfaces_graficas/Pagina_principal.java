@@ -132,10 +132,7 @@ public class Pagina_principal extends JFrame{
 		
         
         
-     // Definir el tamaño mínimo de la ventana (ancho, alto en píxeles)
-     	setSize(350, 600);
-		setResizable(false);
-		
+
 		//FUENTE-EXTERNA
 				//URL: (https://www.forosdelweb.com/f45/ajuste-automatico-jframe-853529/)
 				//SIN-CAMBIOS

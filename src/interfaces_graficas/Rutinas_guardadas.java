@@ -1,6 +1,8 @@
 package interfaces_graficas;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.util.ArrayList;
@@ -18,9 +20,8 @@ import javax.swing.table.DefaultTableModel;
 
 import clases_de_apyo.Modelo_de_datos_rutinas;
 import clases_de_apyo.Rutina;
-//FUENTE-EXTERNA
-//URL: (swing p4)
-//ADAPTADO (Adaptada a necesidades de la clase rutina)
+
+
 public class Rutinas_guardadas extends JFrame {
 	private ArrayList<Rutina> rutinas;
 	private JTextField txtFiltro;	
@@ -30,7 +31,7 @@ public class Rutinas_guardadas extends JFrame {
 
 	public Rutinas_guardadas(ArrayList<Rutina> rutinas) {
 		this.rutinas = rutinas;
-		
+
 		//para que se cierre al darle a la x
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -39,7 +40,8 @@ public class Rutinas_guardadas extends JFrame {
 
         // Creamos la ventana y definimos distribucion
 		JPanel ventana_principal = new JPanel();
-		
+		ventana_principal.setLayout(new GridBagLayout());
+
 		
 		
 		//hay abria que pasarle rutinas
@@ -79,15 +81,27 @@ public class Rutinas_guardadas extends JFrame {
 		modelo_de_datos = new Modelo_de_datos_rutinas(rutinas); 
 		JTable tablaRutinas = new JTable(modelo_de_datos);
 		scrollPanelRutinas.setViewportView(tablaRutinas);
-		ventana_principal.setLayout(new BorderLayout());
-		ventana_principal.add(BorderLayout.CENTER, scrollPanelRutinas);
-		ventana_principal.add(BorderLayout.NORTH, panelFiltro);		
+		GridBagConstraints constantes = new GridBagConstraints();
+		constantes.gridx = 0; // Columna 0. No necesita estirarse, no ponemos weightx
+		constantes.gridy = 0; // Fila 0. Necesita estirarse, hay que poner weighty
+		constantes.gridwidth = 2;
+		constantes.gridheight = 2;
+		constantes.weighty = 1.0; // La fila 0 debe estirarse, le ponemos un 1.0
+		this.getContentPane().add (scrollPanelRutinas, constantes);
+		constantes.weighty = 0.0; // Restauramos al valor por defecto, para no afectar a los siguientes componentes.
+		
+		/*
+		constantes.gridx = 0; // Columna 0. No necesita estirarse, no ponemos weightx
+		constantes.gridy = 0; // Fila 0. Necesita estirarse, hay que poner weighty
+		constantes.gridwidth = 2;
+		constantes.gridheight = 2;
+		constantes.weighty = 1.0; // La fila 0 debe estirarse, le ponemos un 1.0
+		 */
+		//ventana_principal.add(BorderLayout.NORTH, panelFiltro);		
 		
 		
         
-     // Definir el tamaño mínimo de la ventana (ancho, alto en píxeles)
-     	setSize(350, 600);
-		setResizable(false);
+
 		
 		//FUENTE-EXTERNA
 				//URL: (https://www.forosdelweb.com/f45/ajuste-automatico-jframe-853529/)

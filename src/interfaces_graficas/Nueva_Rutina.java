@@ -26,7 +26,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import es.deusto.prog3.swing.p4.domain.Personaje.Editorial;
 
 public class Nueva_Rutina extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -45,13 +44,15 @@ public class Nueva_Rutina extends JFrame{
         
         // Creamos la ventana y definimos distribucion
 		JPanel ventanaPrincipal_nuevaRutina = new JPanel(new BorderLayout());
+		JScrollPane scrollPane = new JScrollPane(this.tablaRutina);
+	    JPanel ventana_central_MuestraRutinas = new JPanel(new BorderLayout());
 		initTableRutina();
 		
 		
 		
 		
 		
-		JPanel ventana_central_MuestraRutinas = new JPanel();
+		
 		
 
 		//FUENTE-EXTERNA
@@ -115,7 +116,8 @@ public class Nueva_Rutina extends JFrame{
         // Hacemos visible la ventana principal
         setVisible(true);
 
-        
+	     ventana_central_MuestraRutinas.add(scrollPane, BorderLayout.CENTER);
+
         
 		this.add(ventanaPrincipal_nuevaRutina);
 
@@ -137,9 +139,9 @@ public class Nueva_Rutina extends JFrame{
         };
 
         // Añadir la tabla a un JScrollPane y agregar el JScrollPane al panel central
-        JScrollPane scrollPane = new JScrollPane(this.tablaRutina);
-        JPanel ventana_central_MuestraRutinas = new JPanel(new BorderLayout());
-        ventana_central_MuestraRutinas.add(scrollPane, BorderLayout.CENTER);
+       // JScrollPane scrollPane = new JScrollPane(this.tablaRutina);
+        //JPanel ventana_central_MuestraRutinas = new JPanel(new BorderLayout());
+        //ventana_central_MuestraRutinas.add(scrollPane, BorderLayout.CENTER);
         
         // Añadir el panel de la tabla al panel principal
     }}
