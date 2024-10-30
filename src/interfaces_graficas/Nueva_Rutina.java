@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTree;
+import javax.swing.border.TitledBorder;
 
 public class Nueva_Rutina extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -41,6 +42,7 @@ public class Nueva_Rutina extends JFrame{
 		//ADAPTADO (hemos analizado el codigo para entender como funcionaba el layout y modificado para añadirle los elementos que necesitabamos)
 
 		JPanel layout_botones = new JPanel(new FlowLayout());
+		layout_botones.setBorder(new TitledBorder("Selecciona el tipo de entrenamiento que quieres añadir: "));
 		//
 		layout_botones.add(new JButton("Fuerza"));
 		layout_botones.add(new JButton("Cardio"));
