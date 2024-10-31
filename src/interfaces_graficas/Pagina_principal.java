@@ -27,10 +27,10 @@ public class Pagina_principal extends JFrame{
 		// Creamos la ventana y definimos distribucion
 		
 		JPanel ventana_principal = new JPanel();
-
+		
 		ventana_principal.setLayout(new GridBagLayout());	
 		
-		
+		//PREGUNTAR A ROBERTO -------------------------------------------------------------------
 
 		ImageIcon imagen_fondo = new ImageIcon(this.getClass().getResource("Deustogym.jpg"));
 
@@ -38,9 +38,16 @@ public class Pagina_principal extends JFrame{
 		
 		label_fondo.setSize(480,680);
 		
-		this.add(label_fondo);
+		this.add(label_fondo); 
+		
+		ImageIcon icono = new ImageIcon("deustoicon.png");
+		
+		this.setIconImage(icono.getImage());
+		
+		
+		
 
-	    
+	    //------------------------------------------------------------------------------------------
 	   
 
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -144,6 +151,9 @@ public class Pagina_principal extends JFrame{
 
 	    // Hacemos visible la ventana principal
 	    setVisible(true);
+	    
+	    //no dejar hacer pantalla completa
+	    setResizable(false);
 	
 	    setSize(480,680);
 	 	
@@ -156,8 +166,7 @@ public class Pagina_principal extends JFrame{
 	    //titulo de la ventana
 	    setTitle("DEUSTOGYM");
 	
-	    //no dejar hacer pantalla completa
-	    setResizable(false);
+
 	   
  
 	  
