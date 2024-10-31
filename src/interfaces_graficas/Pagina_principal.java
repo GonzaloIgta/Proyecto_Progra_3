@@ -19,33 +19,31 @@ import clases_de_apyo.Rutina;
 
 public class Pagina_principal extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private String prueba;
-	private String prueba1;
-	private String prueba2;
-	private String prueba3;
-	private String prueba4;
-
-
-
+	
 
 	public Pagina_principal() {
-
-		//para que se cierre al darle a la x
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        //titulo de la ventana
-        setTitle("DEUSTOGYM");
-
-        // Creamos la ventana y definimos distribucion
+		
+		
+		// Creamos la ventana y definimos distribucion
+		
 		JPanel ventana_principal = new JPanel();
+
+		ventana_principal.setLayout(new GridBagLayout());	
 		
 		
+
+		ImageIcon imagen_fondo = new ImageIcon(this.getClass().getResource("Deustogym.jpg"));
+
+		JLabel label_fondo = new JLabel(imagen_fondo);
+		
+		label_fondo.setSize(480,680);
+		
+		this.add(label_fondo);
+
+	    
+	   
+
 		GridBagConstraints gbc = new GridBagConstraints();
-		
-		
-		ventana_principal.setLayout(new GridBagLayout());
-		
-		ventana_principal.setBackground(new Color(130, 195, 65));
 		
 		
 		//BOTON RUTINAS GUARDADAS -----------------------------------------------------
@@ -115,8 +113,6 @@ public class Pagina_principal extends JFrame{
 		gbc.gridwidth = 1;
 		gbc.gridheight = 1;
         gbc.weighty = 1.0;
-
-        //gbc.anchor = GridBagConstraints.SOUTH; //aseguramos que este abajo
 		
 		
 		ventana_principal.add(boton_añadir_rutina,gbc);
@@ -144,23 +140,29 @@ public class Pagina_principal extends JFrame{
 		this.setSize(ancho,alto);
 
 		*/
+	        
+
+	    // Hacemos visible la ventana principal
+	    setVisible(true);
+	
+	    setSize(480,680);
+	 	
+	    // Centrar la ventana en la pantalla
+	 	setLocationRelativeTo(null);
+	
+		//para que se cierre al darle a la x
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
-	    
-        // Permitir que el JFrame sea redimensionable
-        this.setResizable(true);
-
-
-        setSize(480,680);
-     	
-        // Centrar la ventana en la pantalla
-     	setLocationRelativeTo(null);
-
-        // Hacemos visible la ventana principal
-        setVisible(true);
-
-        
-        
+	    //titulo de la ventana
+	    setTitle("DEUSTOGYM");
+	
+	    //no dejar hacer pantalla completa
+	    setResizable(false);
+	   
+ 
+	  
 		this.add(ventana_principal);
+
 
 	}
 	
