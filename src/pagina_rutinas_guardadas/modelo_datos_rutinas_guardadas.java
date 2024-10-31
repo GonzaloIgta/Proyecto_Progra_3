@@ -18,7 +18,11 @@ private static final long serialVersionUID = 1L;
 			);
 
 	public modelo_datos_rutinas_guardadas(List<Rutina> rutinas) {
-		this.rutinas = rutinas;
+	    super(); 
+	    this.rutinas = rutinas;
+	    for (String header : headers) {
+	        this.addColumn(header);
+	    }
 	}
 	
 	public String getColumnName(int column) {
@@ -28,11 +32,8 @@ private static final long serialVersionUID = 1L;
 	@Override
 
 	public int getRowCount() {
-		if (rutinas != null) {
-			return rutinas.size()/6;
-		} else { 
-			return 0;
-		}
+	    return (rutinas != null) ? rutinas.size() : 0;
+
 	}
 	@Override
 	public int getColumnCount() {
@@ -52,11 +53,11 @@ private static final long serialVersionUID = 1L;
 	public Object getValueAt(int rowIndex, int columnIndex) {
 	    Rutina rutina = rutinas.get(rowIndex);
 	    switch (columnIndex) {
-	    	case 1: return rutina.getNombre();
-	    	case 2: return rutina.getLista_ejercicios().size();
-	    	case 3: return rutina.getObjetivo();
-	    	default: return null;
+	        case 0: return rutina.getNombre(); 
+	        case 1: return rutina.getLista_ejercicios().size(); 
+	        case 2: return rutina.getObjetivo();  
+	        default: return null;
 	    }
-		
 	}
+
 }

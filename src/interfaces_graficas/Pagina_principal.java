@@ -96,9 +96,11 @@ public class Pagina_principal extends JFrame{
 		
 		
 		ActionListener listener_rutinas_guardadas = e -> {
-	        Rutina rutina = new Rutina("Rutina de Fuerza", Rutina.Objetivo_de_la_sesion.MUSCULACION, new ArrayList<>());
 			ArrayList<Rutina> rutinas = new ArrayList<>();
-			rutinas.add(rutina);
+		        rutinas.add(new Rutina("Rutina de Fuerza", Rutina.Objetivo_de_la_sesion.MUSCULACION, new ArrayList<>()));
+		        rutinas.add(new Rutina("Rutina de Cardio", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, new ArrayList<>()));
+		        rutinas.add(new Rutina("Rutina de Resistencia", Rutina.Objetivo_de_la_sesion.CARDIOVASCULAR, new ArrayList<>()));
+		        
 			new Rutinas_guardadas(rutinas);
 			dispose();
 			//HAY QUE PASARLE RUTINAS
@@ -121,7 +123,6 @@ public class Pagina_principal extends JFrame{
 		gbc.gridheight = 1;
         gbc.weighty = 1.0;
 		
-		
 		ventana_principal.add(boton_añadir_rutina,gbc);
 		ActionListener listener_boton_añadir = e -> {
 			
@@ -131,27 +132,10 @@ public class Pagina_principal extends JFrame{
 	        boton_añadir_rutina.addActionListener(listener_boton_añadir);
 		
 		
-		
-        
-        
-
-		//FUENTE-EXTERNA
-				//URL: (https://www.forosdelweb.com/f45/ajuste-automatico-jframe-853529/)
-				//SIN-CAMBIOS
-		//Hacer que la pantalla se habra a la mitad del tamaño
-	    
-	    /*
-		float escalar = 0.5F; // una ventana al 50% del tamaño de la pantalla
-		int ancho = (int)(Toolkit.getDefaultToolkit().getScreenSize(). width*escalar);
-		int alto = (int)(Toolkit.getDefaultToolkit().getScreenSize(). height*escalar);
-		this.setSize(ancho,alto);
-
-		*/
-	        
-
+	  
 	    // Hacemos visible la ventana principal
 	    setVisible(true);
-	    
+
 	    //no dejar hacer pantalla completa
 	    setResizable(false);
 	
@@ -166,10 +150,14 @@ public class Pagina_principal extends JFrame{
 	    //titulo de la ventana
 	    setTitle("DEUSTOGYM");
 	
+        // Centrar la ventana en la pantalla
+     	setLocationRelativeTo(null);
 
-	   
- 
-	  
+        // Hacemos visible la ventana principal
+        setVisible(true);
+
+        
+        
 		this.add(ventana_principal);
 
 
