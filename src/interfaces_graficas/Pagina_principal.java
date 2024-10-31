@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import clases_de_apyo.Rutina;
@@ -30,26 +31,26 @@ public class Pagina_principal extends JFrame{
 		
 		ventana_principal.setLayout(new GridBagLayout());	
 		
-		//PREGUNTAR A ROBERTO -------------------------------------------------------------------
+		
+	      //PREGUNTAR A ROBERTO -------------------------------------------------------------------
 
-		ImageIcon imagen_fondo = new ImageIcon(this.getClass().getResource("Deustogym.jpg"));
+			ImageIcon imagen_fondo = new ImageIcon(this.getClass().getResource("/resourses/images/Deustogym.jpg"));
 
-		JLabel label_fondo = new JLabel(imagen_fondo);
-		
-		label_fondo.setSize(480,680);
-		
-		this.add(label_fondo); 
-		
-		ImageIcon icono = new ImageIcon("deustoicon.png");
-		
-		this.setIconImage(icono.getImage());
-		
-		
-		
+			JLabel label_fondo = new JLabel(imagen_fondo);
+			
+			label_fondo.setSize(480,680);
+			
+			this.add(label_fondo); 
+			
+			ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
+			
+			this.setIconImage(icono.getImage());
+			
+			
+			
 
-	    //------------------------------------------------------------------------------------------
-	   
-
+		    //------------------------------------------------------------------------------------------
+		   
 		GridBagConstraints gbc = new GridBagConstraints();
 		
 		
@@ -65,9 +66,9 @@ public class Pagina_principal extends JFrame{
 		gbc.gridheight = 1; //el componente ocupara 1 solo espacio en el eje de filas
         gbc.weighty = 1.0;  //se distribuye el componente en el 100% del espacio      //FUENTE-EXTERNA, URL :https://stackoverflow.com/questions/5789513/weightx-and-weighty-in-java-gridbaglayout
         gbc.anchor = GridBagConstraints.CENTER; //AL NO CAMBIAR LUEGO EL GBC, TODOS LOS BOTONES ESTARAN CENTRADOS
-        
+        boton_rutinas_guardadas.setOpaque(true);
 		ventana_principal.add(boton_rutinas_guardadas,gbc); //añadir el boton al GridBagConstraints
-		
+
 		
 		//BOTON PLANNING -------------------------------------------------------------
 		
@@ -80,7 +81,7 @@ public class Pagina_principal extends JFrame{
 		gbc.gridwidth = 1;
 		gbc.gridheight = 1;
 		gbc.weightx = 1.0;
-		
+		planning.setOpaque(true);
 		ventana_principal.add(planning,gbc);
 		
 		
@@ -122,7 +123,7 @@ public class Pagina_principal extends JFrame{
 		gbc.gridwidth = 1;
 		gbc.gridheight = 1;
         gbc.weighty = 1.0;
-		
+        boton_añadir_rutina.setOpaque(true);
 		ventana_principal.add(boton_añadir_rutina,gbc);
 		ActionListener listener_boton_añadir = e -> {
 			
@@ -131,7 +132,7 @@ public class Pagina_principal extends JFrame{
 	        };
 	        boton_añadir_rutina.addActionListener(listener_boton_añadir);
 		
-		
+
 	  
 	    // Hacemos visible la ventana principal
 	    setVisible(true);
@@ -156,8 +157,9 @@ public class Pagina_principal extends JFrame{
         // Hacemos visible la ventana principal
         setVisible(true);
 
+        ventana_principal.setOpaque(false);
         
-        
+      
 		this.add(ventana_principal);
 
 
