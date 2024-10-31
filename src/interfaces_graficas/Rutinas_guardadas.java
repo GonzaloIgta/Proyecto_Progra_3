@@ -2,8 +2,10 @@ package interfaces_graficas;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -20,7 +22,8 @@ import clases_de_apyo.Modelo_de_datos_rutinas;
 import clases_de_apyo.Rutina;
 
 public class Rutinas_guardadas extends JFrame {
-    private ArrayList<Rutina> rutinas;
+	private static final long serialVersionUID = 1L;
+	private List<Rutina> rutinas;
     private JTextField txtFiltro;
     private Modelo_de_datos_rutinas modelo_de_datos;
 
@@ -38,41 +41,7 @@ public class Rutinas_guardadas extends JFrame {
         ventana_principal.setLayout(new GridBagLayout());
         GridBagConstraints constantes = new GridBagConstraints();
 
-        // FILTRO
-        txtFiltro = new JTextField(20);
-        txtFiltro.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                System.out.println("insertUpdate");
-                FiltrarRutinas(txtFiltro.getText());
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                System.out.println("removeUpdate");
-                FiltrarRutinas(txtFiltro.getText());
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                System.out.println("changedUpdate");
-                FiltrarRutinas(txtFiltro.getText());
-            }
-        });
-
-        JPanel panelFiltro = new JPanel();
-        panelFiltro.add(new JLabel("Filtro por nombre: "));
-        panelFiltro.add(txtFiltro);
-    	//FUENTE-EXTERNA
-		//URL: (https://es.stackoverflow.com/questions/312310/colocar-grid-layout-en-mas-de-una-columna-solo-se-coloca-en-una)
-		//ADAPTADO : (Apaptado a las medidas necesarias de nuestri layout)
-        constantes.gridx = 1;
-        constantes.gridy = 2;
-        constantes.gridwidth = 1;
-        constantes.gridheight = 1;
-        constantes.weightx = 1.0;
-        constantes.fill = GridBagConstraints.HORIZONTAL; //se estira solo horizontal
-        ventana_principal.add(panelFiltro, constantes); // Añadido al panel principal
+        
 
         // Crear el modelo de datos y la tabla
         modelo_de_datos = new Modelo_de_datos_rutinas(rutinas); 
@@ -92,17 +61,18 @@ public class Rutinas_guardadas extends JFrame {
 
         
         // Añadir imagen de la derecha
-        constantes.gridx = 3;
-        constantes.gridy = 0;
-        constantes.gridwidth = 1;
-        constantes.gridheight = 2;
-        constantes.fill = GridBagConstraints.VERTICAL; //La imagen debe estirarse en vertical.
-        constantes.weighty = 1.0;
-        JLabel imagen = new JLabel();
-        imagen.setIcon(new ImageIcon(Rutinas_guardadas.class.getResource("/resourses/images/musculacion.png")));
+        constantes.gridx = 2; 
+        constantes.gridy = 0; 
+        constantes.gridwidth = 1; 
+        constantes.gridheight = 1; 
+        constantes.weightx = 0.5; 
+        constantes.weighty = 0; 
+        constantes.anchor = GridBagConstraints.CENTER; 
+        JLabel imagen = new JLabel(); //la imagen debera de cambiar cada vez que seleccionamos rutina dependiendo del tipo
+        imagen.setIcon(scaleImage("/resourses/images/musculacion.png", 200, 420)); 
         imagen.setVisible(true);
         ventana_principal.add(imagen, constantes); // También añadido al panel principal
-        
+    
         
         // Añadir ventana_principal al JFrames
         this.setContentPane(ventana_principal); // Establece el panel principal como contenido del JFrame
@@ -117,15 +87,26 @@ public class Rutinas_guardadas extends JFrame {
         setVisible(true);
     }
 
-    private void FiltrarRutinas(String titulo) {
-        System.out.print("falta implementar");
-    }
 
-    public ArrayList<Rutina> getRutinas() {
+
+
+    
+
+	//FUENTE-EXTERNA
+			  //IAG (herramienta: ChatGPT)
+			  //SIN CAMBIOS
+    // Método para escalar la imagen
+    private ImageIcon scaleImage(String path, int width, int height) {
+        ImageIcon icon = new ImageIcon(Rutinas_guardadas.class.getResource(path));
+        Image img = icon.getImage(); // Obtener la imagen original
+        Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH); // Escalar
+        return new ImageIcon(scaledImg); // Retornar la imagen escalada
+    }
+    public List<Rutina> getRutinas() {
         return rutinas;
     }
 
-    public void setRutinas(ArrayList<Rutina> rutinas) {
+    public void setRutinas(List<Rutina> rutinas) {
         this.rutinas = rutinas;
     }
 }

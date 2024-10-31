@@ -91,9 +91,11 @@ public class Pagina_principal extends JFrame{
 		
 		
 		ActionListener listener_rutinas_guardadas = e -> {
-	        Rutina rutina = new Rutina("Rutina de Fuerza", Rutina.Objetivo_de_la_sesion.MUSCULACION, new ArrayList<>());
 			ArrayList<Rutina> rutinas = new ArrayList<>();
-			rutinas.add(rutina);
+		        rutinas.add(new Rutina("Rutina de Fuerza", Rutina.Objetivo_de_la_sesion.MUSCULACION, new ArrayList<>()));
+		        rutinas.add(new Rutina("Rutina de Cardio", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, new ArrayList<>()));
+		        rutinas.add(new Rutina("Rutina de Resistencia", Rutina.Objetivo_de_la_sesion.CARDIOVASCULAR, new ArrayList<>()));
+		        
 			new Rutinas_guardadas(rutinas);
 			dispose();
 			//HAY QUE PASARLE RUTINAS

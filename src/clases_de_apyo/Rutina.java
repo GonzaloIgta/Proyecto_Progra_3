@@ -7,7 +7,7 @@ import clases_de_apyo.Ejercicio_gym.Musculo_trabajado;
 
 public class Rutina {
 	public enum Objetivo_de_la_sesion{
-		MUSCULACION,CARDIOVASCULAR
+		MUSCULACION,CARDIOVASCULAR,PERDIDA_DE_PESO
 	}
 	protected Objetivo_de_la_sesion objetivo;
 	protected String nombre;
