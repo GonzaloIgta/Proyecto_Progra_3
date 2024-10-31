@@ -116,7 +116,6 @@ public class Pagina_principal extends JFrame{
 		gbc.gridheight = 1;
         gbc.weighty = 1.0;
 
-        //gbc.anchor = GridBagConstraints.SOUTH; //aseguramos que este abajo
 		
 		
 		ventana_principal.add(boton_añadir_rutina,gbc);
@@ -137,20 +136,19 @@ public class Pagina_principal extends JFrame{
 				//SIN-CAMBIOS
 		//Hacer que la pantalla se habra a la mitad del tamaño
 	    
-	    /*
+	    
 		float escalar = 0.5F; // una ventana al 50% del tamaño de la pantalla
 		int ancho = (int)(Toolkit.getDefaultToolkit().getScreenSize(). width*escalar);
 		int alto = (int)(Toolkit.getDefaultToolkit().getScreenSize(). height*escalar);
 		this.setSize(ancho,alto);
 
-		*/
+		
 	    
 	    
         // Permitir que el JFrame sea redimensionable
         this.setResizable(true);
 
 
-        setSize(480,680);
      	
         // Centrar la ventana en la pantalla
      	setLocationRelativeTo(null);
