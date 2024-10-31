@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -89,7 +90,21 @@ public class Rutinas_guardadas extends JFrame {
         ventana_principal.add(scrollPanelRutinas, constantes); // También añadido al panel principal
         constantes.weighty = 0.0; // Restauramos al valor por defecto, para no afectar a los siguientes componentes.
 
-        // Añadir ventana_principal al JFrame
+        
+        // Añadir imagen de la derecha
+        constantes.gridx = 3;
+        constantes.gridy = 0;
+        constantes.gridwidth = 1;
+        constantes.gridheight = 2;
+        constantes.fill = GridBagConstraints.VERTICAL; //La imagen debe estirarse en vertical.
+        constantes.weighty = 1.0;
+        JLabel imagen = new JLabel();
+        imagen.setIcon(new ImageIcon(Rutinas_guardadas.class.getResource("/resourses/images/musculacion.png")));
+        imagen.setVisible(true);
+        ventana_principal.add(imagen, constantes); // También añadido al panel principal
+        
+        
+        // Añadir ventana_principal al JFrames
         this.setContentPane(ventana_principal); // Establece el panel principal como contenido del JFrame
 
         // Ajustar tamaño del JFrame
