@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -60,18 +61,18 @@ public class Rutinas_guardadas extends JFrame {
         constantes.weighty = 0.0; // Restauramos al valor por defecto, para no afectar a los siguientes componentes.
 
         
-        // Añadir imagen de la derecha
+        // Añadir progres bar de la derecha
         constantes.gridx = 2; 
         constantes.gridy = 0; 
         constantes.gridwidth = 1; 
-        constantes.gridheight = 1; 
+        constantes.gridheight = GridBagConstraints.REMAINDER; // O utiliza un valor mayor si tienes varias filas
         constantes.weightx = 0.5; 
         constantes.weighty = 0; 
-        constantes.anchor = GridBagConstraints.CENTER; 
-        JLabel imagen = new JLabel(); //la imagen debera de cambiar cada vez que seleccionamos rutina dependiendo del tipo
-        imagen.setIcon(scaleImage("/resourses/images/musculacion.png", 200, 420)); 
-        imagen.setVisible(true);
-        ventana_principal.add(imagen, constantes); // También añadido al panel principal
+        constantes.fill = GridBagConstraints.BOTH;
+        JProgressBar barra = new JProgressBar(JProgressBar.VERTICAL);
+        barra.setValue(50);
+        barra.setStringPainted(true);
+        ventana_principal.add(barra, constantes); // También añadido al panel principal
     
         
         // Añadir ventana_principal al JFrames
