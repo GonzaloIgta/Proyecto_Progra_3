@@ -1,5 +1,7 @@
 package interfaces_graficas;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -15,9 +17,11 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.TableCellRenderer;
 
 import clases_de_apyo.Modelo_de_datos_rutinas;
 import clases_de_apyo.Rutina;
@@ -27,7 +31,10 @@ public class Rutinas_guardadas extends JFrame {
 	private List<Rutina> rutinas;
     private JTextField txtFiltro;
     private Modelo_de_datos_rutinas modelo_de_datos;
-
+    private JTable tabla_rutinas;
+    private JScrollPane scrollPanelRutinas;
+    private JProgressBar barra = new JProgressBar(JProgressBar.VERTICAL);
+    
     public Rutinas_guardadas(ArrayList<Rutina> rutinas) {
         this.rutinas = rutinas;
 
@@ -44,12 +51,11 @@ public class Rutinas_guardadas extends JFrame {
 
         
 
-        // Crear el modelo de datos y la tabla
-        modelo_de_datos = new Modelo_de_datos_rutinas(rutinas); 
-        JTable tablaRutinas = new JTable(modelo_de_datos);
-        JScrollPane scrollPanelRutinas = new JScrollPane(tablaRutinas);
-        scrollPanelRutinas.setBorder(new TitledBorder("Rutinas"));
 
+        
+        initTables();
+        
+        
         // Añadimos tabla	
         constantes.gridx = 0;
         constantes.gridy = 0;
@@ -68,9 +74,7 @@ public class Rutinas_guardadas extends JFrame {
         constantes.gridheight = GridBagConstraints.REMAINDER; // O utiliza un valor mayor si tienes varias filas
         constantes.weightx = 0.5; 
         constantes.weighty = 0; 
-        constantes.fill = GridBagConstraints.BOTH;
-        JProgressBar barra = new JProgressBar(JProgressBar.VERTICAL);
-        barra.setValue(50);
+        barra.setValue(0);
         barra.setStringPainted(true);
         ventana_principal.add(barra, constantes); // También añadido al panel principal
     
@@ -86,6 +90,7 @@ public class Rutinas_guardadas extends JFrame {
         this.setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
+        
     }
 
 
@@ -93,16 +98,6 @@ public class Rutinas_guardadas extends JFrame {
 
     
 
-	//FUENTE-EXTERNA
-			  //IAG (herramienta: ChatGPT)
-			  //SIN CAMBIOS
-    // Método para escalar la imagen
-    private ImageIcon scaleImage(String path, int width, int height) {
-        ImageIcon icon = new ImageIcon(Rutinas_guardadas.class.getResource(path));
-        Image img = icon.getImage(); // Obtener la imagen original
-        Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH); // Escalar
-        return new ImageIcon(scaledImg); // Retornar la imagen escalada
-    }
     public List<Rutina> getRutinas() {
         return rutinas;
     }
@@ -110,4 +105,71 @@ public class Rutinas_guardadas extends JFrame {
     public void setRutinas(List<Rutina> rutinas) {
         this.rutinas = rutinas;
     }
+    
+    private void initTables() {
+        // Crear el modelo de datos y la tabla
+        modelo_de_datos = new Modelo_de_datos_rutinas(rutinas); 
+        JTable tablaRutinas = new JTable(modelo_de_datos);
+        this.tabla_rutinas=tablaRutinas;
+        this.scrollPanelRutinas = new JScrollPane(tablaRutinas);
+        scrollPanelRutinas.setBorder(new TitledBorder("Rutinas"));
+		
+	  
+	    TableCellRenderer cellRenderer = new TableCellRenderer() {
+	        @Override
+	        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            	JLabel jlabel = new JLabel();
+        		jlabel.setOpaque(true);
+            	jlabel.setVerticalAlignment(SwingConstants.CENTER);
+
+            	
+            	//poner iconos en vez de texto
+	            if (column==1 ) {
+	            	jlabel.setHorizontalAlignment(SwingConstants.CENTER); 
+	            	if(value.toString().equals("MUSCULACION")) {
+	            		jlabel.setIcon(new ImageIcon(this.getClass().getResource("/resourses/images/musculacion.png")));
+	            	} else if(value.toString().equals("CARDIOVASCULAR")){
+	            		jlabel.setIcon(new ImageIcon(this.getClass().getResource("/resourses/images/musculacion.png")));
+	            	} else {
+	            		jlabel.setText("FALTA DE METER IMAGEN EN INIT  TABLE");
+	            	}
+	            	
+	                
+	            } else {
+	            	jlabel.setText(value.toString());
+	            	
+	            }
+	            
+	           
+	            
+	             //cambiar fonde dependiendo de fila par o impar
+            	if(row %2 ==0) {
+	            	jlabel.setBackground(new Color(250, 249, 249));
+            	} else {
+            		jlabel.setBackground(new Color(190, 227, 219));
+            	}
+            	
+            	
+            	
+
+            	if(isSelected) {
+            		jlabel.setBackground(tabla_rutinas.getSelectionBackground());
+            		actualizar_barra(row);
+            	}
+            	
+            	
+	            return jlabel;
+	        }
+	    };
+	    
+	    this.tabla_rutinas.setRowHeight(20);
+	    this.tabla_rutinas.setDefaultRenderer(Object.class, cellRenderer);
+    }
+    
+    private void actualizar_barra(int fila) {
+    	int num_ejercicios = (int)modelo_de_datos.getValueAt(fila, 2);
+    	barra.setValue(num_ejercicios*7);
+   
+    }
+    
 }

@@ -16,7 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import clases_de_apyo.Ejercicio;
+import clases_de_apyo.Ejercicio_gym;
+import clases_de_apyo.Ejercicio_gym.Musculo_trabajado;
 import clases_de_apyo.Rutina;
+import clases_de_apyo.Rutina.Objetivo_de_la_sesion;
 
 public class Pagina_principal extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -101,7 +105,13 @@ public class Pagina_principal extends JFrame{
 		        rutinas.add(new Rutina("Rutina de Fuerza", Rutina.Objetivo_de_la_sesion.MUSCULACION, new ArrayList<>()));
 		        rutinas.add(new Rutina("Rutina de Cardio", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, new ArrayList<>()));
 		        rutinas.add(new Rutina("Rutina de Resistencia", Rutina.Objetivo_de_la_sesion.CARDIOVASCULAR, new ArrayList<>()));
-		        
+		        ArrayList<Ejercicio> ejerciciosMusculacion = new ArrayList<>();
+		        ejerciciosMusculacion.add(new Ejercicio_gym("Press de banca", "ubicacion_foto", Musculo_trabajado.PECHO, 10, 4, 60));
+		        ejerciciosMusculacion.add(new Ejercicio_gym("Sentadilla", "ubicacion_foto", Musculo_trabajado.PIERNA, 12, 4, 80));
+		        ejerciciosMusculacion.add(new Ejercicio_gym("Remo con barra", "ubicacion_foto", Musculo_trabajado.ESPALDA, 10, 3, 50));
+		        ejerciciosMusculacion.add(new Ejercicio_gym("Curl de bíceps", "ubicacion_foto", Musculo_trabajado.TRICEPS, 12, 3, 20));
+		        Rutina rutinaMusculacion = new Rutina("Rutina de Musculación", Objetivo_de_la_sesion.MUSCULACION, ejerciciosMusculacion);
+		        rutinas.add(rutinaMusculacion);
 			new Rutinas_guardadas(rutinas);
 			dispose();
 			//HAY QUE PASARLE RUTINAS
