@@ -24,6 +24,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableCellRenderer;
 
 import clases_de_apyo.Modelo_de_datos_rutinas;
+import clases_de_apyo.Rescalar_imagen;
 import clases_de_apyo.Rutina;
 
 public class Rutinas_guardadas extends JFrame {
@@ -34,6 +35,7 @@ public class Rutinas_guardadas extends JFrame {
     private JTable tabla_rutinas;
     private JScrollPane scrollPanelRutinas;
     private JProgressBar barra = new JProgressBar(JProgressBar.VERTICAL);
+    private Rescalar_imagen rescalar = new Rescalar_imagen();
     
     public Rutinas_guardadas(ArrayList<Rutina> rutinas) {
         this.rutinas = rutinas;
@@ -127,10 +129,12 @@ public class Rutinas_guardadas extends JFrame {
 	            if (column==1 ) {
 	            	jlabel.setHorizontalAlignment(SwingConstants.CENTER); 
 	            	if(value.toString().equals("MUSCULACION")) {
-	            		jlabel.setIcon(new ImageIcon(this.getClass().getResource("/resourses/images/musculacion.png")));
+	            		rescalar.setScaledImage(jlabel, "/resourses/images/musculacion.png", 40, 40);
 	            	} else if(value.toString().equals("CARDIOVASCULAR")){
-	            		jlabel.setIcon(new ImageIcon(this.getClass().getResource("/resourses/images/musculacion.png")));
-	            	} else {
+	            		rescalar.setScaledImage(jlabel, "/resourses/images/cardio.png", 40, 40);
+	            	} else if(value.toString().equals("PERDIDA_DE_PESO")){
+	            		rescalar.setScaledImage(jlabel, "/resourses/images/perdida_de_peso.png", 40, 40);
+	            	}else {
 	            		jlabel.setText("FALTA DE METER IMAGEN EN INIT  TABLE");
 	            	}
 	            	
@@ -162,7 +166,7 @@ public class Rutinas_guardadas extends JFrame {
 	        }
 	    };
 	    
-	    this.tabla_rutinas.setRowHeight(20);
+	    this.tabla_rutinas.setRowHeight(40);
 	    this.tabla_rutinas.setDefaultRenderer(Object.class, cellRenderer);
     }
     
