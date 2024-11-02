@@ -17,8 +17,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import clases_de_apyo.Ejercicio;
+import clases_de_apyo.Musculo_trabajado;
 import clases_de_apyo.Ejercicio_gym;
-import clases_de_apyo.Ejercicio_gym.Musculo_trabajado;
 import clases_de_apyo.Rutina;
 import clases_de_apyo.Rutina.Objetivo_de_la_sesion;
 

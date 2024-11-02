@@ -3,11 +3,9 @@ package clases_de_apyo;
 import java.util.Objects;
 
 public class Ejercicio_gym extends  Ejercicio{
-	public enum Musculo_trabajado{
-		PECHO,HOMBRO,TRICEPS,ESPALDA,PIERNA;
-	}
+	
 	protected int repeticiones,series, peso;
-	protected Musculo_trabajado musculo_trabajado;
+	public Musculo_trabajado musculo_trabajado;
 
 	public Ejercicio_gym(String nombre, String ubicacion_foto, Musculo_trabajado musculo_trabajado,
 			int repeticiones, int series,int peso) {

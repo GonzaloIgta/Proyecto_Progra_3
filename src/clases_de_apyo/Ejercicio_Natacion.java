@@ -4,9 +4,7 @@ import java.util.Objects;
 
 public class Ejercicio_Natacion extends Ejercicio {
 
-	public enum estilo_natacion{
-		NORMAL,ESPALDA,MARIPOSA;
-	}
+	
 	
 	protected estilo_natacion estilo;
 	protected float distancia_en_km,ritmo;
