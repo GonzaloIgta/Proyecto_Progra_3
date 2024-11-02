@@ -1,7 +1,9 @@
 package interfaces_graficas;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -78,7 +80,11 @@ public class Rutinas_guardadas extends JFrame {
         constantes.weighty = 0; 
         barra.setValue(0);
         barra.setStringPainted(true);
-        ventana_principal.add(barra, constantes); // También añadido al panel principal
+        JPanel sitio_donde_colocamos_barra = new JPanel();
+        sitio_donde_colocamos_barra.setLayout(new BorderLayout());
+        sitio_donde_colocamos_barra.add(barra);
+        sitio_donde_colocamos_barra.setBorder(new TitledBorder("Exigencia del entrenamiento"));   
+        ventana_principal.add(sitio_donde_colocamos_barra, constantes); // También añadido al panel principal
     
         
         // Añadir ventana_principal al JFrames
@@ -137,6 +143,8 @@ public class Rutinas_guardadas extends JFrame {
 	            	}else {
 	            		jlabel.setText("FALTA DE METER IMAGEN EN INIT  TABLE");
 	            	}
+        			jlabel.setToolTipText(value.toString());
+
 	            	
 	                
 	            } else {
