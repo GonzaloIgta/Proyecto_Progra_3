@@ -8,6 +8,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
@@ -39,7 +42,6 @@ import clases_de_apyo.estilo_natacion;
 public class Rutinas_guardadas extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private List<Rutina> rutinas;
-    private JTextField txtFiltro;
     private Modelo_de_datos_rutinas modelo_de_datos;
     private JTable tabla_rutinas;
     private JScrollPane scrollPanelRutinas;
@@ -51,7 +53,7 @@ public class Rutinas_guardadas extends JFrame {
     public Rutinas_guardadas(ArrayList<Rutina> rutinas) {
         this.rutinas = rutinas;
         
-
+        
         
         // Para que se cierre al darle a la X
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -145,27 +147,38 @@ public class Rutinas_guardadas extends JFrame {
         panelPrincipal.add(runningPanel, panelConstantes);
 
         // Añadir el panel principal al panel de la ventana
-        ventana_principal.add(panelPrincipal, constantes); // Añadido al panel principal
+        ventana_principal.add(panelPrincipal, constantes); 
 
         
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+		KeyListener keylistener = new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				//CUANDO SE PRESIONE CTRL X VOLVER A LA PAGINA PRINCIPAl
+				if(e.isControlDown() && e.getKeyCode()==88) {
+					new Pagina_principal();
+					dispose();
+				}
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+			}
+			
+		};
+		
+		tabla_rutinas.addKeyListener(keylistener);
+		
+
         
         
         
@@ -185,6 +198,9 @@ public class Rutinas_guardadas extends JFrame {
         this.setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
+        
+        JOptionPane informativo = new JOptionPane(	);
+        informativo.showMessageDialog(null, "Control + x para volver a la pagina principal");
         
     }
 

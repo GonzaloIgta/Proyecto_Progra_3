@@ -36,7 +36,7 @@ public class Nueva_Rutina extends JFrame{
 	
 	private JTable tablaRutina;
 	private DefaultTableModel modeloDatosTablaRutina;
-	private     JPanel ventana_central_MuestraRutinas;
+	private JPanel ventana_central_MuestraRutinas;
 
 
 	public Nueva_Rutina() {

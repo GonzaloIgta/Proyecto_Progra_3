@@ -27,6 +27,7 @@ import clases_de_apyo.estilo_natacion;
 
 public class Pagina_principal extends JFrame{
 	private static final long serialVersionUID = 1L;
+
 	
 
 	public Pagina_principal() {
