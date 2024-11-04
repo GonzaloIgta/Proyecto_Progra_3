@@ -3,6 +3,7 @@ package interfaces_graficas;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -28,6 +29,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import clases_de_apyo.Ejercicio;
 import clases_de_apyo.Ejercicio_Natacion;
@@ -225,7 +227,13 @@ public class Rutinas_guardadas extends JFrame {
         this.tabla_rutinas=tablaRutinas;
         this.scrollPanelRutinas = new JScrollPane(tablaRutinas);
         scrollPanelRutinas.setBorder(new TitledBorder("Rutinas"));
-		
+        TableColumn columnaID = tabla_rutinas.getColumnModel().getColumn(2);
+        columnaID.setPreferredWidth(20); 
+        columnaID = tabla_rutinas.getColumnModel().getColumn(3);
+        columnaID.setPreferredWidth(20); 
+        columnaID = tabla_rutinas.getColumnModel().getColumn(1);
+        columnaID.setPreferredWidth(150); 
+
 	  
 	    TableCellRenderer cellRenderer = new TableCellRenderer() {
 	        @Override
@@ -233,6 +241,8 @@ public class Rutinas_guardadas extends JFrame {
             	JLabel jlabel = new JLabel();
         		jlabel.setOpaque(true);
             	jlabel.setVerticalAlignment(SwingConstants.CENTER);
+            	JButton boton_asignar = new JButton("Asig");
+            	boton_asignar.setSize(new Dimension(10,10));
 
             	
             	//poner iconos en vez de texto
@@ -249,9 +259,12 @@ public class Rutinas_guardadas extends JFrame {
 	            	}
         			jlabel.setToolTipText(value.toString());
         		      	 
+	            }else if(column==3){
+	            	
 	            }else {
-	            	jlabel.setText(value.toString());
 	            }
+	            	jlabel.setText(value.toString());
+	            
 	            	
 	            	
 	            
@@ -274,7 +287,7 @@ public class Rutinas_guardadas extends JFrame {
             	}
             	
             	
-	            return jlabel;
+	            return column==3?  boton_asignar:jlabel;
 	        }
 	    };
 	    
