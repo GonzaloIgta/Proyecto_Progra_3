@@ -97,6 +97,7 @@ public class Planning extends JFrame{
      	panelD.add(botRD);
      	panelD.add(botCD);
      	this.add(panelD);
+     	//prueba commit
      	
      	this.setVisible(true);
 		
