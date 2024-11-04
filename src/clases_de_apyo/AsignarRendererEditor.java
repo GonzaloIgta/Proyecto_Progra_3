@@ -6,6 +6,7 @@ import java.util.EventObject;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -37,8 +38,7 @@ public class AsignarRendererEditor extends AbstractCellEditor implements TableCe
 		
 		button.addActionListener((e) -> {
 			//Se crea el cuadro de diálogo para confirmar la reserva
-			Dialogo_asignar dialog = new Dialogo_asignar(rutina);			
-			dialog.dispose();
+			JOptionPane dialog = new JOptionPane();			
 		});
 		
 		button.setOpaque(true);
