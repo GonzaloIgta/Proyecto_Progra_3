@@ -9,11 +9,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.List;
 
+import javax.swing.CellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,11 +29,15 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.CellEditorListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import clases_de_apyo.AsignarRendererEditor;
+import clases_de_apyo.Dialogo_asignar;
 import clases_de_apyo.Ejercicio;
 import clases_de_apyo.Ejercicio_Natacion;
 import clases_de_apyo.Ejercicio_gym;
@@ -259,9 +266,6 @@ public class Rutinas_guardadas extends JFrame {
 	            	}
         			jlabel.setToolTipText(value.toString());
         		      	 
-	            }else if(column==3){
-	            	
-	            	boton_asignar
 	            }else {
 	            }
 	            	jlabel.setText(value.toString());
@@ -288,10 +292,10 @@ public class Rutinas_guardadas extends JFrame {
             	}
             	
             	
-	            return column==3?  boton_asignar:jlabel;
+	            return jlabel;
 	        }
 	    };
-	    
+	    tabla_rutinas.getColumnModel().getColumn(3).setCellRenderer(new AsignarRendererEditor(this));
 	    this.tabla_rutinas.setRowHeight(40);
 	    this.tabla_rutinas.setDefaultRenderer(Object.class, cellRenderer);
     }
