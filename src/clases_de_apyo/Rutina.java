@@ -3,8 +3,6 @@ package clases_de_apyo;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import clases_de_apyo.Musculo_trabajado;
-
 public class Rutina {
 	public enum Objetivo_de_la_sesion{
 		MUSCULACION,CARDIOVASCULAR,PERDIDA_DE_PESO
