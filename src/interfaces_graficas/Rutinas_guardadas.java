@@ -261,6 +261,7 @@ public class Rutinas_guardadas extends JFrame {
         		      	 
 	            }else if(column==3){
 	            	
+	            	boton_asignar
 	            }else {
 	            }
 	            	jlabel.setText(value.toString());

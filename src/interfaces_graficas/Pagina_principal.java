@@ -56,7 +56,9 @@ public class Pagina_principal extends JFrame{
 			
 			
 			
-
+			//FUENTE-EXTERNA
+			//URL: (https://old.chuidiang.org/java/layout/GridBagLayout/GridBagLayout.php)
+			//ADAPTADO (Usado para entender y adapatar como usar gridbag layout y constraint )
 		    //------------------------------------------------------------------------------------------
 		   
 		GridBagConstraints gbc = new GridBagConstraints();
