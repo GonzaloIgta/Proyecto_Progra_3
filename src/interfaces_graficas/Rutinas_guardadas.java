@@ -37,7 +37,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import clases_de_apyo.AsignarRendererEditor;
-import clases_de_apyo.Dialogo_asignar;
+//import clases_de_apyo.Dialogo_asignar;
 import clases_de_apyo.Ejercicio;
 import clases_de_apyo.Ejercicio_Natacion;
 import clases_de_apyo.Ejercicio_gym;
