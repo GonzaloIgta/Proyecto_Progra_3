@@ -1,14 +1,11 @@
 package interfaces_graficas;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 public class Planning extends JFrame{
 	

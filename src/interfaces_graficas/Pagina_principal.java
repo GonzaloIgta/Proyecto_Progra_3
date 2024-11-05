@@ -1,11 +1,9 @@
 package interfaces_graficas;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
+
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -13,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import clases_de_apyo.Ejercicio;

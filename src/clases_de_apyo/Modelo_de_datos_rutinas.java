@@ -15,9 +15,7 @@ private static final long serialVersionUID = 1L;
 	private final List<String> headers = Arrays.asList(
 		    "Nombre",
 		    "Objetivo",
-		    "Nº Ejercicios",
-		    "Asignar"
-		);
+		    "Nº Ejercicios"		);
 
 
 	public Modelo_de_datos_rutinas(List<Rutina> rutinas) {
@@ -58,7 +56,6 @@ private static final long serialVersionUID = 1L;
 	        case 0: return rutina.getNombre();           // Nombre de la rutina
 	        case 1: return rutina.getObjetivo();         // Objetivo de la rutina
 	        case 2: return rutina.getNumeroEjercicios(); // Número de ejercicios
-	        case 3: return rutina; 						 // Devuelve la rutina entera para luego asingarle al botos
 	        default: return null;
 	    }
 	}
