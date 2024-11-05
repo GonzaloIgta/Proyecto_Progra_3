@@ -51,7 +51,11 @@ private static final long serialVersionUID = 1L;
 	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		
 	    Rutina rutina = rutinas.get(rowIndex);  // Obtiene la rutina en la fila correspondiente
+	    if(columnIndex == 999) { //999 = codigo para devolver_la_lista_de_ejercicios para crear el modelo de datos ejercicio
+			return rutina;
+		}
 	    switch (columnIndex) {
 	        case 0: return rutina.getNombre();           // Nombre de la rutina
 	        case 1: return rutina.getObjetivo();         // Objetivo de la rutina

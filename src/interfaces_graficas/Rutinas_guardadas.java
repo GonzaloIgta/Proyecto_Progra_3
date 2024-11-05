@@ -1,10 +1,14 @@
 package interfaces_graficas;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -21,6 +25,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -28,6 +35,7 @@ import clases_de_apyo.Ejercicio;
 import clases_de_apyo.Ejercicio_Natacion;
 import clases_de_apyo.Ejercicio_gym;
 import clases_de_apyo.Ejercicio_runing;
+import clases_de_apyo.Modelo_de_datos_ejercicio;
 import clases_de_apyo.Modelo_de_datos_rutinas;
 import clases_de_apyo.Musculo_trabajado;
 import clases_de_apyo.Rescalar_imagen;
@@ -37,13 +45,22 @@ import clases_de_apyo.estilo_natacion;
 public class Rutinas_guardadas extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private List<Rutina> rutinas;
-    private Modelo_de_datos_rutinas modelo_de_datos;
+    private Modelo_de_datos_rutinas modelo_de_datos_rutinas;
+    private Modelo_de_datos_ejercicio modelo_de_datos_ejercicio=new Modelo_de_datos_ejercicio( new ArrayList<>()) ;
     private JTable tabla_rutinas;
     private JScrollPane scrollPanelRutinas;
-    private ArrayList<JProgressBar> barras_gym = new ArrayList<>();
-    private ArrayList<JProgressBar> barras_natacion = new ArrayList<>();
-    private ArrayList<JProgressBar> barras_running = new ArrayList<>();
+    private JTable tabla_ejercicios = new JTable(modelo_de_datos_ejercicio);
+    private JScrollPane scrollPanelejercicios = new JScrollPane(tabla_ejercicios);
+    private JProgressBar barra_gym;
+    private JProgressBar barra_natacion;
+    private JProgressBar barra_running;
+    private ArrayList<JProgressBar> barras;
     private Rescalar_imagen rescalar = new Rescalar_imagen();
+    private JPanel ventanadondetablas;
+    private GridBagConstraints constantes_ej = new GridBagConstraints();
+    private Rutina rutina_seleccionada;
+
+
     
     public Rutinas_guardadas(ArrayList<Rutina> rutinas) {
         this.rutinas = rutinas;
@@ -56,9 +73,14 @@ public class Rutinas_guardadas extends JFrame {
         // Título de la ventana
         setTitle("DEUSTOGYM");
 
-        // Crear ventana principal y establecer layout
+        
+        //crear ventana principal
         JPanel ventana_principal = new JPanel();
-        ventana_principal.setLayout(new GridBagLayout());
+        ventana_principal.setLayout(new BorderLayout());
+
+        // Crear ventana donde tablas y establecer layout
+        this.ventanadondetablas = new JPanel();
+        ventanadondetablas.setLayout(new GridLayout());
         GridBagConstraints constantes = new GridBagConstraints();
 
         
@@ -72,82 +94,42 @@ public class Rutinas_guardadas extends JFrame {
         // Añadimos tabla	
         constantes.gridx = 0;
         constantes.gridy = 0;
-        constantes.gridwidth = 2;
-        constantes.gridheight = 2;
+        constantes.gridwidth = 1;
+        constantes.gridheight = 1;
         constantes.fill = GridBagConstraints.BOTH; // El área de texto debe estirarse en ambos sentidos.
         constantes.weighty = 1.0;
-        ventana_principal.add(scrollPanelRutinas, constantes); // También añadido al panel principal
+        ventanadondetablas.add(scrollPanelRutinas, constantes); // También añadido al panel principal
         constantes.weighty = 0.0; // Restauramos al valor por defecto, para no afectar a los siguientes componentes.
-      //FUENTE EXTERNA
-      //IAG (ChatGPT)
-      //ADAPTADO (Ia consultada para conseguir que las barras no se expandiesen de tal manera que no puediesemos ver la tabla de la izq, asi como la disposicion de barras) 
-     // Añadir las progres bar de la derecha
-        constantes.gridx = 2; 
-        constantes.gridy = 0; 
-        constantes.gridwidth = 1; 
-        constantes.weightx = 0.2; 
-        constantes.weighty = 1.0; // Permitir que las barras ocupen todo el espacio vertical
+        
 
-        // Crear un panel principal para las secciones
-        JPanel panelPrincipal = new JPanel();
-        panelPrincipal.setLayout(new GridBagLayout());
-        GridBagConstraints seccionConstantes = new GridBagConstraints();
-        seccionConstantes.fill = GridBagConstraints.HORIZONTAL;
-        seccionConstantes.weightx = 1.0;
-
-        // Sección de Gimnasio
-        JPanel gimnasioPanel = new JPanel();
-        gimnasioPanel.setLayout(new GridBagLayout());
-        gimnasioPanel.setBorder(new TitledBorder("Gimnasio"));
-        GridBagConstraints barraConstantes = new GridBagConstraints();
-        barraConstantes.fill = GridBagConstraints.HORIZONTAL;
-        barraConstantes.weightx = 1.0; // Hacer que las barras se expandan horizontalmente
-        barraConstantes.gridy = 0; // Empezar en la primera fila
-        for (JProgressBar barra : barras_gym) {
-            gimnasioPanel.add(barra, barraConstantes);
-            barraConstantes.gridy++; 
+        constantes_ej.gridx = 1;
+        constantes_ej.gridy = 0;
+        constantes_ej.gridwidth = 1;
+        constantes_ej.gridheight = 1;
+        constantes_ej.fill = GridBagConstraints.BOTH; // El área de texto debe estirarse en ambos sentidos.
+        constantes_ej.weighty = 1.0;
+        ventanadondetablas.add(scrollPanelejercicios, constantes); // También añadido al panel principal
+        scrollPanelejercicios.setBorder(new TitledBorder("Ejercicios"));
+        
+        
+        // BARRA PROGRESO
+        JPanel panel_de_abajo = new JPanel();
+        panel_de_abajo.setLayout(new FlowLayout());
+        for(JProgressBar barra : barras) {
+        	panel_de_abajo.add(barra);
         }
-
-        // Sección de Natación
-        JPanel natacionPanel = new JPanel();
-        natacionPanel.setLayout(new GridBagLayout());
-        natacionPanel.setBorder(new TitledBorder("Natación"));
-        barraConstantes.gridy = 0; // Reiniciar a la primera fila
-        for (JProgressBar barra : barras_natacion) { 
-            natacionPanel.add(barra, barraConstantes);
-            barraConstantes.gridy++; // Mover a la siguiente fila
-        }
-
-        // Sección de Running
-        JPanel runningPanel = new JPanel();
-        runningPanel.setLayout(new GridBagLayout());
-        runningPanel.setBorder(new TitledBorder("Running"));
-        barraConstantes.gridy = 0; // Reiniciar a la primera fila
-        for (JProgressBar barra : barras_running) { 
-            runningPanel.add(barra, barraConstantes);
-            barraConstantes.gridy++; // Mover a la siguiente fila
-        }
-
-        // Añadir los paneles al panel principal
-        GridBagConstraints panelConstantes = new GridBagConstraints();
-        panelConstantes.gridx = 0; 
-        panelConstantes.gridy = 0; 
-        panelConstantes.fill = GridBagConstraints.HORIZONTAL; 
-        panelConstantes.weightx = 1.0;
-
-        panelPrincipal.add(gimnasioPanel, panelConstantes);
-        panelConstantes.gridy++; // Pasar a la siguiente fila
-        panelPrincipal.add(natacionPanel, panelConstantes);
-        panelConstantes.gridy++; // Pasar a la siguiente fila
-        panelPrincipal.add(runningPanel, panelConstantes);
-
-        // Añadir el panel principal al panel de la ventana
-        ventana_principal.add(panelPrincipal, constantes); 
-
+        ventana_principal.add(panel_de_abajo,BorderLayout.SOUTH);
         
         
-        
-        
+      //boton asignar
+      	JButton boton_asignar = new JButton("Asignar");
+      	ActionListener listener_boton_asignar = e -> {
+      		new Asinarrutina(this);
+			
+			};
+		boton_asignar.addActionListener(listener_boton_asignar);
+		panel_de_abajo.add(boton_asignar);
+      		
 		KeyListener keylistener = new KeyListener() {
 			
 			@Override
@@ -171,8 +153,22 @@ public class Rutinas_guardadas extends JFrame {
 			
 		};
 		
-		tabla_rutinas.addKeyListener(keylistener);
 		
+		
+		tabla_rutinas.addKeyListener(keylistener);
+		tabla_rutinas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    @Override
+		    public void valueChanged(ListSelectionEvent e) {
+		        if (!e.getValueIsAdjusting()) { 
+		            int selectedRow = tabla_rutinas.getSelectedRow();
+		            if (selectedRow >= 0) {
+		                iniciar_tabla_ejercicio(selectedRow);
+	            		actualizar_barras(selectedRow);
+		            }
+		        }
+		    }
+		});
+
 
         
         
@@ -182,8 +178,6 @@ public class Rutinas_guardadas extends JFrame {
         
         
         
-        // Añadir ventana_principal al JFrames
-        this.setContentPane(ventana_principal); // Establece el panel principal como contenido del JFrame
 
         // Ajustar tamaño del JFrame
         float escalar = 0.5F;
@@ -193,16 +187,18 @@ public class Rutinas_guardadas extends JFrame {
         this.setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
-        
-        JOptionPane informativo = new JOptionPane(	);
-        informativo.showMessageDialog(null, "Control + x para volver a la pagina principal");
+        ventana_principal.add(ventanadondetablas,BorderLayout.CENTER);
+        this.add(ventana_principal);
+        JOptionPane.showMessageDialog(null, "Control + x para volver a la pagina principal");
         
     }
 
 
 
 
-    
+    public Rutina getRutinaSeleccionada() {
+    	return rutina_seleccionada;
+    }
 
     public List<Rutina> getRutinas() {
         return rutinas;
@@ -215,8 +211,8 @@ public class Rutinas_guardadas extends JFrame {
     private void initTables() {
     	
         // Crear el modelo de datos y la tabla
-        modelo_de_datos = new Modelo_de_datos_rutinas(rutinas); 
-        JTable tablaRutinas = new JTable(modelo_de_datos);
+        modelo_de_datos_rutinas = new Modelo_de_datos_rutinas(rutinas); 
+        JTable tablaRutinas = new JTable(modelo_de_datos_rutinas);
         this.tabla_rutinas=tablaRutinas;
         this.scrollPanelRutinas = new JScrollPane(tablaRutinas);
         scrollPanelRutinas.setBorder(new TitledBorder("Rutinas"));
@@ -224,6 +220,8 @@ public class Rutinas_guardadas extends JFrame {
         columnaID.setPreferredWidth(20); 
         columnaID = tabla_rutinas.getColumnModel().getColumn(1);
         columnaID.setPreferredWidth(150); 
+        
+        
 
 	  
 	    TableCellRenderer cellRenderer = new TableCellRenderer() {
@@ -269,95 +267,111 @@ public class Rutinas_guardadas extends JFrame {
 
             	if(isSelected) {
             		jlabel.setBackground(tabla_rutinas.getSelectionBackground());
-            		actualizar_barras(row);
             	}
             	
             	
 	            return jlabel;
 	        }
+
+			
 	    };
 	    this.tabla_rutinas.setRowHeight(40);
 	    this.tabla_rutinas.setDefaultRenderer(Object.class, cellRenderer);
     }
+    private void iniciar_tabla_ejercicio(int row) {
+    	rutina_seleccionada = (Rutina) modelo_de_datos_rutinas.getValueAt(row, 999);
+        modelo_de_datos_ejercicio.setListaEjercicios(rutina_seleccionada.getLista_ejercicios());
+    	tabla_ejercicios = new JTable(modelo_de_datos_ejercicio);
+        modelo_de_datos_ejercicio.fireTableDataChanged(); //IA (CHAT GPT)
+         scrollPanelejercicios.setBorder(new TitledBorder("Ejercicios"));
+         TableCellRenderer cellRenderer = new TableCellRenderer() {
+ 	        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+             	JLabel jlabel = new JLabel();
+         		jlabel.setOpaque(true);
+             	jlabel.setVerticalAlignment(SwingConstants.CENTER);
+             	
+             	if (column==2 ) {              	//poner iconos en vez de texto
+ 	            	jlabel.setText("Aun no hemos definido todos los ejercicios por lo que aun no hay foto");
+         		      	 
+ 	            }else {
+ 	            }
+ 	            	jlabel.setText(value.toString());
+ 	            
+
+             	
+             	
+             	
+
+             	if(isSelected) {
+             		jlabel.setBackground(tabla_ejercicios.getSelectionBackground());
+             	}
+             	
+             	
+ 	            return jlabel;
+ 	        }
+
+ 			
+ 	    };
+ 	    
+
+ 	    if (ventanadondetablas.isAncestorOf(scrollPanelejercicios)) {
+ 	        ventanadondetablas.remove(scrollPanelejercicios);
+ 	    }
+ 	    scrollPanelejercicios.setViewportView(tabla_ejercicios);
+ 	    ventanadondetablas.add(scrollPanelejercicios, constantes_ej);
+ 	    
+ 	    ventanadondetablas.revalidate();
+ 	    ventanadondetablas.repaint();
+
+ 	   
+		
+	}
+    
+    	
     
     private void actualizar_barras(int fila) {
         Rutina rutina = rutinas.get(fila);
-        for (JProgressBar barra : barras_gym) {
-            barra.setValue(0);
-        }
-        for (JProgressBar barra : barras_natacion) {
-            barra.setValue(0);
-        }
-        for (JProgressBar barra : barras_running) {
+        for (JProgressBar barra : barras) {
             barra.setValue(0);
         }
         
         // Actualizar los valores de las barras según los ejercicios de la rutina
         for (Ejercicio ejercicio : rutina.getLista_ejercicios()) {
             if (ejercicio instanceof Ejercicio_gym) {
-                Ejercicio_gym ejGym = (Ejercicio_gym) ejercicio;
-                for (JProgressBar barra : barras_gym) {
-                    if (barra.getString().equals(ejGym.musculo_trabajado.toString())) {
-                        barra.setValue(barra.getValue() + 1);
-                    }
-                }
+                   this.barra_gym.setValue(barra_gym.getValue() + 1);   
             } else if (ejercicio instanceof Ejercicio_Natacion) {
-                Ejercicio_Natacion ejNat = (Ejercicio_Natacion) ejercicio;
-                for (JProgressBar barra : barras_natacion) {
-                    if (barra.getString().equals(ejNat.getEstilo().toString())) {
-                        barra.setValue(barra.getValue() + 1);
-                    }
-                }
+                this.barra_natacion.setValue(barra_natacion.getValue() + 1);   
             } else if (ejercicio instanceof Ejercicio_runing) {
-                for (JProgressBar barra : barras_running) {
-                    barra.setValue(barra.getValue() + 1);
-                }
+                this.barra_running.setValue(barra_running.getValue() + 1);   
             }
         }
+		
 
         
         // Normalizar valores en porcentaje
-        for (JProgressBar barra : barras_gym) {
+        for (JProgressBar barra : barras) {
             if (barra.getValue() != 0) {
                 barra.setValue((barra.getValue() * 100) / rutina.getLista_ejercicios().size());
-            }
-        }
-        for (JProgressBar barra : barras_natacion) {
-            if (barra.getValue() != 0) {
-                barra.setValue((barra.getValue() * 100) / rutina.getLista_ejercicios().size());
-            }
-        }
-        for (JProgressBar barra : barras_running) {
-            if (barra.getValue() != 0) {
-                barra.setValue((barra.getValue() * 100) / rutina.getLista_ejercicios().size());
-                barra.repaint();
             }
         }
     }
     
     private void initbarras() {
-    	for (Musculo_trabajado musculo : Musculo_trabajado.values()) {
-    		JProgressBar barra = new JProgressBar(0, 100);
-        	barra.setStringPainted(true);
-        	barra.setString(musculo.toString());
-            barra.setPreferredSize(new java.awt.Dimension(80, 15)); // Ajustar el tamaño de las barras de progreso
-            barras_gym.add(barra);
-    	}
-
-    	for(estilo_natacion estilo : estilo_natacion.values()) {
-    		JProgressBar barra = new JProgressBar(0, 100);
-        	barra.setStringPainted(true);
-        	barra.setString(estilo.toString());
-            barra.setPreferredSize(new java.awt.Dimension(80, 15)); // Ajustar el tamaño de las barras de progreso
-        	barras_natacion.add(barra);
-    	}
-    	
-    	JProgressBar barra = new JProgressBar(0, 100);
-    	barra.setStringPainted(true);
-    	barra.setString("Running");
-        barra.setPreferredSize(new java.awt.Dimension(80, 15)); // Ajustar el tamaño de las barras de progreso
-        barras_running.add(barra);
-    	
-    }
-    
+    	barras=new ArrayList<>();
+    	JProgressBar barra_gym = new JProgressBar(0,100);
+    	barra_gym.setString("GYM");
+    	barra_gym.setStringPainted(true);
+    	JProgressBar barra_natacion = new JProgressBar(0,100);
+    	barra_natacion.setString("NATACION");
+    	barra_natacion.setStringPainted(true);
+    	JProgressBar barra_running = new JProgressBar(0,100);
+    	barra_running.setString("RUNNING");
+    	barra_running.setStringPainted(true);
+    	this.barra_gym=barra_gym;
+    	this.barra_natacion = barra_natacion;
+    	this.barra_running = barra_running;
+    	this.barras.add(barra_gym);
+    	this.barras.add(barra_natacion);
+    	this.barras.add(barra_running);
+        }
 }

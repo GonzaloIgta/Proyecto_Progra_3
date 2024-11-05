@@ -57,6 +57,8 @@ public abstract class Ejercicio {
 		Ejercicio other = (Ejercicio) obj;
 		return Objects.equals(nombre, other.nombre) && Objects.equals(ubicacion_foto, other.ubicacion_foto);
 	}
+
+
 	
 
 }
