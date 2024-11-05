@@ -63,6 +63,7 @@ public class Asinarrutina extends JFrame {
             String diaSeleccionado = (String) diaComboBox.getSelectedItem();
             String mesSeleccionado = (String) mesComboBox.getSelectedItem();
             String añoSeleccionado = (String) añoComboBox.getSelectedItem();
+            //donde guardeis el planing abra que asignarle esto asignarRutina(diaSeleccionado, mesSeleccionado, añoSeleccionado, rutina_seleccionada);
             asignarRutina(diaSeleccionado, mesSeleccionado, añoSeleccionado, rutina_seleccionada);
         });
 
@@ -83,10 +84,10 @@ public class Asinarrutina extends JFrame {
         setLocationRelativeTo(null); 
     }
 
-
-    private void asignarRutina(String dia, String mes, String año, Rutina rutina_a_asignar) {
-        JOptionPane.showMessageDialog(this, "FALTA QUE IMPLEMENTEIS EL COMO RECIBIRLA EN EL PLANING");
-    }
+	 public void asignarRutina(String dia, String mes, String año, Rutina rutina_a_asignar) {
+	        JOptionPane.showMessageDialog(this, "FALTA QUE IMPLEMENTEIS EL COMO RECIBIRLA EN EL PLANING");
+	    }
+   
 
 
 }

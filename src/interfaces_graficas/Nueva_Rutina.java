@@ -161,7 +161,6 @@ public class Nueva_Rutina extends JFrame{
      	setLocationRelativeTo(null);
 
         // Hacemos visible la ventana principal
-        setVisible(true);
 
 	     ventana_central_MuestraRutinas.add(scrollPane, BorderLayout.CENTER);
 
@@ -170,6 +169,9 @@ public class Nueva_Rutina extends JFrame{
 
 	}
 	
+	public void open() {
+        setVisible(true);
+	}
 	private JScrollPane init_tabla_fuerza(){
         // Crear cabecera de la tabla
         Vector<String> cabeceraTabla = new Vector<String>(

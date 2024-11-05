@@ -5,7 +5,10 @@ import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import clases_de_apyo.Rutina;
 
 public class Planning extends JFrame{
 	
@@ -96,7 +99,10 @@ public class Planning extends JFrame{
      	this.add(panelD);
      	//prueba commit
      	
-     	this.setVisible(true);
 		
 	}
+	public void open() {
+        setVisible(true);
+	}
+
 }

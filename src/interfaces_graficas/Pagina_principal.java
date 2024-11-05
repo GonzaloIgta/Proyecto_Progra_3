@@ -23,13 +23,34 @@ import clases_de_apyo.Rutina.Objetivo_de_la_sesion;
 import clases_de_apyo.estilo_natacion;
 
 public class Pagina_principal extends JFrame{
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1;
 
 	
 
 	public Pagina_principal() {
+		ArrayList<Rutina> rutinas = new ArrayList<>();
+        rutinas.add(new Rutina("Rutina de Fuerza", Rutina.Objetivo_de_la_sesion.MUSCULACION, new ArrayList<>()));
+        rutinas.add(new Rutina("Rutina de Cardio", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, new ArrayList<>()));
+        rutinas.add(new Rutina("Rutina de Resistencia", Rutina.Objetivo_de_la_sesion.CARDIOVASCULAR, new ArrayList<>()));
+        ArrayList<Ejercicio> ejerciciosMusculacion = new ArrayList<>();
+        ejerciciosMusculacion.add(new Ejercicio_gym("Press de banca", "ubicacion_foto", Musculo_trabajado.PECHO, 10, 4, 60));
+        ejerciciosMusculacion.add(new Ejercicio_gym("Sentadilla", "ubicacion_foto", Musculo_trabajado.PIERNA, 12, 4, 80));
+        ejerciciosMusculacion.add(new Ejercicio_gym("Remo con barra", "ubicacion_foto", Musculo_trabajado.ESPALDA, 10, 3, 50));
+        ejerciciosMusculacion.add(new Ejercicio_gym("Curl de bíceps", "ubicacion_foto", Musculo_trabajado.TRICEPS, 12, 3, 20));
+        ejerciciosMusculacion.add(new Ejercicio_Natacion("Natación estilo libre", "ubicacion_foto", estilo_natacion.ESPALDA, 1.0f, 30.0f));
+        ejerciciosMusculacion.add(new Ejercicio_Natacion("Natación de espalda", "ubicacion_foto", estilo_natacion.MARIPOSA, 0.8f, 35.0f));
+        ejerciciosMusculacion.add(new Ejercicio_runing("Correr en la pista", "ubicacion_foto", 5, 30));
+        ejerciciosMusculacion.add(new Ejercicio_runing("Correr en la calle", "ubicacion_foto", 10, 60));
+        Rutina rutinaMusculacion = new Rutina("Rutina de Musculación", Objetivo_de_la_sesion.MUSCULACION, ejerciciosMusculacion);
+        rutinas.add(rutinaMusculacion);
+        
+		Rutinas_guardadas rutinas_guardadas = new Rutinas_guardadas(rutinas);
+
+		Nueva_Rutina nueva_rutina = new Nueva_Rutina();
 		
-		
+		Planning planing = new Planning();
+        
+        
 		// Creamos la ventana y definimos distribucion
 		
 		JPanel ventana_principal = new JPanel();
@@ -94,7 +115,7 @@ public class Pagina_principal extends JFrame{
 		
 		ActionListener listener_boton_planning = e -> {
 				
-			new Planning();
+			planing.open();
 			dispose();
 			};
 		planning.addActionListener(listener_boton_planning);
@@ -104,23 +125,8 @@ public class Pagina_principal extends JFrame{
 		
 		
 		ActionListener listener_rutinas_guardadas = e -> {
-			ArrayList<Rutina> rutinas = new ArrayList<>();
-		        rutinas.add(new Rutina("Rutina de Fuerza", Rutina.Objetivo_de_la_sesion.MUSCULACION, new ArrayList<>()));
-		        rutinas.add(new Rutina("Rutina de Cardio", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, new ArrayList<>()));
-		        rutinas.add(new Rutina("Rutina de Resistencia", Rutina.Objetivo_de_la_sesion.CARDIOVASCULAR, new ArrayList<>()));
-		        ArrayList<Ejercicio> ejerciciosMusculacion = new ArrayList<>();
-		        ejerciciosMusculacion.add(new Ejercicio_gym("Press de banca", "ubicacion_foto", Musculo_trabajado.PECHO, 10, 4, 60));
-		        ejerciciosMusculacion.add(new Ejercicio_gym("Sentadilla", "ubicacion_foto", Musculo_trabajado.PIERNA, 12, 4, 80));
-		        ejerciciosMusculacion.add(new Ejercicio_gym("Remo con barra", "ubicacion_foto", Musculo_trabajado.ESPALDA, 10, 3, 50));
-		        ejerciciosMusculacion.add(new Ejercicio_gym("Curl de bíceps", "ubicacion_foto", Musculo_trabajado.TRICEPS, 12, 3, 20));
-		        ejerciciosMusculacion.add(new Ejercicio_Natacion("Natación estilo libre", "ubicacion_foto", estilo_natacion.ESPALDA, 1.0f, 30.0f));
-		        ejerciciosMusculacion.add(new Ejercicio_Natacion("Natación de espalda", "ubicacion_foto", estilo_natacion.MARIPOSA, 0.8f, 35.0f));
-		        ejerciciosMusculacion.add(new Ejercicio_runing("Correr en la pista", "ubicacion_foto", 5, 30));
-		        ejerciciosMusculacion.add(new Ejercicio_runing("Correr en la calle", "ubicacion_foto", 10, 60));
-
-		        Rutina rutinaMusculacion = new Rutina("Rutina de Musculación", Objetivo_de_la_sesion.MUSCULACION, ejerciciosMusculacion);
-		        rutinas.add(rutinaMusculacion);
-			new Rutinas_guardadas(rutinas);
+			
+			rutinas_guardadas.open();
 			dispose();
 			//HAY QUE PASARLE RUTINAS
         };

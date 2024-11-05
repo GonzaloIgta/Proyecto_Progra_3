@@ -186,15 +186,18 @@ public class Rutinas_guardadas extends JFrame {
         this.setSize(ancho, alto);
         this.setResizable(true);
         setLocationRelativeTo(null);
-        setVisible(true);
         ventana_principal.add(ventanadondetablas,BorderLayout.CENTER);
         this.add(ventana_principal);
-        JOptionPane.showMessageDialog(null, "Control + x para volver a la pagina principal");
         
     }
 
 
+    public void open() {
+        setVisible(true);
+        JOptionPane.showMessageDialog(null, "Control + x para volver a la pagina principal");
 
+
+    }
 
     public Rutina getRutinaSeleccionada() {
     	return rutina_seleccionada;
