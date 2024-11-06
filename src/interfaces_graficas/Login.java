@@ -49,6 +49,8 @@ public class Login extends JFrame implements ActionListener {
         botonLogin.addActionListener(this);
         panelBoton.add(botonLogin);
         panel.add(panelBoton);
+        
+        getRootPane().setDefaultButton(botonLogin);
 
         //Estado del login
         statusLabel = new JLabel(" ");
@@ -77,6 +79,8 @@ public class Login extends JFrame implements ActionListener {
             statusLabel.setText("Login exitoso");
             JOptionPane.showMessageDialog(this, "Bienvenido " + username + "!");
             new Pagina_principal();
+            dispose();
+            
         } else {
             statusLabel.setText("Usuario o contraseña incorrectos");
         }
