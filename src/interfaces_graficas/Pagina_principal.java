@@ -46,7 +46,6 @@ public class Pagina_principal extends JFrame{
         
 		Rutinas_guardadas rutinas_guardadas = new Rutinas_guardadas(rutinas);
 
-		Nueva_Rutina nueva_rutina = new Nueva_Rutina();
 		
 		Planning planing = new Planning();
         
@@ -139,7 +138,7 @@ public class Pagina_principal extends JFrame{
 		
 		//BOTON AÑADIR RUTINA ---------------------------
 		JButton boton_añadir_rutina = new JButton("Añadir nueva rutina");
-		
+		Nueva_Rutina nueva_rutina = new Nueva_Rutina();
 		boton_añadir_rutina.setPreferredSize(new Dimension(150,70));
 		boton_añadir_rutina.setFocusable(false);
 		gbc.gridx = 0;
@@ -151,7 +150,7 @@ public class Pagina_principal extends JFrame{
 		ventana_principal.add(boton_añadir_rutina,gbc);
 		ActionListener listener_boton_añadir = e -> {
 			
-			new Nueva_Rutina();
+			nueva_rutina.open();
 			dispose();
 	        };
 	        boton_añadir_rutina.addActionListener(listener_boton_añadir);
