@@ -1,13 +1,14 @@
 package main;
 
-import interfaces_graficas.Pagina_principal;
+import interfaces_graficas.Login;
+
 
 public class Main {
 
 	public static void main(String[] args) {
-		 Pagina_principal pagina = new Pagina_principal();
+		new Login();
 
-//hola
+
 	}
 
 }
