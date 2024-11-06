@@ -86,6 +86,8 @@ public class Asinarrutina extends JFrame {
 
 	 public void asignarRutina(String dia, String mes, String año, Rutina rutina_a_asignar) {
 	        JOptionPane.showMessageDialog(this, "FALTA QUE IMPLEMENTEIS EL COMO RECIBIRLA EN EL PLANING");
+	        JOptionPane.showMessageDialog(this, "Rutina asignada para el"+dia+"/"+mes+"/"+dia);
+	        this.dispose();
 	    }
    
 
