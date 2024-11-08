@@ -18,8 +18,8 @@ public class Login extends JFrame implements ActionListener {
     private boolean mostrandoContraseña = false; 
     
     // Usuario y contraseña predeterminados
-    private final String USUARIO = "Erik";
-    private final String CONTRASEÑA = "1234";
+    private final String USUARIO = "";
+    private final String CONTRASEÑA = "";
 
     public Login() {
         // Configuración de la ventana
