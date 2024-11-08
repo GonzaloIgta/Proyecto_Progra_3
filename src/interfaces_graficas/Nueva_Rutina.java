@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Arrays;
 import java.util.Vector;
 import javax.swing.ImageIcon;
@@ -40,7 +42,28 @@ public class Nueva_Rutina extends JFrame{
 		JScrollPane scrollPane = new JScrollPane(this.tablaRutina);
 	    ventana_central_MuestraRutinas = new JPanel(new BorderLayout());
 		
-		
+		KeyListener keylistener = new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				//CUANDO SE PRESIONE CTRL X VOLVER A LA PAGINA PRINCIPAl
+				if(e.isControlDown() && e.getKeyCode()==88) {
+					new Pagina_principal();
+					dispose();
+				}
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+			}
+			
+		};
 
 		//FUENTE-EXTERNA
 		//URL: (https://chuidiang.org/index.php?title=Uso_de_Layouts)

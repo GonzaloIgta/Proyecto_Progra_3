@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import clases_de_apyo.Ejercicio;
@@ -46,6 +47,7 @@ public class Pagina_principal extends JFrame{
         
 		Rutinas_guardadas rutinas_guardadas = new Rutinas_guardadas(rutinas);
 
+        JOptionPane.showMessageDialog(null, "Control + x para volver a la desde cualquier pagina principal");
 		
 		Planning planing = new Planning();
         

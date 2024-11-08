@@ -33,7 +33,7 @@ public class Planning extends JFrame{
      	this.setLocationRelativeTo(null);
      	
      	this.setLayout(new GridLayout(1,7));
-     	
+
      	for(int i =1; i <= 7; i++){
      		JPanel panel = new JPanel();
          	panel.setLayout(new GridLayout(2,1));

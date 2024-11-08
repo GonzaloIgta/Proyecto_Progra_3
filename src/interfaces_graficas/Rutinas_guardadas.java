@@ -194,7 +194,6 @@ public class Rutinas_guardadas extends JFrame {
 
     public void open() {
         setVisible(true);
-        JOptionPane.showMessageDialog(null, "Control + x para volver a la pagina principal");
 
 
     }
