@@ -56,7 +56,6 @@ public class Asinarrutina extends JFrame {
         JComboBox<String> añoComboBox = new JComboBox<>(años);
         añoComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
 
-        // Crear botón para añadir rutina
         JButton agregarButton = new JButton("Añadir Rutina");
         agregarButton.setFont(new Font("Arial", Font.BOLD, 16));
         agregarButton.addActionListener(e -> {
