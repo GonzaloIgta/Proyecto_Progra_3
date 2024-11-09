@@ -9,9 +9,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -24,12 +23,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-
+import clases_de_apyo.Rescalar_imagen;
 import clases_de_apyo.Rutina;
 
 public class Planning extends JFrame{
-	
+
+	private static final long serialVersionUID = 1;
 	int contadorRutina;
 	private ArrayList<Rutina> rutinasGuardadas;
 	JButton botonAgregarRutina;
@@ -38,8 +37,8 @@ public class Planning extends JFrame{
 	
 	public Planning(ArrayList<Rutina> rutinasGuardadas){
 		this.rutinasGuardadas = rutinasGuardadas;
-        
-        //titulo de la ventana
+        ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
+        this.setIconImage(icono.getImage());
         this.setTitle("Planning Semanal");
         
 		float escalar = 0.7F; // una ventana al 50% del tamaño de la pantalla
@@ -53,12 +52,13 @@ public class Planning extends JFrame{
      			
      	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
      	     	
-     	//Panel con grid layout con 7 columnas para cada dia de la semana
      	JPanel panelPrincipal = new JPanel(new GridLayout(1,7));
      	
-     	JButton botonVolver = new JButton("Volver al Menu Principal"); //nuevo boton para volver al menu principal
+     	JButton botonVolver = new JButton(); 
      	botonVolver.setFocusable(false);
-     	
+     	Rescalar_imagen rescalar = new Rescalar_imagen();
+        rescalar.setScaledImage(botonVolver, "/resourses/images/casa.png", 20, 20);
+
      	botonVolver.addActionListener(new ActionListener() {  //listener del boton
 			
 			@Override
@@ -68,8 +68,8 @@ public class Planning extends JFrame{
 			}
 		});
      	
-     	JPanel panelVolver = new JPanel(new FlowLayout(FlowLayout.LEFT)); //nuevo panel para meter el boton y lo ponemos a la izquierda
-     	panelVolver.add(botonVolver); //añadimos boton al panel
+     	JPanel panelVolver = new JPanel(new FlowLayout(FlowLayout.LEFT));
+     	panelVolver.add(botonVolver); 
      	
      	
      	String[] diaSemana = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
@@ -92,14 +92,12 @@ public class Planning extends JFrame{
      		panelRutinas.setBorder(new EmptyBorder(30, 0, 0, 0)); //Añade separacion vertical del panel de las rutinas (el del centro con el del north)
      		
      		
-     		//Crear jlabel no hay rutinas
      		JLabel mensajeSinRutinas = new JLabel("No hay ninguna rutina");
      		mensajeSinRutinas.setForeground(Color.RED);  //color de letra rojo
      		mensajeSinRutinas.setHorizontalAlignment(JLabel.CENTER); // Aseguramos que el texto este centrado
      		mensajeSinRutinas.setVerticalAlignment(JLabel.CENTER);
      		mensajeSinRutinas.setPreferredSize(new Dimension(200, 60)); // Establecemos un tamaño preferido para que el texto pueda envolver
 
-     		//añadir jlabel para iniciar 
      		panelRutinas.add(mensajeSinRutinas);
      		
 
@@ -121,7 +119,6 @@ public class Planning extends JFrame{
 				} 
 			});
      		
-     		//Añadir el nombre del dia y su panel con rutinas y botones
      		panelDia.add(labelDia, BorderLayout.NORTH);
      		panelDia.add(panelRutinas, BorderLayout.CENTER);
      		panelDia.add(botonAgregarRutina,BorderLayout.SOUTH);

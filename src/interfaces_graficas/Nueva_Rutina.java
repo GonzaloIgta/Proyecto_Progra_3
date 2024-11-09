@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -19,12 +17,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.tree.DefaultMutableTreeNode;
-
 import clases_de_apyo.Ejercicio_gym.MuscBrazos;
 import clases_de_apyo.Ejercicio_gym.MuscPierna;
 import clases_de_apyo.Ejercicio_gym.MuscTorso;
@@ -53,28 +48,7 @@ public class Nueva_Rutina extends JFrame{
 		JScrollPane scrollPane = new JScrollPane(this.tablaRutina);
 	    ventana_central_MuestraRutinas = new JPanel(new BorderLayout());
 		
-		KeyListener keylistener = new KeyListener() {
-			
-			@Override
-			public void keyTyped(KeyEvent e) {
-				
-			}
-			@Override
-			public void keyPressed(KeyEvent e) {
-				//CUANDO SE PRESIONE CTRL X VOLVER A LA PAGINA PRINCIPAl
-				if(e.isControlDown() && e.getKeyCode()==88) {
-					new Pagina_principal();
-					dispose();
-				}
-				
-			}
 
-			@Override
-			public void keyReleased(KeyEvent e) {
-				
-			}
-			
-		};
 
 
 		//FUENTE-EXTERNA
@@ -169,9 +143,8 @@ public class Nueva_Rutina extends JFrame{
 		
 		
 		//añadimos el icono de la aplicacion en la parte de arriba
-		ImageIcon icono_aplicacion = new ImageIcon("resourses/images/logotipo.png");
-		
-	
+        ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
+        this.setIconImage(icono.getImage());
         
     
         
@@ -216,7 +189,9 @@ public class Nueva_Rutina extends JFrame{
         // Crear el modelo de datos de la tabla
         this.modeloDatosTablaRutina = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraTabla);
 		this.tablaRutina = new JTable(this.modeloDatosTablaRutina) {
-			
+
+			private static final long serialVersionUID = 1L;
+
 		public boolean isCellEditable(int row, int column) {
 				
 				if(column==3) {

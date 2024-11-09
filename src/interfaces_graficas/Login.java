@@ -8,8 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Login extends JFrame implements ActionListener {
-    
-    private JTextField texto_usuario;
+
+	private static final long serialVersionUID = 1L;
+	private JTextField texto_usuario;
     private JPasswordField texto_contraseña;
     private JButton botonLogin;
     private JLabel statusLabel;

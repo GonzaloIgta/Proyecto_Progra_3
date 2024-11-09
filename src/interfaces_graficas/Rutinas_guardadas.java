@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
@@ -13,7 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.CellEditor;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,20 +26,16 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-
 import clases_de_apyo.Ejercicio;
 import clases_de_apyo.Ejercicio_Natacion;
 import clases_de_apyo.Ejercicio_gym;
 import clases_de_apyo.Ejercicio_runing;
 import clases_de_apyo.Modelo_de_datos_ejercicio;
 import clases_de_apyo.Modelo_de_datos_rutinas;
-import clases_de_apyo.Musculo_trabajado;
 import clases_de_apyo.Rescalar_imagen;
 import clases_de_apyo.Rutina;
-import clases_de_apyo.estilo_natacion;
 
 public class Rutinas_guardadas extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -59,11 +54,12 @@ public class Rutinas_guardadas extends JFrame {
     private JPanel ventanadondetablas;
     private GridBagConstraints constantes_ej = new GridBagConstraints();
     private Rutina rutina_seleccionada;
-    private Rescalar_imagen rescala = new Rescalar_imagen();
+    private JButton boton_asignar;
 
     public Rutinas_guardadas(ArrayList<Rutina> rutinas) {
         this.rutinas = rutinas;
-
+        ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
+        this.setIconImage(icono.getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("DEUSTOGYM");
 
@@ -112,7 +108,8 @@ public class Rutinas_guardadas extends JFrame {
         }
         ventana_principal.add(panel_de_abajo, BorderLayout.SOUTH);
 
-        JButton boton_asignar = new JButton("Asignar");
+        boton_asignar = new JButton("Asignar");
+        boton_asignar.setEnabled(false);
         ActionListener listener_boton_asignar = e -> {
             new Asinarrutina(this);
         };
@@ -187,9 +184,9 @@ public class Rutinas_guardadas extends JFrame {
         this.scrollPanelRutinas = new JScrollPane(tablaRutinas);
         scrollPanelRutinas.setBorder(new TitledBorder("Rutinas"));
         TableColumn columnaID = tabla_rutinas.getColumnModel().getColumn(2);
-        columnaID.setPreferredWidth(20);
+        columnaID.setPreferredWidth(30);
         columnaID = tabla_rutinas.getColumnModel().getColumn(1);
-        columnaID.setPreferredWidth(150);
+        columnaID.setPreferredWidth(120);
 
         TableCellRenderer cellRenderer = new TableCellRenderer() {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -237,14 +234,35 @@ public class Rutinas_guardadas extends JFrame {
         modelo_de_datos_ejercicio.fireTableDataChanged();
         scrollPanelejercicios.setViewportView(tabla_ejercicios);
         tabla_ejercicios.setRowHeight(40);
+        TableCellRenderer cellRenderer = new TableCellRenderer() {
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                JLabel jlabel = new JLabel();
+                jlabel.setVerticalAlignment(SwingConstants.CENTER);
+
+              if (column == 2) {
+                  rescalar.setScaledImage(jlabel, "/resourses/images/falta_implementar.png", 60, 40);
+                  jlabel.setVerticalAlignment(SwingConstants.CENTER); 
+                  jlabel.setHorizontalAlignment(SwingConstants.CENTER); 
+              } else {
+            	  jlabel.setText((String) value);
+              }
+
+                if (isSelected) {
+                    jlabel.setBackground(tabla_ejercicios.getSelectionBackground());
+                }
+
+                return jlabel;
+            }
+        };
+        tabla_ejercicios.setDefaultRenderer(Object.class, cellRenderer);
     }
 
     private void actualizar_barras(int row) {
+    	boton_asignar.setEnabled(true);
         barra_gym.setValue(0);
         barra_natacion.setValue(0);
         barra_running.setValue(0);
 
-        int totalEjercicios = 0;
         for (int i = 0; i < rutina_seleccionada.getLista_ejercicios().size(); i++) {
             Ejercicio ejercicio = rutina_seleccionada.getLista_ejercicios().get(i);
             if (ejercicio instanceof Ejercicio_gym) {
@@ -255,20 +273,23 @@ public class Rutinas_guardadas extends JFrame {
                 barra_running.setValue(barra_running.getValue() + 1);
             }
         }
+        barra_gym.setValue((barra_gym.getValue()*100)/rutina_seleccionada.getNumeroEjercicios());
+        barra_natacion.setValue((barra_natacion.getValue()*100)/rutina_seleccionada.getNumeroEjercicios());
+        barra_running.setValue((barra_running.getValue()*100)/rutina_seleccionada.getNumeroEjercicios());
     }
 
     private void initbarras() {
-        barra_gym = new JProgressBar(0, 20);
+        barra_gym = new JProgressBar(0, 100);
         barra_gym.setStringPainted(true);
         barra_gym.setForeground(new Color(90, 155, 121));
         barra_gym.setString("Ejercicios en Gym");
 
-        barra_natacion = new JProgressBar(0, 10);
+        barra_natacion = new JProgressBar(0, 100);
         barra_natacion.setStringPainted(true);
         barra_natacion.setForeground(new Color(30, 144, 255));
         barra_natacion.setString("Ejercicios en Natacion");
 
-        barra_running = new JProgressBar(0, 10);
+        barra_running = new JProgressBar(0, 100);
         barra_running.setStringPainted(true);
         barra_running.setForeground(new Color(238, 44, 44));
         barra_running.setString("Ejercicios en Running");

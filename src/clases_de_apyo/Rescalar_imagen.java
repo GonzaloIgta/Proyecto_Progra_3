@@ -12,12 +12,12 @@ import javax.swing.JLabel;
 public class Rescalar_imagen {
 
 	public Rescalar_imagen() {}
-    public void setScaledImage(JLabel jlabel, String imagePath, int width, int height) {
+    public void setScaledImage(JLabel jlabel, String imagePath, int widthancho, int heightalto) {
         // Cargar la imagen desde el recurso
         ImageIcon originalIcon = new ImageIcon(this.getClass().getResource(imagePath));
         
         // Escalar la imagen al tamaño deseado
-        Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(widthancho, heightalto, Image.SCALE_SMOOTH);
         
         // Crear un nuevo ImageIcon con la imagen escalada y establecerlo en el JLabel
         jlabel.setIcon(new ImageIcon(scaledImage));
