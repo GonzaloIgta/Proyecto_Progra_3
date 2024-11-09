@@ -7,6 +7,29 @@ public class Ejercicio_gym extends  Ejercicio{
 	protected int repeticiones,series, peso;
 	public Musculo_trabajado musculo_trabajado;
 
+	
+	public enum PartesDelCuerpo{
+		
+		Brazos, Torso, Pierna;
+	}
+	public enum MuscBrazos{
+		
+		Triceps, Biceps, Antebrazo, Hombro;
+		
+	}
+	public enum MuscTorso{
+		
+		Pecho, Abdominales, EspaldaSuperior, EspaldaInferior; 
+		
+	}
+	
+	public enum MuscPierna{
+		
+		Gluteo, Isquiotibiales, Aductor, Femoral, Cuádriceps, 
+		
+	}
+	
+	
 	public Ejercicio_gym(String nombre, String ubicacion_foto, Musculo_trabajado musculo_trabajado,
 			int repeticiones, int series,int peso) {
 		super(nombre, ubicacion_foto);
@@ -74,3 +97,4 @@ public class Ejercicio_gym extends  Ejercicio{
 	
 	
 }
+

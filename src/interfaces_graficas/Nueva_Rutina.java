@@ -9,16 +9,27 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Arrays;
 import java.util.Vector;
+
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import clases_de_apyo.Ejercicio_gym.MuscBrazos;
+import clases_de_apyo.Ejercicio_gym.MuscPierna;
+import clases_de_apyo.Ejercicio_gym.MuscTorso;
+import clases_de_apyo.Ejercicio_gym.PartesDelCuerpo;
+
 
 
 public class Nueva_Rutina extends JFrame{
@@ -63,7 +74,8 @@ public class Nueva_Rutina extends JFrame{
 				
 			}
 			
-		};
+		};
+
 
 		//FUENTE-EXTERNA
 		//URL: (https://chuidiang.org/index.php?title=Uso_de_Layouts)
@@ -83,7 +95,7 @@ public class Nueva_Rutina extends JFrame{
 
 			ventana_central_MuestraRutinas.add(init_tabla_fuerza());
 			
-			ventana_central_MuestraRutinas.revalidate(); // FUENTE EXTERNA: revalidate y repaing sacados con ayuda de ChatGPT
+			ventana_central_MuestraRutinas.revalidate(); // FUENTE EXTERNA: revalidate y repaint sacados con ayuda de ChatGPT
           	ventana_central_MuestraRutinas.repaint();
         };
         
@@ -104,7 +116,7 @@ public class Nueva_Rutina extends JFrame{
 
 			ventana_central_MuestraRutinas.add(init_tabla_cardio());
 			
-			ventana_central_MuestraRutinas.revalidate(); // FUENTE EXTERNA: revalidate y repaing sacados con ayuda de ChatGPT
+			ventana_central_MuestraRutinas.revalidate(); // FUENTE EXTERNA: revalidate y repaint sacados con ayuda de ChatGPT
           	ventana_central_MuestraRutinas.repaint();
         };
         
@@ -120,7 +132,7 @@ public class Nueva_Rutina extends JFrame{
 
 			ventana_central_MuestraRutinas.add(init_tabla_natacion());
 			
-			ventana_central_MuestraRutinas.revalidate(); // FUENTE EXTERNA: revalidate y repaing sacados con ayuda de ChatGPT
+			ventana_central_MuestraRutinas.revalidate(); // FUENTE EXTERNA: revalidate y repaint sacados con ayuda de ChatGPT
           	ventana_central_MuestraRutinas.repaint();
         };
         
@@ -140,16 +152,16 @@ public class Nueva_Rutina extends JFrame{
 		
 		//ventana_nueva_rutina.setLayout(new GridBagLayout());
 		
+		/*
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("Ejercicio");
 		CrearNodos(top);
 		JTree arbolSeleccionEjercicios = new JTree(top);
 		
+				
 		
 		
 		
-		
-		
-		ventanaPrincipal_nuevaRutina.add(arbolSeleccionEjercicios, BorderLayout.WEST);
+		ventanaPrincipal_nuevaRutina.add(arbolSeleccionEjercicios, BorderLayout.WEST);*/
 		ventanaPrincipal_nuevaRutina.add(ventana_central_MuestraRutinas);
         
         
@@ -191,6 +203,7 @@ public class Nueva_Rutina extends JFrame{
 		this.add(ventanaPrincipal_nuevaRutina);
 
 	}
+	//hgghfghfghf
 	
 	public void open() {
         setVisible(true);
@@ -198,15 +211,115 @@ public class Nueva_Rutina extends JFrame{
 	private JScrollPane init_tabla_fuerza(){
         // Crear cabecera de la tabla
         Vector<String> cabeceraTabla = new Vector<String>(
-            Arrays.asList("Tipo Entrenamiento", "Musculo", "Foto", "Series", "Repeticiones")
+            Arrays.asList("Parte Del Cuerpo","Musculo","Ejercicio", "Foto", "Series")
         );
         // Crear el modelo de datos de la tabla
         this.modeloDatosTablaRutina = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraTabla);
+		this.tablaRutina = new JTable(this.modeloDatosTablaRutina) {
+			
+		public boolean isCellEditable(int row, int column) {
+				
+				if(column==3) {
+					return false;
+				}
+				else {
+					return true;
+				}
+			}
+		};
+        this.modeloDatosTablaRutina.setRowCount(1);
+        
+        
+        
+        
+        
 
-        // Crear la tabla y configurar celdas editables
-        JTable tablaRutina = new JTable(this.modeloDatosTablaRutina);
-        tablaRutina.setVisible(true);
+        TableCellRenderer cellRenderer = (table, value, isSelected, hasFocus, row, column) -> {
+        	JLabel resultcell = new JLabel();
+
+        	
+            if (value != null) {
+            	resultcell.setText(value.toString());
+            }
+        	
+        	
+        	        	       	     	
+        	return resultcell;
+        	
+        	
+        };
+        
+   
+
+        JComboBox<PartesDelCuerpo> cbParteCuerpo = new JComboBox<>(PartesDelCuerpo.values());		
+        tablaRutina.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cbParteCuerpo));
+        
+		
+		ActionListener parteCuerpolistener = e -> {
+			
+			if(cbParteCuerpo.getSelectedItem() != null) {
+				if(cbParteCuerpo.getSelectedItem().equals(PartesDelCuerpo.Brazos)) {
+			        JComboBox<MuscBrazos> cbMusculo= new JComboBox<>(MuscBrazos.values());		
+			        tablaRutina.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbMusculo));
+
+				}
+				else if(cbParteCuerpo.getSelectedItem().equals(PartesDelCuerpo.Torso)) {
+					JComboBox<MuscTorso> cbMusculo= new JComboBox<>(MuscTorso.values());		
+			        tablaRutina.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbMusculo));
+
+				}
+				else if(cbParteCuerpo.getSelectedItem().equals(PartesDelCuerpo.Pierna)) {
+					
+					JComboBox<MuscPierna> cbMusculo= new JComboBox<>(MuscPierna.values());		
+			        tablaRutina.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbMusculo));
+				}
+				
+			}
+
+            
+        };
+ 	
+      cbParteCuerpo.addActionListener(parteCuerpolistener);
+        	
+     
+      String[] series = {"1","2","3","4","5","6"};
+      JComboBox<String> cbSeries = new JComboBox<>(series);		
+      tablaRutina.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(cbSeries));
+      
+      ActionListener listenerCrearFilaNueva = e ->{
+      	
+      	if(cbSeries.getSelectedItem()!=null && tablaRutina.getEditingRow() == modeloDatosTablaRutina.getRowCount() - 1 ) {
+      		
+      		modeloDatosTablaRutina.addRow(new Object[] { "", "", "", null });      	
+      		
+      	}
+      	
+      	
+      };
+      
+      
+      cbSeries.addActionListener(listenerCrearFilaNueva);
+        
+        
+        
+        
+        
+        // Crear la tabla
+        this.tablaRutina.setVisible(true);
+        this.tablaRutina.setDefaultRenderer(Object.class, cellRenderer);
+		//Se deshabilita la reordenación de columnas
+		this.tablaRutina.getTableHeader().setReorderingAllowed(false);
+		//Se deshabilita el redimensionado de las columna
+		this.tablaRutina.getTableHeader().setResizingAllowed(false);
+		//Se definen criterios de ordenación por defecto para cada columna
+		this.tablaRutina.setAutoCreateRowSorter(true);
+		
+
+
+		this.tablaRutina.setRowHeight(26);
+		
         JScrollPane scrollPane = new JScrollPane(tablaRutina);
+        scrollPane.setBorder(new TitledBorder("Rutina De Fuerza: "));
 
         return scrollPane;
         
@@ -219,7 +332,10 @@ public class Nueva_Rutina extends JFrame{
             );
             // Crear el modelo de datos de la tabla
             this.modeloDatosTablaRutina = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraTabla);
+            this.modeloDatosTablaRutina.setRowCount(1);
 
+            
+            
             // Crear la tabla y configurar celdas editables
             JTable tablaRutina = new JTable(this.modeloDatosTablaRutina);
             tablaRutina.setVisible(true);
@@ -236,6 +352,7 @@ public class Nueva_Rutina extends JFrame{
                 );
                 // Crear el modelo de datos de la tabla
                 this.modeloDatosTablaRutina = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraTabla);
+                this.modeloDatosTablaRutina.setRowCount(1);
 
                 // Crear la tabla y configurar celdas editables
                 JTable tablaRutina = new JTable(this.modeloDatosTablaRutina);
@@ -245,10 +362,14 @@ public class Nueva_Rutina extends JFrame{
                 return scrollPane;
                 
                 };
+            
+            
                 
              //   #FUENTE EXTERNA: Hemos tomado como referencia esta URL:
              //   https://docs.oracle.com/javase/tutorial/uiswing/components/tree.html
-            private void CrearNodos(DefaultMutableTreeNode top) {
+            
+                
+            /*private void CrearNodos(DefaultMutableTreeNode top) {
             	DefaultMutableTreeNode ejercicio = null;
 
             	DefaultMutableTreeNode categ1 = new DefaultMutableTreeNode("Torso") ; 
@@ -295,15 +416,9 @@ public class Nueva_Rutina extends JFrame{
             	
             	ejercicio = new DefaultMutableTreeNode("Glúteos");
             	categ3.add(ejercicio);
-            	
-
-
-
-            	
-            	
-            	
+            	                       	
             }
+          */
                 
                 
     }
-
