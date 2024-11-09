@@ -8,16 +8,19 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -26,9 +29,15 @@ import javax.swing.table.TableModel;
 import clases_de_apyo.Rutina;
 
 public class Planning extends JFrame{
+	
 	int contadorRutina;
-	public Planning(){
-		
+	private ArrayList<Rutina> rutinasGuardadas;
+	JButton botonAgregarRutina;
+	JButton eliminarBoton;
+	
+	
+	public Planning(ArrayList<Rutina> rutinasGuardadas){
+		this.rutinasGuardadas = rutinasGuardadas;
         
         //titulo de la ventana
         this.setTitle("Planning Semanal");
@@ -95,63 +104,21 @@ public class Planning extends JFrame{
      		
 
      		
-     		JButton botonAgregarRutina = new JButton("+");
+     		JButton botonAgregarRutina = new JButton("Añadir Rutina");
+     		
      		botonAgregarRutina.setFocusable(false);
+     		
      		botonAgregarRutina.addActionListener(new ActionListener() {
 				int contadorRutina = 0;
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (contadorRutina < 5) {
 						
-						JPanel panelRutina = new JPanel();
-						JButton rutinaBoton = new JButton("Rutina" + (contadorRutina + 1));
-						rutinaBoton.setFocusable(false);
-						JButton eliminarBoton = new JButton("Eliminar");
-
-						eliminarBoton.setFocusable(false);
+						botonAgregarRutina.setEnabled(true);
+						mostrarRutinasGuardadas(panelRutinas, mensajeSinRutinas);
 						
-						eliminarBoton.addActionListener(new ActionListener() {
-							
-							@Override
-							public void actionPerformed(ActionEvent e) {
-							panelRutinas.remove(panelRutina);
-							panelRutinas.revalidate();  // Actualiza el panel
-                            panelRutinas.repaint();  // Redibuja el panel
-							
-							contadorRutina--;
-						
-							if (contadorRutina < 5) {
-								botonAgregarRutina.setEnabled(true);
-							}
-							
-							
-							if(contadorRutina == 0 ) {
-								panelRutinas.add(mensajeSinRutinas);
-								panelRutinas.revalidate();
-								panelRutinas.repaint();
-							}
-							
-							
-							}
-						});
-						
-						panelRutina.add(rutinaBoton);
-						panelRutina.add(eliminarBoton);
-						panelRutinas.add(panelRutina);
-						panelRutinas.revalidate();  // Actualiza el panel para enseñar la nueva rutina
-                        panelRutinas.repaint();  // Redibuja el panel
-                        contadorRutina++;
-                        
-                        if (contadorRutina > 0) {
-                        	panelRutinas.remove(mensajeSinRutinas);
-                        	panelRutinas.revalidate(); // Actualiza el panel para eliminar el mensaje
-                            panelRutinas.repaint(); // Redibuja el panel
-                        } 
-       
-					} else {
-                        	botonAgregarRutina.setEnabled(false);
-                        }
-				}
+					} 
+				} 
 			});
      		
      		//Añadir el nombre del dia y su panel con rutinas y botones
@@ -168,10 +135,118 @@ public class Planning extends JFrame{
      	add(panelPrincipal,BorderLayout.CENTER);
      	add(panelVolver,BorderLayout.NORTH);
      	
-     	 	
-     	
      	
 	}
+     	
+     public void mostrarRutinasGuardadas(JPanel panelRutinas, JLabel mensajeSinRutinas) {
+     	    JDialog dialogoRutinas = new JDialog(this, "Seleccionar Rutina", true); // ventana modal
+     	    dialogoRutinas.setSize(400, 300);
+     	    dialogoRutinas.setLocationRelativeTo(this);
+     	    
+     	    ArrayList<Rutina> listaRutinas = obtenerRutinasGuardadas();
+
+     	    String[] columnas = {"Nombre de Rutina"};
+     	    DefaultTableModel modeloTabla = new DefaultTableModel(columnas,0);
+     	    
+     	    for (Rutina rutina : listaRutinas) {
+     	    	modeloTabla.addRow(new Object[] {rutina.getNombre()} );
+     	    }
+     	    
+     	    JTable tablaRutinas = new JTable(modeloTabla); 
+     	    tablaRutinas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+     	    
+     	    JScrollPane scrollPane = new JScrollPane(tablaRutinas);
+     	    
+     	    dialogoRutinas.add(scrollPane,BorderLayout.CENTER);
+     	    
+     	    
+     	    JButton botonSeleccionar = new JButton("Agregar Rutina");
+     	    
+     	    botonSeleccionar.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					int filaSeleccionada = tablaRutinas.getSelectedRow();
+	     	    	if (filaSeleccionada != -1) {
+	     	    		Rutina rutinaSeleccionada = listaRutinas.get(filaSeleccionada);
+	     	    		agregarRutinaAPlanning(panelRutinas, mensajeSinRutinas, rutinaSeleccionada.getNombre());      	    		//LE PASAMOS EL PANEL DEL DIA, EL MENSAJE DE SIN RUTINAS POR SI LO TIENE QUE PONER, Y EL NOMBRE DE LA RUTINA
+	     	    		dialogoRutinas.dispose();
+	     	    		
+	     	    	}else {
+	     	    		JOptionPane.showMessageDialog(dialogoRutinas, "Seleccione una rutina para agregar","Advertencia",JOptionPane.WARNING_MESSAGE);
+	     	    	}
+				}
+			});
+     	    
+     	    dialogoRutinas.add(botonSeleccionar,BorderLayout.SOUTH);
+     	    dialogoRutinas.setVisible(true);
+
+     	    
+    }
+     
+     private void agregarRutinaAPlanning(JPanel panelRutinas, JLabel mensajeSinRutinas,String nombreRutina) {
+    	 
+    	 JPanel panelRutina = new JPanel();
+    	 
+    	 JButton rutinaBoton = new JButton(nombreRutina);
+    	 
+    	 rutinaBoton.setFocusable(false);
+    	 
+    	 JButton eliminarRutina = new JButton("Eliminar");
+    	 
+    	 eliminarRutina.setFocusable(false);
+    	 
+    	 eliminarRutina.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					
+				 panelRutinas.remove(panelRutina);
+				 panelRutinas.revalidate();
+				 panelRutinas.repaint();
+				 contadorRutina--;
+    		 
+
+				if (contadorRutina < 5) {
+					botonAgregarRutina.setEnabled(true);
+				} 
+				
+				
+				if(contadorRutina == 0 ) {
+					panelRutinas.add(mensajeSinRutinas);
+					panelRutinas.revalidate();
+					panelRutinas.repaint();
+				}
+    		 
+				
+			}
+		});
+  
+    	 
+	    	panelRutina.add(rutinaBoton);
+			panelRutina.add(eliminarRutina);
+			panelRutinas.add(panelRutina);
+			panelRutinas.revalidate();  // Actualiza el panel para enseñar la nueva rutina
+	        panelRutinas.repaint();  // Redibuja el panel
+	        contadorRutina++;
+	        
+	        
+	        if (contadorRutina > 0) {
+            	panelRutinas.remove(mensajeSinRutinas);
+            	panelRutinas.revalidate(); // Actualiza el panel para eliminar el mensaje
+                panelRutinas.repaint(); // Redibuja el panel
+            } 
+	       
+    	 
+     }
+     
+     private ArrayList<Rutina> obtenerRutinasGuardadas() {
+    	 return rutinasGuardadas;
+    	 
+     }
+     
+     
+     	
 	public void open() {
         setVisible(true);
 	}

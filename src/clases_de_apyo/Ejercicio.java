@@ -5,12 +5,6 @@ import java.util.Objects;
 public abstract class Ejercicio {
 	
 	protected String nombre,ubicacion_foto;
-	private String prueba;
-	private String prueba1;
-	private String prueba2;
-	private String prueba3;
-	private String prueba4;
-
 	
 	
 	public Ejercicio(String nombre, String ubicacion_foto) {

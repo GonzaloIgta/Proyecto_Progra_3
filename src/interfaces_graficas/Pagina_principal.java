@@ -1,11 +1,15 @@
 package interfaces_graficas;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import clases_de_apyo.Ejercicio;
 import clases_de_apyo.Ejercicio_Natacion;
@@ -37,9 +41,11 @@ public class Pagina_principal extends JFrame {
         Rutina rutinaMusculacion = new Rutina("Rutina de Musculación", Objetivo_de_la_sesion.MUSCULACION, ejerciciosMusculacion);
         rutinas.add(rutinaMusculacion);
 
+        
+        //CREAR OBJETOS PARA CADA VENTANA
         Rutinas_guardadas rutinas_guardadas = new Rutinas_guardadas(rutinas);
         Nueva_Rutina nueva_rutina = new Nueva_Rutina();
-        Planning planing = new Planning();
+        Planning planing = new Planning(rutinas);
 
         
         //FUENTE EXTERNA
@@ -88,9 +94,12 @@ public class Pagina_principal extends JFrame {
             rutinas_guardadas.open();
             dispose();
         });
-
+        
+        
         // Botón Añadir Nueva Rutina
         JButton boton_añadir_rutina = new JButton("Añadir nueva rutina");
+       
+        
         boton_añadir_rutina.setPreferredSize(new Dimension(150, 70));
         boton_añadir_rutina.setFocusable(false);
         gbc.gridy = 3;
