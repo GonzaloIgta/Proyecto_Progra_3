@@ -96,19 +96,7 @@ public class Pagina_principal extends JFrame {
         });
         
         
-        // Botón Añadir Nueva Rutina
-        JButton boton_añadir_rutina = new JButton("Añadir nueva rutina");
-       
-        
-        boton_añadir_rutina.setPreferredSize(new Dimension(150, 70));
-        boton_añadir_rutina.setFocusable(false);
-        gbc.gridy = 3;
-        ventana_principal.add(boton_añadir_rutina, gbc);
 
-        boton_añadir_rutina.addActionListener(e -> {
-            nueva_rutina.open();
-            dispose();
-        });
 
         // Agregar el panel de botones en la capa superior
         layeredPane.add(ventana_principal, Integer.valueOf(1)); // Agregar el panel en la capa 1 (superior)
