@@ -3,6 +3,8 @@ package clases_de_apyo;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import clases_de_apyo.Ejercicio_gym.PartesDelCuerpo;
+
 public class Rutina {
 	public enum Objetivo_de_la_sesion{
 		MUSCULACION,CARDIOVASCULAR,PERDIDA_DE_PESO
@@ -36,11 +38,11 @@ public class Rutina {
 		this.objetivo = objetivo;
 	}
 
-	public ArrayList<Musculo_trabajado> musculos_trabajados(){
-		ArrayList<Musculo_trabajado> musculos = new ArrayList<>();
+	public ArrayList<PartesDelCuerpo> musculos_trabajados(){
+		ArrayList<PartesDelCuerpo> musculos = new ArrayList<>();
 		for(Ejercicio ejercicio : this.lista_ejercicios) {
 			if(ejercicio instanceof Ejercicio_gym) {
-				Musculo_trabajado musculo = ((Ejercicio_gym) ejercicio).getMusculo_trabajado();
+				PartesDelCuerpo musculo = ((Ejercicio_gym) ejercicio).getMusculo_trabajado();
 				if(!musculos.contains(musculo)){
 					musculos.add(musculo);
 				}

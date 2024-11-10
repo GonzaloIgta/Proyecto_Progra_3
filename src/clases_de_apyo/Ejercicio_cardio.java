@@ -3,7 +3,7 @@ package clases_de_apyo;
 import java.util.Objects;
 
 public class Ejercicio_cardio extends Ejercicio {
-	protected float distancia_en_km,ritmo;
+	protected int duracion;
 
 	public enum TipoCardio{
 		
@@ -18,37 +18,24 @@ public class Ejercicio_cardio extends Ejercicio {
 	    }
 	}
 
-	public Ejercicio_cardio(String nombre, String ubicacion_foto, float distancia_en_km, float ritmo) {
+	public Ejercicio_cardio(String nombre, String ubicacion_foto, int duracion) {
 		super(nombre, ubicacion_foto);
-		this.distancia_en_km = distancia_en_km;
-		this.ritmo = ritmo;
-	}
-
-	public float getDistancia_en_km() {
-		return distancia_en_km;
+		this.duracion = duracion;
 	}
 
 
-	public void setDistancia_en_km(float distancia_en_km) {
-		this.distancia_en_km = distancia_en_km;
-	}
 
 
-	public float getRitmo() {
-		return ritmo;
-	}
 
 
-	public void setRitmo(float ritmo) {
-		this.ritmo = ritmo;
-	}
+
 
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(distancia_en_km, ritmo);
+		result = prime * result + Objects.hash(duracion);
 		return result;
 	}
 
@@ -62,8 +49,31 @@ public class Ejercicio_cardio extends Ejercicio {
 		if (getClass() != obj.getClass())
 			return false;
 		Ejercicio_cardio other = (Ejercicio_cardio) obj;
-		return Float.floatToIntBits(distancia_en_km) == Float.floatToIntBits(other.distancia_en_km)
-				&& Float.floatToIntBits(ritmo) == Float.floatToIntBits(other.ritmo);
+		return duracion == other.duracion;
+	}
+
+
+
+
+
+
+
+
+
+	public int getDuracion() {
+		return duracion;
+	}
+
+
+
+
+
+
+
+
+
+	public void setDuracion(int duracion) {
+		this.duracion = duracion;
 	} 
 	
 	

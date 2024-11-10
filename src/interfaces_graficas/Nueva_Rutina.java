@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Vector;
 
 import javax.swing.AbstractCellEditor;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -31,7 +33,6 @@ import javax.swing.table.TableCellRenderer;
 import clases_de_apyo.Ejercicio;
 import clases_de_apyo.Ejercicio_cardio;
 import clases_de_apyo.Ejercicio_gym;
-import clases_de_apyo.Musculo_trabajado;
 import clases_de_apyo.Rescalar_imagen;
 import clases_de_apyo.Rutina;
 import clases_de_apyo.Ejercicio_Natacion.EstiloNat;
@@ -54,6 +55,7 @@ import clases_de_apyo.Ejercicio_gym.MuscBrazos;
 import clases_de_apyo.Ejercicio_gym.MuscPierna;
 import clases_de_apyo.Ejercicio_gym.MuscTorso;
 import clases_de_apyo.Ejercicio_gym.PartesDelCuerpo;
+import clases_de_apyo.Rutina.Objetivo_de_la_sesion;
 
 
 
@@ -159,29 +161,45 @@ public class Nueva_Rutina extends JFrame{
 		ActionListener listener_boton_GuardarRutina = e -> {
 			
 
-	        // Mostrar un cuadro de entrada con el icono personalizado
-			String nombre = JOptionPane.showInputDialog(null, "Nombre de la Rutina: ", "", JOptionPane.INFORMATION_MESSAGE);
+			JPanel panel = new JPanel();
+			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		    Objetivo_de_la_sesion objetivo = Objetivo_de_la_sesion.MUSCULACION;//OBJETIVO POR DEFECTO
 
-			if (nombre != null && !nombre.trim().isEmpty()) { //Fuente Externa: trim: elimina espacios en blanco adicionales, de modo que si el usuario ingresó solo espacios, también se considera vacío. 
-				ArrayList<Ejercicio> rutinaNueva = new ArrayList<>();
-				
-				for (int row = 0; row < tablaRutina.getRowCount(); row++) {
-				    for (int column = 0; column < tablaRutina.getColumnCount(); column++) {
-				        // Obtener el valor de cada celda
-				        Object cellValue = tablaRutina.getValueAt(row, column);
-
-				        // Procesar el valor de la celda (por ejemplo, imprimirlo)
-				        System.out.println("Valor en la celda [" + row + ", " + column + "] : " + cellValue);
-				    }
+			JTextField nombreField = new JTextField(20);
+			panel.add(new JLabel("Nombre de la Rutina:"));
+			panel.add(nombreField);
+			JComboBox<Objetivo_de_la_sesion> comboBox = new JComboBox<>(Objetivo_de_la_sesion.values());
+			panel.add(new JLabel("Selecciona el objetivo de la sesión:"));
+			panel.add(comboBox);
+			int opcion = JOptionPane.showConfirmDialog(null, panel, "Crear Rutina", JOptionPane.OK_CANCEL_OPTION);
+			if (opcion == JOptionPane.OK_OPTION) {
+			    objetivo = (Objetivo_de_la_sesion) comboBox.getSelectedItem();
+			} 
+			if (nombreField.getText() != null && !nombreField.getText().trim().isEmpty()) { //Fuente Externa: trim: elimina espacios en blanco adicionales, de modo que si el usuario ingresó solo espacios, también se considera vacío. 
+				ArrayList<Ejercicio> ejercicios = new ArrayList<>();
+				for (int fila = 0; fila < tablaRutina.getRowCount(); fila++) {
+				        Object valor = tablaRutina.getValueAt(fila, 0);
+				        int peso = 0;
+				        try {
+				        	peso = (int)tablaRutina.getValueAt(fila, 4);
+				        }catch (Exception a) {
+				        	
+				        }
+				        if(valor instanceof PartesDelCuerpo ) {
+				        	ejercicios.add(new Ejercicio_gym(tablaRutina.getValueAt(fila, 2).toString(),
+				        			"ubicacion por definir",
+				        			Integer.valueOf(tablaRutina.getValueAt(fila, 5).toString()),
+				        			peso));
+				        }
+				    
 				}
+				Rutina rutina_a_añadir = new Rutina(nombreField.getText(), objetivo, ejercicios);
 
 		    	
 		    	
-				//Pagina_principal.rutinas.add(rutinaNueva);
-				//dispose(); // Cierra la ventana actual
-			    //rutinas_guardadas.open(); // Abre las rutinas guardadas si se ingresó un nombre
-			} else {
-			    // No se hace nada si el usuario cancela o deja el campo vacío
+				Pagina_principal.rutinas.add(rutina_a_añadir);
+				dispose(); 
+			    rutinas_guardadas.open(); 
 			}
 			
         };
@@ -317,12 +335,12 @@ public class Nueva_Rutina extends JFrame{
         TableCellRenderer cellRenderer = new TableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                JLabel resultcell = new JLabel();
+                JLabel jlabel = new JLabel();
 
                 // Configurar el texto y el color según el contenido y la columna
                 if (value != null && !value.toString().isEmpty()) {
-                    resultcell.setText(value.toString());
-                    resultcell.setForeground(Color.BLACK); // Para asegurarse de que el texto del valor no esté en gris
+                    jlabel.setText(value.toString());
+                    jlabel.setForeground(Color.BLACK); // Para asegurarse de que el texto del valor no esté en gris
                 } else {
                     // Placeholder según la columna
                     switch (column) {
@@ -330,27 +348,27 @@ public class Nueva_Rutina extends JFrame{
                         case 1:
                         case 2:
                         case 5:
-                            resultcell.setText("Seleccionar ▼");
-                            resultcell.setForeground(Color.GRAY);
+                            jlabel.setText("Seleccionar ▼");
+                            jlabel.setForeground(Color.GRAY);
                             break;
                         case 4:
-                            resultcell.setText("Escribe peso");
-                            resultcell.setForeground(Color.GRAY);
+                            jlabel.setText("Escribe peso");
+                            jlabel.setForeground(Color.GRAY);
                             break;
                         case 3:
-                            rescalar.setScaledImage(resultcell, "/resourses/images/falta_implementar.png", 60, 40);
-                            resultcell.setVerticalAlignment(SwingConstants.CENTER);
-                            resultcell.setHorizontalAlignment(SwingConstants.CENTER);
+                            rescalar.setScaledImage(jlabel, "/resourses/images/falta_implementar.png", 60, 40);
+                            jlabel.setVerticalAlignment(SwingConstants.CENTER);
+                            jlabel.setHorizontalAlignment(SwingConstants.CENTER);
                             break;
                         default:
-                            resultcell.setText(""); // Celdas sin placeholder
-                            resultcell.setForeground(Color.BLACK);
+                            jlabel.setText(""); // Celdas sin placeholder
+                            jlabel.setForeground(Color.BLACK);
                             break;
                     }
                 }
                 
-                resultcell.setHorizontalAlignment(JLabel.CENTER);
-                return resultcell;
+                jlabel.setHorizontalAlignment(JLabel.CENTER);
+                return jlabel;
             }
         };
 

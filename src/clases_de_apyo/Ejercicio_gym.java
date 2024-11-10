@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Ejercicio_gym extends  Ejercicio{
 	
 	protected int repeticiones,series, peso;
-	public Musculo_trabajado musculo_trabajado;
+	public PartesDelCuerpo musculo_trabajado;
 
 	
 	public enum PartesDelCuerpo{
@@ -32,6 +32,8 @@ public class Ejercicio_gym extends  Ejercicio{
 		Gluteo, Isquiotibiales, Aductor, Femoral, Cuádriceps, 
 		
 	}
+	
+	
 	
 	//los siguientes enum los hemos creado con Chat para ahorrarnos tiempo en esta tarea tan simple
 	public enum EjTriceps {
@@ -196,23 +198,15 @@ public class Ejercicio_gym extends  Ejercicio{
 
 	
 	
-	public Ejercicio_gym(String nombre, String ubicacion_foto, Musculo_trabajado musculo_trabajado,
-			int repeticiones, int series,int peso) {
+	public Ejercicio_gym(String nombre, String ubicacion_foto,
+			 int series,int peso) {
 		super(nombre, ubicacion_foto);
-		this.musculo_trabajado = musculo_trabajado;
-		this.repeticiones = repeticiones;
 		this.series = series;
 		this.peso = peso;
 	}
 
 	
-	public int getRepeticiones() {
-		return repeticiones;
-	}
 
-	public void setRepeticiones(int repeticiones) {
-		this.repeticiones = repeticiones;
-	}
 
 	public int getSeries() {
 		return series;
@@ -230,11 +224,11 @@ public class Ejercicio_gym extends  Ejercicio{
 		this.peso = peso;
 	}
 
-	public Musculo_trabajado getMusculo_trabajado() {
+	public PartesDelCuerpo getMusculo_trabajado() {
 		return musculo_trabajado;
 	}
 
-	public void setMusculo_trabajado(Musculo_trabajado musculo_trabajado) {
+	public void setMusculo_trabajado(PartesDelCuerpo musculo_trabajado) {
 		this.musculo_trabajado = musculo_trabajado;
 	}
 
