@@ -9,6 +9,31 @@ public class Ejercicio_Natacion extends Ejercicio {
 	protected estilo_natacion estilo;
 	protected float distancia_en_km,ritmo;
 	
+	public enum TipoNat{
+		
+		Mar_Abierto, 
+		Piscina;	  
+		
+		public String toString() {
+	        return name().replace("_", " ");
+	    }
+	}
+	
+	
+	public enum EstiloNat{
+		
+		Crol, 
+		Braza,
+		Mariposa, 
+		Espalda;	  
+		
+		public String toString() {
+	        return name().replace("_", " ");
+	    }
+	}
+	
+	
+	
 	public Ejercicio_Natacion(String nombre, String ubicacion_foto, estilo_natacion estilo, float distancia_en_km,
 			float ritmo) {
 		super(nombre, ubicacion_foto);

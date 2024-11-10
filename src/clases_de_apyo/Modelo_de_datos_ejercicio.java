@@ -59,7 +59,7 @@ private static final long serialVersionUID = 1L;
 	        		return "GYM";
 	        	} else if(ejercicio instanceof Ejercicio_Natacion) {
 	        		return "Natacion";
-	        	} else if(ejercicio instanceof Ejercicio_runing) {
+	        	} else if(ejercicio instanceof Ejercicio_cardio) {
 	        		return "Running";
 	        	}
 	        	break;

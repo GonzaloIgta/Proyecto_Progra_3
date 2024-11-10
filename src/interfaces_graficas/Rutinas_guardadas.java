@@ -34,7 +34,7 @@ import javax.swing.table.TableColumn;
 import clases_de_apyo.Ejercicio;
 import clases_de_apyo.Ejercicio_Natacion;
 import clases_de_apyo.Ejercicio_gym;
-import clases_de_apyo.Ejercicio_runing;
+import clases_de_apyo.Ejercicio_cardio;
 import clases_de_apyo.Modelo_de_datos_ejercicio;
 import clases_de_apyo.Modelo_de_datos_rutinas;
 import clases_de_apyo.Rescalar_imagen;
@@ -80,33 +80,6 @@ public class Rutinas_guardadas extends JFrame {
 
 
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         JPanel lo_de_arriba = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton home = new JButton();
@@ -333,7 +306,7 @@ public class Rutinas_guardadas extends JFrame {
                 barra_gym.setValue(barra_gym.getValue() + 1);
             } else if (ejercicio instanceof Ejercicio_Natacion) {
                 barra_natacion.setValue(barra_natacion.getValue() + 1);
-            } else if (ejercicio instanceof Ejercicio_runing) {
+            } else if (ejercicio instanceof Ejercicio_cardio) {
                 barra_running.setValue(barra_running.getValue() + 1);
             }
         }

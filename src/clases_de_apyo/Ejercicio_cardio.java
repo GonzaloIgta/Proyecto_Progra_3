@@ -2,11 +2,23 @@ package clases_de_apyo;
 
 import java.util.Objects;
 
-public class Ejercicio_runing extends Ejercicio {
+public class Ejercicio_cardio extends Ejercicio {
 	protected float distancia_en_km,ritmo;
 
+	public enum TipoCardio{
+		
+		Correr, 
+		Bici_estática, 
+		Ciclismo_de_montaña, 
+		Ciclismo_de_carretera, 
+		Comba;
+	    @Override
+	    public String toString() {
+	        return name().replace("_", " ");
+	    }
+	}
 
-	public Ejercicio_runing(String nombre, String ubicacion_foto, float distancia_en_km, float ritmo) {
+	public Ejercicio_cardio(String nombre, String ubicacion_foto, float distancia_en_km, float ritmo) {
 		super(nombre, ubicacion_foto);
 		this.distancia_en_km = distancia_en_km;
 		this.ritmo = ritmo;
@@ -49,7 +61,7 @@ public class Ejercicio_runing extends Ejercicio {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Ejercicio_runing other = (Ejercicio_runing) obj;
+		Ejercicio_cardio other = (Ejercicio_cardio) obj;
 		return Float.floatToIntBits(distancia_en_km) == Float.floatToIntBits(other.distancia_en_km)
 				&& Float.floatToIntBits(ritmo) == Float.floatToIntBits(other.ritmo);
 	} 
