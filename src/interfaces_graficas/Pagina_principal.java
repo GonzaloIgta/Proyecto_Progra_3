@@ -27,7 +27,7 @@ public class Pagina_principal extends JFrame {
     	// Rutina 1: Musculación - Ejercicios de gimnasio
     	ArrayList<Ejercicio> ejercicios1 = new ArrayList<>();
     	ejercicios1.add(new Ejercicio_gym("Press de Banca", "/path/to/photo", Musculo_trabajado.PECHO, 12, 4, 80));
-    	ejercicios1.add(new Ejercicio_gym("Curl de Bíceps", "/path/to/photo", Musculo_trabajado.BICEPS, 12, 3, 20));
+    	ejercicios1.add(new Ejercicio_gym("Remo en polea", "/path/to/photo", Musculo_trabajado.ESPALDA, 12, 3, 20));
     	ejercicios1.add(new Ejercicio_gym("Sentadilla", "/path/to/photo", Musculo_trabajado.PIERNA, 10, 4, 60));
     	ejercicios1.add(new Ejercicio_gym("Press Militar", "/path/to/photo", Musculo_trabajado.HOMBRO, 10, 4, 50));
     	ejercicios1.add(new Ejercicio_gym("Extensiones de Tríceps", "/path/to/photo", Musculo_trabajado.TRICEPS, 12, 3, 25));
@@ -78,7 +78,7 @@ public class Pagina_principal extends JFrame {
     	// Rutina 8: Cardio + Running + Musculación
     	ArrayList<Ejercicio> ejercicios8 = new ArrayList<>();
     	ejercicios8.add(new Ejercicio_runing("Correr al aire libre", "/path/to/photo", 4.0f, 6.0f));
-    	ejercicios8.add(new Ejercicio_gym("Curl de Bíceps", "/path/to/photo", Musculo_trabajado.BICEPS, 12, 3, 18));
+    	ejercicios8.add(new Ejercicio_gym("Remo en polea", "/path/to/photo", Musculo_trabajado.ESPALDA, 12, 3, 18));
     	ejercicios8.add(new Ejercicio_gym("Sentadilla", "/path/to/photo", Musculo_trabajado.PIERNA, 15, 4, 65));
     	rutinas.add(new Rutina("Rutina Combinada Running Musculación", Rutina.Objetivo_de_la_sesion.CARDIOVASCULAR, ejercicios8));
 

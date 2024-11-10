@@ -54,7 +54,6 @@ public class Rutinas_guardadas extends JFrame {
     private JPanel ventanadondetablas;
     private GridBagConstraints constantes_ej = new GridBagConstraints();
     private Rutina rutina_seleccionada;
-    private JButton boton_asignar;
 
     public Rutinas_guardadas(ArrayList<Rutina> rutinas) {
         this.rutinas = rutinas;
@@ -108,13 +107,7 @@ public class Rutinas_guardadas extends JFrame {
         }
         ventana_principal.add(panel_de_abajo, BorderLayout.SOUTH);
 
-        boton_asignar = new JButton("Asignar");
-        boton_asignar.setEnabled(false);
-        ActionListener listener_boton_asignar = e -> {
-            new Asinarrutina(this);
-        };
-        boton_asignar.addActionListener(listener_boton_asignar);
-        panel_de_abajo.add(boton_asignar);
+     
 
         KeyListener keylistener = new KeyListener() {
 
@@ -186,7 +179,7 @@ public class Rutinas_guardadas extends JFrame {
         TableColumn columnaID = tabla_rutinas.getColumnModel().getColumn(2);
         columnaID.setPreferredWidth(30);
         columnaID = tabla_rutinas.getColumnModel().getColumn(1);
-        columnaID.setPreferredWidth(120);
+        columnaID.setPreferredWidth(40);
 
         TableCellRenderer cellRenderer = new TableCellRenderer() {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -258,7 +251,6 @@ public class Rutinas_guardadas extends JFrame {
     }
 
     private void actualizar_barras(int row) {
-    	boton_asignar.setEnabled(true);
         barra_gym.setValue(0);
         barra_natacion.setValue(0);
         barra_running.setValue(0);
