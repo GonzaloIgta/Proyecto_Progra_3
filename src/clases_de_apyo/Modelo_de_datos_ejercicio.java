@@ -77,5 +77,17 @@ private static final long serialVersionUID = 1L;
 		
 	}
 
+	public ArrayList<Ejercicio> getEjercicios() {
+		return ejercicios;
+	}
+
+	public void setEjercicios(ArrayList<Ejercicio> ejercicios) {
+		this.ejercicios = ejercicios;
+	}
+
+	public List<String> getHeaders() {
+		return headers;
+	}
+
 
 }

@@ -6,10 +6,13 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,8 +73,41 @@ public class Rutinas_guardadas extends JFrame {
         GridBagConstraints constantes = new GridBagConstraints();
 
         initbarras();
-        initTables();
+        initRutinas();
 
+  
+
+
+
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         JPanel lo_de_arriba = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton home = new JButton();
         home.addActionListener(e -> {
@@ -170,7 +206,7 @@ public class Rutinas_guardadas extends JFrame {
         this.rutinas = rutinas;
     }
 
-    private void initTables() {
+    private void initRutinas() {
         modelo_de_datos_rutinas = new Modelo_de_datos_rutinas(rutinas);
         JTable tablaRutinas = new JTable(modelo_de_datos_rutinas);
         this.tabla_rutinas = tablaRutinas;
@@ -181,6 +217,7 @@ public class Rutinas_guardadas extends JFrame {
         columnaID = tabla_rutinas.getColumnModel().getColumn(1);
         columnaID.setPreferredWidth(40);
 
+        // Definir el Renderer
         TableCellRenderer cellRenderer = new TableCellRenderer() {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 JLabel jlabel = new JLabel();
@@ -200,13 +237,20 @@ public class Rutinas_guardadas extends JFrame {
                     }
                     jlabel.setToolTipText(value.toString());
                 } else {
-                    jlabel.setText(value.toString());
+                    jlabel.setText(value != null ? value.toString() : "");
                 }
 
                 if (row % 2 == 0) {
                     jlabel.setBackground(new Color(250, 249, 249));
                 } else {
                     jlabel.setBackground(new Color(190, 227, 219));
+                }
+
+                Point mousePos = tabla_rutinas.getMousePosition();
+                if (mousePos != null) {
+                    if (row == tabla_rutinas.rowAtPoint(mousePos)) {
+                        jlabel.setBackground(new Color(220, 240, 250));  
+                    }
                 }
 
                 if (isSelected) {
@@ -216,9 +260,18 @@ public class Rutinas_guardadas extends JFrame {
                 return jlabel;
             }
         };
-        this.tabla_rutinas.setRowHeight(40);
-        this.tabla_rutinas.setDefaultRenderer(Object.class, cellRenderer);
+
+        tabla_rutinas.setRowHeight(40);
+        tabla_rutinas.setDefaultRenderer(Object.class, cellRenderer);
+
+        tabla_rutinas.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                tabla_rutinas.repaint();
+            }
+        });
     }
+
 
     private void iniciar_tabla_ejercicio(int row) {
         rutina_seleccionada = (Rutina) modelo_de_datos_rutinas.getValueAt(row, 999);
@@ -227,18 +280,29 @@ public class Rutinas_guardadas extends JFrame {
         modelo_de_datos_ejercicio.fireTableDataChanged();
         scrollPanelejercicios.setViewportView(tabla_ejercicios);
         tabla_ejercicios.setRowHeight(40);
+
         TableCellRenderer cellRenderer = new TableCellRenderer() {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 JLabel jlabel = new JLabel();
+                jlabel.setOpaque(true);
                 jlabel.setVerticalAlignment(SwingConstants.CENTER);
+                jlabel.setBackground(Color.WHITE);
 
-              if (column == 2) {
-                  rescalar.setScaledImage(jlabel, "/resourses/images/falta_implementar.png", 60, 40);
-                  jlabel.setVerticalAlignment(SwingConstants.CENTER); 
-                  jlabel.setHorizontalAlignment(SwingConstants.CENTER); 
-              } else {
-            	  jlabel.setText((String) value);
-              }
+                if (column == 2) {
+                    rescalar.setScaledImage(jlabel, "/resourses/images/falta_implementar.png", 60, 40);
+                    jlabel.setVerticalAlignment(SwingConstants.CENTER); 
+                    jlabel.setHorizontalAlignment(SwingConstants.CENTER); 
+                } else {
+                    jlabel.setText((String) value);
+                }
+
+                Point mousePos = tabla_ejercicios.getMousePosition();
+                if (mousePos != null) {
+                    int mouseRow = table.rowAtPoint(mousePos);
+                    if (row == mouseRow) {
+                        jlabel.setBackground(new Color(220, 240, 250));  // Color al pasar el mouse
+                    }
+                }
 
                 if (isSelected) {
                     jlabel.setBackground(tabla_ejercicios.getSelectionBackground());
@@ -247,7 +311,15 @@ public class Rutinas_guardadas extends JFrame {
                 return jlabel;
             }
         };
+
         tabla_ejercicios.setDefaultRenderer(Object.class, cellRenderer);
+
+        tabla_ejercicios.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                tabla_ejercicios.repaint();
+            }
+        });
     }
 
     private void actualizar_barras(int row) {
@@ -291,4 +363,6 @@ public class Rutinas_guardadas extends JFrame {
         barras.add(barra_natacion);
         barras.add(barra_running);
     }
+    
+    
 }
