@@ -820,7 +820,9 @@ public class Nueva_Rutina extends JFrame{
                 //FUENTE EXTERNA: chat
 
                 class ButtonCellEditor extends AbstractCellEditor implements TableCellEditor {
-                    private JButton button;
+
+					private static final long serialVersionUID = 3486861195223346142L;
+					private JButton button;
 
                     public ButtonCellEditor(JButton button) {
                         this.button = button;

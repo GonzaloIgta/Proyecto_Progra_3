@@ -9,7 +9,6 @@ import clases_de_apyo.Ejercicio;
 import clases_de_apyo.Ejercicio_Natacion;
 import clases_de_apyo.Ejercicio_Natacion.EstiloNat;
 import clases_de_apyo.Ejercicio_gym;
-import clases_de_apyo.Ejercicio_gym.PartesDelCuerpo;
 import clases_de_apyo.Ejercicio_cardio;
 import clases_de_apyo.Rutina;
 

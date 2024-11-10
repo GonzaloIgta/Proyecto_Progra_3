@@ -10,16 +10,12 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,9 +27,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
-import clases_de_apyo.Ejercicio;
 	import clases_de_apyo.Rescalar_imagen;
 	import clases_de_apyo.Rutina;
 	
@@ -157,7 +151,9 @@ import clases_de_apyo.Ejercicio;
 	     	    
 	     	    
 	     	   DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0){
-	     		    @Override
+				private static final long serialVersionUID = -7180503917040117918L;
+
+					@Override
 	     		    public boolean isCellEditable(int row, int column) {
 	     		        return column == 2;  // Solo hacer editable la columna de botones
 	     		    }
