@@ -31,6 +31,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import clases_de_apyo.Ejercicio;
+import clases_de_apyo.Ejercicio_Natacion;
 import clases_de_apyo.Ejercicio_cardio;
 import clases_de_apyo.Ejercicio_gym;
 import clases_de_apyo.Rescalar_imagen;
@@ -175,31 +176,59 @@ public class Nueva_Rutina extends JFrame{
 			if (opcion == JOptionPane.OK_OPTION) {
 			    objetivo = (Objetivo_de_la_sesion) comboBox.getSelectedItem();
 			} 
-			if (nombreField.getText() != null && !nombreField.getText().trim().isEmpty()) { //Fuente Externa: trim: elimina espacios en blanco adicionales, de modo que si el usuario ingresó solo espacios, también se considera vacío. 
-				ArrayList<Ejercicio> ejercicios = new ArrayList<>();
-				for (int fila = 0; fila < tablaRutina.getRowCount(); fila++) {
-				        Object valor = tablaRutina.getValueAt(fila, 0);
-				        int peso = 0;
-				        try {
-				        	peso = (int)tablaRutina.getValueAt(fila, 4);
-				        }catch (Exception a) {
-				        	
-				        }
-				        if(valor instanceof PartesDelCuerpo ) {
-				        	ejercicios.add(new Ejercicio_gym(tablaRutina.getValueAt(fila, 2).toString(),
-				        			"ubicacion por definir",
-				        			Integer.valueOf(tablaRutina.getValueAt(fila, 5).toString()),
-				        			peso));
-				        }
-				    
-				}
-				Rutina rutina_a_añadir = new Rutina(nombreField.getText(), objetivo, ejercicios);
+			if (nombreField.getText() != null && !nombreField.getText().trim().isEmpty()) { // Fuente Externa: trim elimina espacios en blanco adicionales, de modo que si el usuario ingresó solo espacios, también se considera vacío.
+			    ArrayList<Ejercicio> ejercicios = new ArrayList<>();
+			    for (int fila = 0; fila < tablaRutina.getRowCount(); fila++) {
+			        Object valor = tablaRutina.getValueAt(fila, 0);
+			        int peso = 0;
+			        
+			        try {
+			            peso = (int) tablaRutina.getValueAt(fila, 4);
+			        } catch (Exception a) {
+			            // no hacer nada en caso de error
+			        }
 
-		    	
-		    	
-				Pagina_principal.rutinas.add(rutina_a_añadir);
-				dispose(); 
-			    rutinas_guardadas.open(); 
+			        if (valor instanceof PartesDelCuerpo) {
+			            ejercicios.add(new Ejercicio_gym(
+			                tablaRutina.getValueAt(fila, 2).toString(),
+			                "ubicacion por definir",
+			                Integer.valueOf(tablaRutina.getValueAt(fila, 5).toString()),
+			                peso
+			            ));
+			        } else if (valor instanceof TipoNat) {
+			            int duracion = 0; // valor por defecto
+			            try {
+			                duracion = Integer.valueOf(tablaRutina.getValueAt(fila, 3).toString());
+			            } catch (Exception a) {
+			                // no hacer nada en caso de error
+			            }
+			            
+			            ejercicios.add(new Ejercicio_Natacion(
+			                valor.toString(),
+			                "ubicacion por definir", 
+			                EstiloNat.valueOf(tablaRutina.getValueAt(fila, 1).toString()),
+			                duracion
+			            ));
+			        } else {
+			            int duracion = 0; // valor por defecto
+			            try {
+			                duracion = Integer.valueOf(tablaRutina.getValueAt(fila, 3).toString());
+			            } catch (Exception a) {
+			                // no hacer nada en caso de error
+			            }
+			            
+			            ejercicios.add(new Ejercicio_cardio(
+			                valor.toString(),
+			                "ubicacion por definir", 
+			                duracion
+			            ));
+			        }
+			    }
+
+			    Rutina rutina_a_añadir = new Rutina(nombreField.getText(), objetivo, ejercicios);
+			    Pagina_principal.rutinas.add(rutina_a_añadir);
+			    dispose();
+			    rutinas_guardadas.open();
 			}
 			
         };

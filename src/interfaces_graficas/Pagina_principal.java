@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import javax.swing.*;
 import clases_de_apyo.Ejercicio;
 import clases_de_apyo.Ejercicio_Natacion;
+import clases_de_apyo.Ejercicio_Natacion.EstiloNat;
 import clases_de_apyo.Ejercicio_gym;
 import clases_de_apyo.Ejercicio_gym.PartesDelCuerpo;
 import clases_de_apyo.Ejercicio_cardio;
 import clases_de_apyo.Rutina;
-import clases_de_apyo.estilo_natacion;
 
 public class Pagina_principal extends JFrame {
     private static final long serialVersionUID = 1;
@@ -22,7 +22,6 @@ public class Pagina_principal extends JFrame {
 		//FUENTE EXTERNA
         //IAG
         //SIN ADAPTAR PARA CREAR RUTINAS DE EJEMPLO
-		
     	// Rutina 1: Musculación - Ejercicios de gimnasio
     	ArrayList<Ejercicio> ejercicios1 = new ArrayList<>();
     	ejercicios1.add(new Ejercicio_gym("Press de Banca", "/path/to/photo", 4, 80));
@@ -34,9 +33,9 @@ public class Pagina_principal extends JFrame {
 
     	// Rutina 2: Cardio - Natación
     	ArrayList<Ejercicio> ejercicios2 = new ArrayList<>();
-    	ejercicios2.add(new Ejercicio_Natacion("Nadar Estilo Libre", "/path/to/photo", estilo_natacion.NORMAL, 1.5f, 2));
-    	ejercicios2.add(new Ejercicio_Natacion("Nadar Espalda", "/path/to/photo", estilo_natacion.ESPALDA, 1.0f, 3));
-    	ejercicios2.add(new Ejercicio_Natacion("Nadar Mariposa", "/path/to/photo", estilo_natacion.MARIPOSA, 1.2f, 2));
+    	ejercicios2.add(new Ejercicio_Natacion("Nadar Estilo Libre", "/path/to/photo", EstiloNat.Crol, 2));
+    	ejercicios2.add(new Ejercicio_Natacion("Nadar Espalda", "/path/to/photo", EstiloNat.Espalda, 3));
+    	ejercicios2.add(new Ejercicio_Natacion("Nadar Mariposa", "/path/to/photo", EstiloNat.Mariposa, 1));
     	rutinas.add(new Rutina("Rutina Cardio 1", Rutina.Objetivo_de_la_sesion.CARDIOVASCULAR, ejercicios2));
 
     	// Rutina 3: Pérdida de peso - Running
@@ -49,14 +48,14 @@ public class Pagina_principal extends JFrame {
     	// Rutina 4: Musculación + Cardio
     	ArrayList<Ejercicio> ejercicios4 = new ArrayList<>();
     	ejercicios4.add(new Ejercicio_gym("Sentadillas", "/path/to/photo", 4, 60));
-    	ejercicios4.add(new Ejercicio_Natacion("Nadar Mariposa", "/path/to/photo", estilo_natacion.MARIPOSA, 1.0f, 2));
+    	ejercicios4.add(new Ejercicio_Natacion("Nadar Mariposa", "/path/to/photo", EstiloNat.Mariposa, 2));
     	ejercicios4.add(new Ejercicio_gym("Remo con barra", "/path/to/photo", 4, 70));
     	rutinas.add(new Rutina("Rutina Combinada 1", Rutina.Objetivo_de_la_sesion.MUSCULACION, ejercicios4));
 
     	// Rutina 5: Cardio + Running
     	ArrayList<Ejercicio> ejercicios5 = new ArrayList<>();
     	ejercicios5.add(new Ejercicio_cardio("Correr al aire libre", "/path/to/photo", 7));
-    	ejercicios5.add(new Ejercicio_Natacion("Nadar Estilo Libre", "/path/to/photo", estilo_natacion.NORMAL, 2.0f, 2));
+    	ejercicios5.add(new Ejercicio_Natacion("Nadar Estilo Libre", "/path/to/photo", EstiloNat.Crol, 2));
     	ejercicios5.add(new Ejercicio_cardio("Running en pista", "/path/to/photo", 4));
     	rutinas.add(new Rutina("Cardio Running", Rutina.Objetivo_de_la_sesion.CARDIOVASCULAR, ejercicios5));
 
@@ -70,7 +69,7 @@ public class Pagina_principal extends JFrame {
     	// Rutina 7: Pérdida de peso + Cardio
     	ArrayList<Ejercicio> ejercicios7 = new ArrayList<>();
     	ejercicios7.add(new Ejercicio_cardio("Correr en montaña", "/path/to/photo", 6));
-    	ejercicios7.add(new Ejercicio_Natacion("Nadar Espalda", "/path/to/photo", estilo_natacion.ESPALDA, 1.2f, 3));
+    	ejercicios7.add(new Ejercicio_Natacion("Nadar Espalda", "/path/to/photo", EstiloNat.Espalda, 3));
     	ejercicios7.add(new Ejercicio_cardio("Correr en pista", "/path/to/photo", 5));
     	rutinas.add(new Rutina("Rutina Cardio Running", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, ejercicios7));
 
@@ -90,7 +89,7 @@ public class Pagina_principal extends JFrame {
 
     	// Rutina 10: Cardio + Musculación + Pérdida de peso
     	ArrayList<Ejercicio> ejercicios10 = new ArrayList<>();
-    	ejercicios10.add(new Ejercicio_Natacion("Nadar Mariposa", "/path/to/photo", estilo_natacion.MARIPOSA, 1.5f, 2));
+    	ejercicios10.add(new Ejercicio_Natacion("Nadar Mariposa", "/path/to/photo", EstiloNat.Mariposa, 2));
     	ejercicios10.add(new Ejercicio_gym("Sentadillas", "/path/to/photo", 4, 65));
     	ejercicios10.add(new Ejercicio_cardio("Correr en montaña", "/path/to/photo", 6));
     	ejercicios10.add(new Ejercicio_gym("Press Militar", "/path/to/photo", 3, 50));
