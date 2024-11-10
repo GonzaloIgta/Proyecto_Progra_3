@@ -68,6 +68,16 @@ public class Rutina {
 		this.lista_ejercicios = lista_ejercicios;
 	}
 
+	public String printLista_Ejercicios() {
+		String TodosEjercicios = "";
+		
+		for (Ejercicio ejercicio : lista_ejercicios) {
+			TodosEjercicios += ejercicio.getNombre() +", ";
+		}
+		return TodosEjercicios;
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(lista_ejercicios, nombre, objetivo);

@@ -1,32 +1,39 @@
-	package interfaces_graficas;
+package interfaces_graficas;
 	
-	import java.awt.BorderLayout;
-	import java.awt.Color;
-	import java.awt.Dimension;
-	import java.awt.FlowLayout;
-	import java.awt.GridLayout;
-	import java.awt.Toolkit;
-	import java.awt.event.ActionEvent;
-	import java.awt.event.ActionListener;
-	import java.lang.reflect.Array;
-	import java.util.ArrayList;
-	
-	import javax.swing.ImageIcon;
-	import javax.swing.JButton;
-	import javax.swing.JComboBox;
-	import javax.swing.JDialog;
-	import javax.swing.JFrame;
-	import javax.swing.JLabel;
-	import javax.swing.JOptionPane;
-	import javax.swing.JPanel;
-	import javax.swing.JScrollPane;
-	import javax.swing.JTable;
-	import javax.swing.ListSelectionModel;
-	import javax.swing.border.EmptyBorder;
-	import javax.swing.border.LineBorder;
-	import javax.swing.table.DefaultTableModel;
-	
-	import clases_de_apyo.Ejercicio;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import clases_de_apyo.Ejercicio;
 	import clases_de_apyo.Rescalar_imagen;
 	import clases_de_apyo.Rutina;
 	
@@ -146,20 +153,27 @@
 	     	    
 	     	    ArrayList<Rutina> listaRutinas = obtenerRutinasGuardadas();
 	
-	     	    String[] columnas = {"Nombre de Rutina","Objetivo","Ejercicios"};
-	     	    DefaultTableModel modeloTabla = new DefaultTableModel(columnas,0);
+	     	    String[] columnas = {"Nombre de Rutina","Objetivo"};
 	     	    
-	     	    for (Rutina rutina : listaRutinas) {
-	     	    	
-	     	    	modeloTabla.addRow(new Object[] {rutina.getNombre(),rutina.getObjetivo()});
+	     	    
+	     	   DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0){
+	     		    @Override
+	     		    public boolean isCellEditable(int row, int column) {
+	     		        return column == 2;  // Solo hacer editable la columna de botones
+	     		    }
+	     		};	
+	     	    
+	     	    
+	     	    for (Rutina rutina : listaRutinas) { 	   
+	     	    	modeloTabla.addRow(new Object[] {rutina.getNombre(),rutina.getObjetivo() });
 	     	    }
 	     	    
+	     
+	     
+	     	   	JTable tablaRutinas = new JTable(modeloTabla); 
+
+	     	   	tablaRutinas.setFont(new Font("Arial", Font.PLAIN, 14));
 	     	    
-	     	    
-	     	    
-	     	    
-	    
-	     	    JTable tablaRutinas = new JTable(modeloTabla); 
 	     	    tablaRutinas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	     	    
 	     	    JScrollPane scrollPane = new JScrollPane(tablaRutinas);
@@ -174,9 +188,10 @@
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						int filaSeleccionada = tablaRutinas.getSelectedRow();
+						
 		     	    	if (filaSeleccionada != -1) {
 		     	    		Rutina rutinaSeleccionada = listaRutinas.get(filaSeleccionada);
-		     	    		agregarRutinaAPlanning(panelRutinas, mensajeSinRutinas, rutinaSeleccionada.getNombre(), contadorRutina, botonAgregarRutina);      	    		//LE PASAMOS EL PANEL DEL DIA, EL MENSAJE DE SIN RUTINAS POR SI LO TIENE QUE PONER, Y EL NOMBRE DE LA RUTINA
+		     	    		agregarRutinaAPlanning(panelRutinas, mensajeSinRutinas, rutinaSeleccionada.getNombre(), contadorRutina, botonAgregarRutina, rutinaSeleccionada);      	    		//LE PASAMOS EL PANEL DEL DIA, EL MENSAJE DE SIN RUTINAS POR SI LO TIENE QUE PONER, Y EL NOMBRE DE LA RUTINA
 		     	    		dialogoRutinas.dispose();
 		     	    		
 		     	    	}else {
@@ -191,11 +206,103 @@
 	     	    
 	    }
 	     
-	     private void agregarRutinaAPlanning(JPanel panelRutinas, JLabel mensajeSinRutinas,String nombreRutina, int[] contadorRutina, JButton botonAgregarRutina) {
+	     private void agregarRutinaAPlanning(JPanel panelRutinas, JLabel mensajeSinRutinas,String nombreRutina, int[] contadorRutina, JButton botonAgregarRutina, Rutina rutinaSeleccionada) {
 	    	 
 	    	 JPanel panelRutina = new JPanel();
 	    	 
 	    	 JButton rutinaBoton = new JButton(nombreRutina);
+
+	    	 rutinaBoton.addActionListener(new ActionListener() {
+				
+				@Override
+				//FUENTE EXTERNA
+				//IAG
+				//ADAPTADO A MEDIDA
+				
+				public void actionPerformed(ActionEvent e) {
+					
+					//JFRAME -----------------------------------------------------------------
+					JFrame frameInformacion = new JFrame("Detalles de " + nombreRutina);
+			        frameInformacion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			        frameInformacion.setSize(600, 400); // Un tamaño más amplio
+			        frameInformacion.setResizable(true); // Permitir que la ventana sea redimensionable
+			        
+			        // Crear JPanel con BoxLayout para los componentes
+			        JPanel informacionRutina = new JPanel();
+			        informacionRutina.setLayout(new BoxLayout(informacionRutina, BoxLayout.Y_AXIS));
+			        informacionRutina.setAlignmentX(Component.CENTER_ALIGNMENT); // Alineación horizontal del panel
+
+			        // Crear el título con el nombre de la rutina
+			        JLabel labelNombreRutina = new JLabel("Rutina: " + nombreRutina);
+			        labelNombreRutina.setFont(new Font("Arial", Font.BOLD, 16));
+			        labelNombreRutina.setAlignmentX(JLabel.CENTER_ALIGNMENT);  // Alineación centrada horizontalmente
+			        informacionRutina.add(labelNombreRutina);
+
+			        // Crear el objetivo de la rutina
+			        JLabel labelObjetivo = new JLabel("Objetivo: " + rutinaSeleccionada.getObjetivo());
+			        labelObjetivo.setFont(new Font("Arial", Font.PLAIN, 14));
+			        labelObjetivo.setAlignmentX(JLabel.CENTER_ALIGNMENT);  // Alineación centrada horizontalmente
+
+			        informacionRutina.add(labelObjetivo);
+
+			        // Crear los ejercicios y convertirlos en JLabels
+			        String ejercicios = rutinaSeleccionada.printLista_Ejercicios();
+			        String[] listaEjercicios = ejercicios.split(",");  // Separar los ejercicios por COMAS
+
+			        // Crear un JLabel para cada ejercicio y añadirlos al panel
+			        for (String ejercicio : listaEjercicios) {
+			            JLabel labelEjercicio = new JLabel(ejercicio);
+			            labelEjercicio.setFont(new Font("Arial", Font.PLAIN, 14));
+			            labelEjercicio.setAlignmentX(JLabel.CENTER_ALIGNMENT);  // Alineación centrada horizontalmente			            
+			            informacionRutina.add(labelEjercicio);
+			        }
+
+			        // Añadir un espacio para separar los elementos visualmente
+			        informacionRutina.add(Box.createVerticalStrut(10));
+
+			        // Crear un JScrollPane si el contenido es grande
+			        JScrollPane scrollPane = new JScrollPane(informacionRutina);
+			        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);  // Habilitar desplazamiento vertical
+
+			        // Crear un JPanel principal para centrar el contenido en la ventana
+			        JPanel panelPrincipal = new JPanel();
+			        panelPrincipal.setLayout(new BorderLayout());
+
+			        // Añadir espacio flexible para centrar el contenido verticalmente
+			        panelPrincipal.add(Box.createVerticalGlue(), BorderLayout.NORTH);  // Empujar hacia el centro
+			        panelPrincipal.add(scrollPane, BorderLayout.CENTER); // El contenido central
+			        panelPrincipal.add(Box.createVerticalGlue(), BorderLayout.SOUTH); // Empujar hacia el centro
+
+			        // Crear el botón "Volver"
+			        JButton botonVolver = new JButton("Volver");
+			        botonVolver.setAlignmentX(JButton.CENTER_ALIGNMENT); // Alinear el botón en el centro horizontalmente
+			        botonVolver.setPreferredSize(new Dimension(150, 40)); // Tamaño del botón
+
+			        // Agregar el ActionListener para el botón Volver
+			        botonVolver.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							frameInformacion.dispose();
+						}
+					});
+			        // Crear un panel para colocar el botón abajo
+			        JPanel panelBoton = new JPanel();
+			        panelBoton.setLayout(new FlowLayout(FlowLayout.CENTER)); // Alinear el botón al centro
+			        panelBoton.add(botonVolver);
+
+			        // Añadir el panel del botón en el BorderLayout.SOUTH
+			        panelPrincipal.add(panelBoton, BorderLayout.SOUTH);
+
+			        // Agregar el JPanel principal al JFrame
+			        frameInformacion.add(panelPrincipal);
+
+			        frameInformacion.setLocationRelativeTo(null);
+
+			        // Hacer visible la ventana
+			        frameInformacion.setVisible(true);
+				}
+			});
 	    	 
 	    	 rutinaBoton.setFocusable(false);
 	    	 

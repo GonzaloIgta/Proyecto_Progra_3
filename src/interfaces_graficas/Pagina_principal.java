@@ -71,7 +71,7 @@ public class Pagina_principal extends JFrame {
     	ejercicios7.add(new Ejercicio_cardio("Correr en montaña", "/path/to/photo", 6));
     	ejercicios7.add(new Ejercicio_Natacion("Nadar Espalda", "/path/to/photo", EstiloNat.Espalda, 3));
     	ejercicios7.add(new Ejercicio_cardio("Correr en pista", "/path/to/photo", 5));
-    	rutinas.add(new Rutina("Rutina Cardio Running", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, ejercicios7));
+    	rutinas.add(new Rutina("Rutina Cardio y Run", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, ejercicios7));
 
     	// Rutina 8: Cardio + Running + Musculación
     	ArrayList<Ejercicio> ejercicios8 = new ArrayList<>();
