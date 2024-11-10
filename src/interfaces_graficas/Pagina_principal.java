@@ -45,7 +45,7 @@ public class Pagina_principal extends JFrame {
     	ejercicios3.add(new Ejercicio_runing("Correr en cinta", "/path/to/photo", 5.0f, 6.0f));
     	ejercicios3.add(new Ejercicio_runing("Correr al aire libre", "/path/to/photo", 7.0f, 7.5f));
     	ejercicios3.add(new Ejercicio_runing("Running en pista", "/path/to/photo", 3.0f, 8.0f));
-    	rutinas.add(new Rutina("Rutina Pérdida de Peso 1", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, ejercicios3));
+    	rutinas.add(new Rutina("Pérdida de Peso ", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, ejercicios3));
 
     	// Rutina 4: Musculación + Cardio
     	ArrayList<Ejercicio> ejercicios4 = new ArrayList<>();
@@ -59,28 +59,28 @@ public class Pagina_principal extends JFrame {
     	ejercicios5.add(new Ejercicio_runing("Correr al aire libre", "/path/to/photo", 7.0f, 7.5f));
     	ejercicios5.add(new Ejercicio_Natacion("Nadar Estilo Libre", "/path/to/photo", estilo_natacion.NORMAL, 2.0f, 2.3f));
     	ejercicios5.add(new Ejercicio_runing("Running en pista", "/path/to/photo", 4.0f, 6.0f));
-    	rutinas.add(new Rutina("Rutina Cardio Running 1", Rutina.Objetivo_de_la_sesion.CARDIOVASCULAR, ejercicios5));
+    	rutinas.add(new Rutina("Cardio Running", Rutina.Objetivo_de_la_sesion.CARDIOVASCULAR, ejercicios5));
 
     	// Rutina 6: Musculación + Pérdida de peso
     	ArrayList<Ejercicio> ejercicios6 = new ArrayList<>();
     	ejercicios6.add(new Ejercicio_gym("Press Militar", "/path/to/photo", Musculo_trabajado.HOMBRO, 10, 4, 50));
     	ejercicios6.add(new Ejercicio_runing("Trote ligero", "/path/to/photo", 3.0f, 8.0f));
     	ejercicios6.add(new Ejercicio_gym("Remo con barra", "/path/to/photo", Musculo_trabajado.ESPALDA, 12, 3, 65));
-    	rutinas.add(new Rutina("Rutina Musculación Cardio 1", Rutina.Objetivo_de_la_sesion.MUSCULACION, ejercicios6));
+    	rutinas.add(new Rutina("Musculación Cardio 1", Rutina.Objetivo_de_la_sesion.MUSCULACION, ejercicios6));
 
     	// Rutina 7: Pérdida de peso + Cardio
     	ArrayList<Ejercicio> ejercicios7 = new ArrayList<>();
     	ejercicios7.add(new Ejercicio_runing("Correr en montaña", "/path/to/photo", 6.0f, 7.0f));
     	ejercicios7.add(new Ejercicio_Natacion("Nadar Espalda", "/path/to/photo", estilo_natacion.ESPALDA, 1.2f, 2.8f));
     	ejercicios7.add(new Ejercicio_runing("Correr en pista", "/path/to/photo", 5.0f, 7.0f));
-    	rutinas.add(new Rutina("Rutina Cardio Running 2", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, ejercicios7));
+    	rutinas.add(new Rutina("Rutina Cardio Running", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, ejercicios7));
 
     	// Rutina 8: Cardio + Running + Musculación
     	ArrayList<Ejercicio> ejercicios8 = new ArrayList<>();
     	ejercicios8.add(new Ejercicio_runing("Correr al aire libre", "/path/to/photo", 4.0f, 6.0f));
     	ejercicios8.add(new Ejercicio_gym("Remo en polea", "/path/to/photo", Musculo_trabajado.ESPALDA, 12, 3, 18));
     	ejercicios8.add(new Ejercicio_gym("Sentadilla", "/path/to/photo", Musculo_trabajado.PIERNA, 15, 4, 65));
-    	rutinas.add(new Rutina("Rutina Combinada Running Musculación", Rutina.Objetivo_de_la_sesion.CARDIOVASCULAR, ejercicios8));
+    	rutinas.add(new Rutina("Running Musculación", Rutina.Objetivo_de_la_sesion.CARDIOVASCULAR, ejercicios8));
 
     	// Rutina 9: Musculación + Running
     	ArrayList<Ejercicio> ejercicios9 = new ArrayList<>();
@@ -95,7 +95,7 @@ public class Pagina_principal extends JFrame {
     	ejercicios10.add(new Ejercicio_gym("Sentadillas", "/path/to/photo", Musculo_trabajado.PIERNA, 15, 4, 65));
     	ejercicios10.add(new Ejercicio_runing("Correr en montaña", "/path/to/photo", 6.0f, 8.0f));
     	ejercicios10.add(new Ejercicio_gym("Press Militar", "/path/to/photo", Musculo_trabajado.HOMBRO, 12, 3, 50));
-    	rutinas.add(new Rutina("Rutina Combinada Completa", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, ejercicios10));
+    	rutinas.add(new Rutina("Rutina Completa", Rutina.Objetivo_de_la_sesion.PERDIDA_DE_PESO, ejercicios10));
 
     }
     public Pagina_principal() {
