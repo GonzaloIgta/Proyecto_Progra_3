@@ -82,6 +82,7 @@ public class Rutinas_guardadas extends JFrame {
         
         JPanel lo_de_arriba = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton home = new JButton();
+        home.setFocusable(false);
         home.addActionListener(e -> {
             new Pagina_principal();
             dispose();
@@ -163,7 +164,9 @@ public class Rutinas_guardadas extends JFrame {
 
     public void open() {
         setVisible(true);
-        JOptionPane.showMessageDialog(null, "Pulsa 'Control' + '+' para crear una nueva rutina" , "Informativo",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane pane = new JOptionPane();
+        pane.showMessageDialog(null, "Pulsa 'Control +' para crear una nueva rutina" , "Informativo",JOptionPane.INFORMATION_MESSAGE);
+        pane.setFocusable(false);
     }
 
     public Rutina getRutinaSeleccionada() {

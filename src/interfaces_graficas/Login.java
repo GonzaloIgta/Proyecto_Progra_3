@@ -113,7 +113,9 @@ public class Login extends JFrame implements ActionListener {
         // Verificar si el usuario y la contraseña son correctos
         if (username.equals(USUARIO) && password.equals(CONTRASEÑA)) {
             statusLabel.setText("Login exitoso");
-            JOptionPane.showMessageDialog(this, "Bienvenido " + username + "!");
+            JOptionPane pane = new JOptionPane();
+            pane.showMessageDialog(this, "Bienvenido " + username + "!");
+            pane.setFocusable(false);
             new Pagina_principal();
             dispose();
             
