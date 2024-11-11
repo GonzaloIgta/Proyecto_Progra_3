@@ -164,9 +164,8 @@ public class Rutinas_guardadas extends JFrame {
 
     public void open() {
         setVisible(true);
-        JOptionPane pane = new JOptionPane();
-        pane.showMessageDialog(null, "Pulsa 'Control +' para crear una nueva rutina" , "Informativo",JOptionPane.INFORMATION_MESSAGE);
-        pane.setFocusable(false);
+        JOptionPane.showMessageDialog(null, "Pulsa 'Control +' para crear una nueva rutina" , "Informativo",JOptionPane.INFORMATION_MESSAGE);
+        
     }
 
     public Rutina getRutinaSeleccionada() {
