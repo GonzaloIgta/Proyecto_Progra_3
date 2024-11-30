@@ -43,7 +43,7 @@ public class GestorBD {
 	                   + " ID INTEGER PRIMARY KEY AUTOINCREMENT,\n"
 	                   + " NOMBRE TEXT NOT NULL,\n"
 	                   + " OBJETIVO TEXT NOT NULL,\n"
-	                   + " LISTA_EJ ARRAY NOT NULL,\n" //se pone asi "Array"?
+	                   + " LISTA_EJ ARRAY NOT NULL,\n" 
 	                   + " NUMERO_EJ INTEGER NOT NULL,\n"
 	                   + ");")) {
 				stmt.execute();
