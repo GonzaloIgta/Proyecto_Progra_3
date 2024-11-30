@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.Vector;
 
 import javax.swing.AbstractCellEditor;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
@@ -25,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
@@ -63,8 +66,9 @@ import clases_de_apyo.Rutina.Objetivo_de_la_sesion;
 public class Nueva_Rutina extends JFrame{
 	private static final long serialVersionUID = 1L;
 	
-	private JTable tablaRutina;
-	private DefaultTableModel modeloDatosTablaRutina;
+	private JTable tablaEjercicios;
+
+	private DefaultTableModel modeloDatostablaEjercicios;
 	private JPanel ventana_central_MuestraRutinas;
     Rutinas_guardadas rutinas_guardadas = new Rutinas_guardadas(Pagina_principal.rutinas);
     private Rescalar_imagen rescalar = new Rescalar_imagen();
@@ -79,8 +83,14 @@ public class Nueva_Rutina extends JFrame{
         setTitle("Nueva Rutina");
         
         // Creamos la ventana y definimos distribucion
-		JPanel ventanaPrincipal_nuevaRutina = new JPanel(new BorderLayout());
-		JScrollPane scrollPane = new JScrollPane(this.tablaRutina);
+		JPanel ventana_nuevaRutinaCONTENEDORA = new JPanel(new GridLayout(2,1,10,0));
+		JPanel ventana_nuevaRutinaUP = new JPanel(new BorderLayout());
+		JPanel ventana_nuevaRutinaDOWN = new JPanel(new BorderLayout());
+		JScrollPane scrollPane = new JScrollPane(this.tablaEjercicios);
+		
+		 JPanel panelboxl = new JPanel();
+		 panelboxl.setLayout(new BoxLayout(panelboxl, BoxLayout.Y_AXIS));
+
 	    ventana_central_MuestraRutinas = new JPanel(new BorderLayout());
 
 
@@ -178,27 +188,27 @@ public class Nueva_Rutina extends JFrame{
 			} 
 			if (nombreField.getText() != null && !nombreField.getText().trim().isEmpty()) { // Fuente Externa: trim elimina espacios en blanco adicionales, de modo que si el usuario ingresó solo espacios, también se considera vacío.
 			    ArrayList<Ejercicio> ejercicios = new ArrayList<>();
-			    for (int fila = 0; fila < tablaRutina.getRowCount(); fila++) {
-			        Object valor = tablaRutina.getValueAt(fila, 0);
+			    for (int fila = 0; fila < tablaEjercicios.getRowCount(); fila++) {
+			        Object valor = tablaEjercicios.getValueAt(fila, 0);
 			        int peso = 0;
 			        
 			        try {
-			            peso = (int) tablaRutina.getValueAt(fila, 4);
+			            peso = (int) tablaEjercicios.getValueAt(fila, 4);
 			        } catch (Exception a) {
 			            // no hacer nada en caso de error
 			        }
 
 			        if (valor instanceof PartesDelCuerpo) {
 			            ejercicios.add(new Ejercicio_gym(
-			                tablaRutina.getValueAt(fila, 2).toString(),
+			                tablaEjercicios.getValueAt(fila, 2).toString(),
 			                "ubicacion por definir",
-			                Integer.valueOf(tablaRutina.getValueAt(fila, 5).toString()),
+			                Integer.valueOf(tablaEjercicios.getValueAt(fila, 5).toString()),
 			                peso
 			            ));
 			        } else if (valor instanceof TipoNat) {
 			            int duracion = 0; // valor por defecto
 			            try {
-			                duracion = Integer.valueOf(tablaRutina.getValueAt(fila, 3).toString());
+			                duracion = Integer.valueOf(tablaEjercicios.getValueAt(fila, 3).toString());
 			            } catch (Exception a) {
 			                // no hacer nada en caso de error
 			            }
@@ -206,13 +216,13 @@ public class Nueva_Rutina extends JFrame{
 			            ejercicios.add(new Ejercicio_Natacion(
 			                valor.toString(),
 			                "ubicacion por definir", 
-			                EstiloNat.valueOf(tablaRutina.getValueAt(fila, 1).toString()),
+			                EstiloNat.valueOf(tablaEjercicios.getValueAt(fila, 1).toString()),
 			                duracion
 			            ));
 			        } else {
 			            int duracion = 0; // valor por defecto
 			            try {
-			                duracion = Integer.valueOf(tablaRutina.getValueAt(fila, 3).toString());
+			                duracion = Integer.valueOf(tablaEjercicios.getValueAt(fila, 3).toString());
 			            } catch (Exception a) {
 			                // no hacer nada en caso de error
 			            }
@@ -272,15 +282,18 @@ public class Nueva_Rutina extends JFrame{
         
         parteArriba.add(panelBotonGuardar,BorderLayout.WEST);
 		parteArriba.add(layout_botones,BorderLayout.CENTER);
-		ventanaPrincipal_nuevaRutina.add(parteArriba, BorderLayout.NORTH);
+		ventana_nuevaRutinaUP.add(parteArriba, BorderLayout.NORTH);
 		
-		// crear el boton de añadir fila
+		// crear el boton de añadir fila a ejercicios
 		
-		JButton btnAñadirFila = new JButton("Añadir Ejercicio");
-		ventanaPrincipal_nuevaRutina.add(btnAñadirFila, BorderLayout.SOUTH);
+		JButton btnAñadirFila = new JButton("+");
+		btnAñadirFila.setBackground(Color.WHITE);
+		btnAñadirFila.setOpaque(true); 
+
+		ventana_nuevaRutinaUP.add(btnAñadirFila, BorderLayout.SOUTH);
 		
 		ActionListener listener_boton_Añadir_Fila = e -> {
-			modeloDatosTablaRutina.addRow(new Object[] { "", "", "", null });
+			modeloDatostablaEjercicios.addRow(new Object[] { "", "", "", null });
         };
         
 
@@ -288,10 +301,10 @@ public class Nueva_Rutina extends JFrame{
 		
 
 
-		ventanaPrincipal_nuevaRutina.add(ventana_central_MuestraRutinas);
+		ventana_nuevaRutinaUP.add(ventana_central_MuestraRutinas);
         
         
-		ventanaPrincipal_nuevaRutina.setBackground(new Color(130, 195, 65));
+		ventana_nuevaRutinaUP.setBackground(new Color(130, 195, 65));
 		
 		
 		//añadimos el icono de la aplicacion en la parte de arriba
@@ -323,9 +336,68 @@ public class Nueva_Rutina extends JFrame{
         // Hacemos visible la ventana principal
 
 	     ventana_central_MuestraRutinas.add(scrollPane, BorderLayout.CENTER);
+	     
+	     JScrollPane scrollPane2 = new JScrollPane(panelboxl);
 
-        
-		this.add(ventanaPrincipal_nuevaRutina);
+	     //crear boton de guardar/pasar datos a rutina 
+	     JButton btnPasarARutina = new JButton("⬇Guardar En Rutina⬇");
+			ActionListener listener_boton_Pasar_Rutina = e -> {
+				JLabel lablnuevo = new JLabel(); 
+
+				StringBuilder sb = new StringBuilder(); // FUENTE EXTERNA CHATGP: solo el sb
+
+				int rowCount = tablaEjercicios.getRowCount();
+				int columnCount = tablaEjercicios.getColumnCount();
+
+				int row = 0;
+				while (row < rowCount) {
+				    int column = 0;
+				    while (column < columnCount) {
+				        Object value = tablaEjercicios.getValueAt(row, column);
+				        
+				        if (value != null) {
+				            sb.append(value.toString()).append(" "); 
+				        }
+				        
+				        column++; 
+				    }
+				    
+				    sb.append("<br>");
+				    
+				    row++;
+				}
+
+				lablnuevo.setText("<html>" + sb.toString() + "</html>"); // FUENTE EXTERNA CHATGP
+
+				panelboxl.add(lablnuevo);
+
+				panelboxl.revalidate();
+				panelboxl.repaint();
+
+				scrollPane2.revalidate();
+				scrollPane2.repaint();
+
+				
+				
+			};
+	      
+	        btnPasarARutina.addActionListener(listener_boton_Pasar_Rutina);
+
+			ventana_nuevaRutinaDOWN.add(btnPasarARutina, BorderLayout.NORTH);
+
+			ventana_nuevaRutinaDOWN.add(scrollPane2, BorderLayout.CENTER);
+
+		// Crear un borde a cada panel
+			
+		Color colorBorde = Color.decode("#ADD8E6");
+	     Border borde = BorderFactory.createLineBorder(colorBorde, 1);
+	     ventana_nuevaRutinaDOWN.setBorder(borde);
+	     ventana_nuevaRutinaUP.setBorder(borde); 
+
+	     ventana_nuevaRutinaCONTENEDORA.add(ventana_nuevaRutinaUP);
+	     ventana_nuevaRutinaCONTENEDORA.add(ventana_nuevaRutinaDOWN);
+
+		this.add(ventana_nuevaRutinaCONTENEDORA);
 
 	}
 	//hgghfghfghf
@@ -339,8 +411,8 @@ public class Nueva_Rutina extends JFrame{
             Arrays.asList("Parte Del Cuerpo","Musculo","Ejercicio", "Foto","Peso (kg)","Series","")
         );
         // Crear el modelo de datos de la tabla
-        this.modeloDatosTablaRutina = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraTabla);
-		this.tablaRutina = new JTable(this.modeloDatosTablaRutina) {
+        this.modeloDatostablaEjercicios = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraTabla);
+		this.tablaEjercicios = new JTable(this.modeloDatostablaEjercicios) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -354,7 +426,7 @@ public class Nueva_Rutina extends JFrame{
 				}
 			}
 		};
-        this.modeloDatosTablaRutina.setRowCount(1);
+       this.modeloDatostablaEjercicios.setRowCount(1);
         
         
         
@@ -409,20 +481,20 @@ public class Nueva_Rutina extends JFrame{
 
         // Crear un editor para la celda que contiene el botón
         ButtonCellEditor editor = new ButtonCellEditor(btnEliminarFila);
-        tablaRutina.getColumnModel().getColumn(6).setCellEditor(editor);  // Columna "Acción"
-        tablaRutina.getColumnModel().getColumn(6).setCellRenderer(new ButtonCellRenderer(btnEliminarFila));
+        tablaEjercicios.getColumnModel().getColumn(6).setCellEditor(editor);  // Columna "Acción"
+        tablaEjercicios.getColumnModel().getColumn(6).setCellRenderer(new ButtonCellRenderer(btnEliminarFila));
             
 
    
 
         JComboBox<PartesDelCuerpo> cbParteCuerpo = new JComboBox<>(PartesDelCuerpo.values());		
-        tablaRutina.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cbParteCuerpo));
+        tablaEjercicios.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cbParteCuerpo));
         
         JComboBox<MuscBrazos> cbMusculoInicial= new JComboBox<>(MuscBrazos.values());		
-        tablaRutina.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbMusculoInicial));
+        tablaEjercicios.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbMusculoInicial));
         
         JComboBox<MuscBrazos> cbEjerciciosInicial= new JComboBox<>(MuscBrazos.values());		
-        tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjerciciosInicial));
+        tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjerciciosInicial));
         
         
 		ActionListener parteCuerpolistener = e -> {
@@ -430,7 +502,7 @@ public class Nueva_Rutina extends JFrame{
 			if(cbParteCuerpo.getSelectedItem() != null) {
 				if(cbParteCuerpo.getSelectedItem().equals(PartesDelCuerpo.Brazos)) {
 			        JComboBox<MuscBrazos> cbMusculo= new JComboBox<>(MuscBrazos.values());		
-			        tablaRutina.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbMusculo));
+			        tablaEjercicios.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbMusculo));
 			        
 			        cbMusculo.addActionListener(new ActionListener() {
 			            @Override
@@ -440,19 +512,19 @@ public class Nueva_Rutina extends JFrame{
 			            		// Verificar qué músculo fue seleccionado y asignar el ComboBox de ejercicios correspondiente
 				                if (cbMusculo.getSelectedItem().equals(MuscBrazos.Biceps)) {
 				                    JComboBox<EjBiceps> cbEjercicio = new JComboBox<>(EjBiceps.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 
 				                } else if (cbMusculo.getSelectedItem().equals(MuscBrazos.Triceps)) {
 				                    JComboBox<EjTriceps> cbEjercicio = new JComboBox<>(EjTriceps.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 
 				                } else if (cbMusculo.getSelectedItem().equals(MuscBrazos.Antebrazo)) {
 				                    JComboBox<EjAntebrazo> cbEjercicio = new JComboBox<>(EjAntebrazo.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 
 				                } else {
 				                    JComboBox<EjHombro> cbEjercicio = new JComboBox<>(EjHombro.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 				                }
 			            		
 			            	}
@@ -465,7 +537,7 @@ public class Nueva_Rutina extends JFrame{
 				}
 				else if(cbParteCuerpo.getSelectedItem().equals(PartesDelCuerpo.Torso)) {
 					JComboBox<MuscTorso> cbMusculo= new JComboBox<>(MuscTorso.values());		
-			        tablaRutina.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbMusculo));
+			        tablaEjercicios.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbMusculo));
 			        
 			        //		Pecho, Abdominales, Espalda_Superior, Espalda_Inferior; 
 
@@ -477,19 +549,19 @@ public class Nueva_Rutina extends JFrame{
 			            		// Verificar qué músculo fue seleccionado y asignar el ComboBox de ejercicios correspondiente
 				                if (cbMusculo.getSelectedItem().equals(MuscTorso.Pecho)) {
 				                    JComboBox<EjPecho> cbEjercicio = new JComboBox<>(EjPecho.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 
 				                } else if (cbMusculo.getSelectedItem().equals(MuscTorso.Abdominales)) {
 				                    JComboBox<EjAbdominales> cbEjercicio = new JComboBox<>(EjAbdominales.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 
 				                } else if (cbMusculo.getSelectedItem().equals(MuscTorso.Espalda_Superior)) {
 				                    JComboBox<EjEspaldaSuperior> cbEjercicio = new JComboBox<>(EjEspaldaSuperior.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 
 				                } else {
 				                    JComboBox<EjEspaldaInferior> cbEjercicio = new JComboBox<>(EjEspaldaInferior.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 				                }
 			            		
 			            	}
@@ -501,7 +573,7 @@ public class Nueva_Rutina extends JFrame{
 				else if(cbParteCuerpo.getSelectedItem().equals(PartesDelCuerpo.Pierna)) {
 					
 					JComboBox<MuscPierna> cbMusculo= new JComboBox<>(MuscPierna.values());		
-			        tablaRutina.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbMusculo));
+			        tablaEjercicios.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbMusculo));
 			        
 			        
 			        cbMusculo.addActionListener(new ActionListener() {
@@ -512,23 +584,23 @@ public class Nueva_Rutina extends JFrame{
 			            		// Verificar qué músculo fue seleccionado y asignar el ComboBox de ejercicios correspondiente
 				                if (cbMusculo.getSelectedItem().equals(MuscPierna.Aductor)) {
 				                    JComboBox<EjAductor> cbEjercicio = new JComboBox<>(EjAductor.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 
 				                } else if (cbMusculo.getSelectedItem().equals(MuscPierna.Cuádriceps)) {
 				                    JComboBox<EjCuadriceps> cbEjercicio = new JComboBox<>(EjCuadriceps.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 
 				                } else if (cbMusculo.getSelectedItem().equals(MuscPierna.Femoral)) {
 				                    JComboBox<EjFemoral> cbEjercicio = new JComboBox<>(EjFemoral.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 
 				                } else if(cbMusculo.getSelectedItem().equals(MuscPierna.Gluteo)) {
 				                    JComboBox<EjGluteo> cbEjercicio = new JComboBox<>(EjGluteo.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 				                }
 				                else {
 				                    JComboBox<EjIsquiotibiales> cbEjercicio = new JComboBox<>(EjIsquiotibiales.values());
-				                    tablaRutina.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
+				                    tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjercicio));
 				                	
 				                }
 			            		
@@ -548,7 +620,7 @@ public class Nueva_Rutina extends JFrame{
      
       String[] series = {"1","2","3","4","5","6"};
       JComboBox<String> cbSeries = new JComboBox<>(series);		
-      tablaRutina.getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(cbSeries));
+      tablaEjercicios.getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(cbSeries));
     
       	
       
@@ -560,25 +632,25 @@ public class Nueva_Rutina extends JFrame{
         
         
         // Crear la tabla
-        this.tablaRutina.setVisible(true);
-        this.tablaRutina.setDefaultRenderer(Object.class, cellRenderer);
+        this.tablaEjercicios.setVisible(true);
+        this.tablaEjercicios.setDefaultRenderer(Object.class, cellRenderer);
 		//Se deshabilita la reordenación de columnas
-		this.tablaRutina.getTableHeader().setReorderingAllowed(false);
+		this.tablaEjercicios.getTableHeader().setReorderingAllowed(false);
 		//Se deshabilita el redimensionado de las columna
-		this.tablaRutina.getTableHeader().setResizingAllowed(false);
+		this.tablaEjercicios.getTableHeader().setResizingAllowed(false);
 		//Se definen criterios de ordenación por defecto para cada columna
-		this.tablaRutina.setAutoCreateRowSorter(true);
+		this.tablaEjercicios.setAutoCreateRowSorter(true);
 		
 
 
-		this.tablaRutina.setRowHeight(45);
-		tablaRutina.getColumnModel().getColumn(2).setPreferredWidth(200);
-		tablaRutina.getColumnModel().getColumn(6).setPreferredWidth(70);
+		this.tablaEjercicios.setRowHeight(45);
+		tablaEjercicios.getColumnModel().getColumn(2).setPreferredWidth(200);
+		tablaEjercicios.getColumnModel().getColumn(6).setPreferredWidth(70);
 
 
 		
 		
-        JScrollPane scrollPane = new JScrollPane(tablaRutina);
+        JScrollPane scrollPane = new JScrollPane(tablaEjercicios);
         scrollPane.setBorder(new TitledBorder("Rutina De Fuerza: "));
 
         return scrollPane;
@@ -591,8 +663,8 @@ public class Nueva_Rutina extends JFrame{
             );
             
             // Crear el modelo de datos de la tabla
-            this.modeloDatosTablaRutina = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraTabla);
-    		this.tablaRutina = new JTable(this.modeloDatosTablaRutina) {
+            this.modeloDatostablaEjercicios = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraTabla);
+    		this.tablaEjercicios = new JTable(this.modeloDatostablaEjercicios) {
 
     			private static final long serialVersionUID = 1L;
 
@@ -606,7 +678,7 @@ public class Nueva_Rutina extends JFrame{
     				}
     			}
     		};
-            this.modeloDatosTablaRutina.setRowCount(1);
+            this.modeloDatostablaEjercicios.setRowCount(1);
             
             
             
@@ -658,14 +730,14 @@ public class Nueva_Rutina extends JFrame{
             rescalar.setScaledImage(btnEliminarFila, "/resourses/images/IconoCancelar.png", 20, 20);
             // Crear un editor para la celda que contiene el botón
             ButtonCellEditor editor = new ButtonCellEditor(btnEliminarFila);
-            tablaRutina.getColumnModel().getColumn(3).setCellEditor(editor);  // Columna "Acción"
-            tablaRutina.getColumnModel().getColumn(3).setCellRenderer(new ButtonCellRenderer(btnEliminarFila));
+            tablaEjercicios.getColumnModel().getColumn(3).setCellEditor(editor);  // Columna "Acción"
+            tablaEjercicios.getColumnModel().getColumn(3).setCellRenderer(new ButtonCellRenderer(btnEliminarFila));
                 
 
        
 
             JComboBox<TipoCardio> cbTipoCardio = new JComboBox<>(TipoCardio.values());		
-            tablaRutina.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cbTipoCardio));
+            tablaEjercicios.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cbTipoCardio));
                   
    
      	
@@ -673,22 +745,22 @@ public class Nueva_Rutina extends JFrame{
                 
             
             // Crear la tabla
-            this.tablaRutina.setVisible(true);
-            this.tablaRutina.setDefaultRenderer(Object.class, cellRenderer);
+            this.tablaEjercicios.setVisible(true);
+            this.tablaEjercicios.setDefaultRenderer(Object.class, cellRenderer);
     		//Se deshabilita la reordenación de columnas
-    		this.tablaRutina.getTableHeader().setReorderingAllowed(false);
+    		this.tablaEjercicios.getTableHeader().setReorderingAllowed(false);
     		//Se deshabilita el redimensionado de las columna
-    		this.tablaRutina.getTableHeader().setResizingAllowed(false);
+    		this.tablaEjercicios.getTableHeader().setResizingAllowed(false);
     		//Se definen criterios de ordenación por defecto para cada columna
-    		this.tablaRutina.setAutoCreateRowSorter(true);
+    		this.tablaEjercicios.setAutoCreateRowSorter(true);
     		
 
 
-    		this.tablaRutina.setRowHeight(45);
-    		tablaRutina.getColumnModel().getColumn(3).setPreferredWidth(10);
+    		this.tablaEjercicios.setRowHeight(45);
+    		tablaEjercicios.getColumnModel().getColumn(3).setPreferredWidth(10);
     		
     		
-            JScrollPane scrollPane = new JScrollPane(tablaRutina);
+            JScrollPane scrollPane = new JScrollPane(tablaEjercicios);
             scrollPane.setBorder(new TitledBorder("Rutina De Cardio: "));
 
             return scrollPane;
@@ -707,8 +779,8 @@ public class Nueva_Rutina extends JFrame{
                     Arrays.asList("Tipo","Estilo","Foto","Duración (min)", "")
                 );
                 // Crear el modelo de datos de la tabla
-                this.modeloDatosTablaRutina = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraTabla);
-        		this.tablaRutina = new JTable(this.modeloDatosTablaRutina) {
+                this.modeloDatostablaEjercicios = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraTabla);
+        		this.tablaEjercicios = new JTable(this.modeloDatostablaEjercicios) {
 
         			private static final long serialVersionUID = 1L;
 
@@ -722,7 +794,7 @@ public class Nueva_Rutina extends JFrame{
         				}
         			}
         		};
-                this.modeloDatosTablaRutina.setRowCount(1);
+                this.modeloDatostablaEjercicios.setRowCount(1);
                 
                 
                 
@@ -775,40 +847,40 @@ public class Nueva_Rutina extends JFrame{
                 rescalar.setScaledImage(btnEliminarFila, "/resourses/images/IconoCancelar.png", 20, 20);
                 // Crear un editor para la celda que contiene el botón
                 ButtonCellEditor editor = new ButtonCellEditor(btnEliminarFila);
-                tablaRutina.getColumnModel().getColumn(4).setCellEditor(editor);  // Columna "Acción"
-                tablaRutina.getColumnModel().getColumn(4).setCellRenderer(new ButtonCellRenderer(btnEliminarFila));
+                tablaEjercicios.getColumnModel().getColumn(4).setCellEditor(editor);  // Columna "Acción"
+                tablaEjercicios.getColumnModel().getColumn(4).setCellRenderer(new ButtonCellRenderer(btnEliminarFila));
                     
 
            
 
                 JComboBox<TipoNat> cbTipoNatacion = new JComboBox<>(TipoNat.values());		
-                tablaRutina.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cbTipoNatacion));
+                tablaEjercicios.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cbTipoNatacion));
                       
          
          	
                 
                 JComboBox<EstiloNat> cbEstilo = new JComboBox<>(EstiloNat.values());		
-                tablaRutina.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbEstilo));
+                tablaEjercicios.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbEstilo));
            
                 
                 
                 // Crear la tabla
-                this.tablaRutina.setVisible(true);
-                this.tablaRutina.setDefaultRenderer(Object.class, cellRenderer);
+                this.tablaEjercicios.setVisible(true);
+                this.tablaEjercicios.setDefaultRenderer(Object.class, cellRenderer);
         		//Se deshabilita la reordenación de columnas
-        		this.tablaRutina.getTableHeader().setReorderingAllowed(false);
+        		this.tablaEjercicios.getTableHeader().setReorderingAllowed(false);
         		//Se deshabilita el redimensionado de las columna
-        		this.tablaRutina.getTableHeader().setResizingAllowed(false);
+        		this.tablaEjercicios.getTableHeader().setResizingAllowed(false);
         		//Se definen criterios de ordenación por defecto para cada columna
-        		this.tablaRutina.setAutoCreateRowSorter(true);
+        		this.tablaEjercicios.setAutoCreateRowSorter(true);
         		
 
 
-        		this.tablaRutina.setRowHeight(45);
-        		tablaRutina.getColumnModel().getColumn(4).setPreferredWidth(10);
+        		this.tablaEjercicios.setRowHeight(45);
+        		tablaEjercicios.getColumnModel().getColumn(4).setPreferredWidth(10);
         		
         		
-                JScrollPane scrollPane = new JScrollPane(tablaRutina);
+                JScrollPane scrollPane = new JScrollPane(tablaEjercicios);
                 scrollPane.setBorder(new TitledBorder("Rutina De Natación: "));
 
                 return scrollPane;
@@ -838,8 +910,8 @@ public class Nueva_Rutina extends JFrame{
                         // Asocia el botón a la celda y añade el ActionListener
                         button.addActionListener(e -> {
                             // Verifica si hay más de una fila en la tabla
-                            if (tablaRutina.getRowCount() > 1) {
-                                modeloDatosTablaRutina.removeRow(row); // Elimina la fila donde está el botón
+                            if (tablaEjercicios.getRowCount() > 1) {
+                                modeloDatostablaEjercicios.removeRow(row); // Elimina la fila donde está el botón
                             } else {
                                 JOptionPane.showMessageDialog(table, "No se puede eliminar la última fila.", "Error", JOptionPane.ERROR_MESSAGE);
                             }
@@ -861,9 +933,10 @@ public class Nueva_Rutina extends JFrame{
                         return button;  // Muestra el botón en la celda
                     }
                 }
-
-
                 
+               
+                
+                  
 
 
 }

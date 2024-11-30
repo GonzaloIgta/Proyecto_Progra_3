@@ -9,6 +9,8 @@ public class Rutina {
 	public enum Objetivo_de_la_sesion{
 		MUSCULACION,CARDIOVASCULAR,PERDIDA_DE_PESO
 	}
+	
+	private int id = -1;
 	protected Objetivo_de_la_sesion objetivo;
 	protected String nombre;
 	protected ArrayList<Ejercicio> lista_ejercicios;
@@ -28,6 +30,15 @@ public class Rutina {
 		return  this.lista_ejercicios.add(ejercicio);
 	}
 	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	
 
 	public Objetivo_de_la_sesion getObjetivo() {
