@@ -354,7 +354,7 @@ public class Nueva_Rutina extends JFrame{
 				}
 			}
 		};
-        this.modeloDatosTablaRutina.setRowCount(1);
+       this.modeloDatosTablaRutina.setRowCount(1);
         
         
         
