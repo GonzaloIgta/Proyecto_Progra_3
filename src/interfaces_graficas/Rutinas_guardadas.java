@@ -128,8 +128,10 @@ public class Rutinas_guardadas extends JFrame {
             	if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_PLUS) {
                     new Nueva_Rutina().open();
                     dispose();
+                   
                 }
             }
+            
 
             @Override
             public void keyReleased(KeyEvent e) {
