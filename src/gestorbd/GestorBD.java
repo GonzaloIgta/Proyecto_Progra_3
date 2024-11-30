@@ -48,12 +48,13 @@ public class GestorBD {
      */
     public void crearBBDD() {
         if (properties.getProperty("createBBDD").equals("true")) {
-            String sqlcreartabla1 = "CREATE TABLE IF NOT EXISTS Personaje (\n" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                    "editorial TEXT NOT NULL,\n" +
-                    "nombre TEXT NOT NULL,\n" +
-                    "email TEXT NOT NULL,\n" +
-                    "UNIQUE(nombre, email));";
+            String sqlcreartabla1 = "CREATE TABLE IF NOT EXISTS RUTINA (\n"
+	                   + " ID INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+	                   + " NOMBRE TEXT NOT NULL,\n"
+	                   + " OBJETIVO TEXT NOT NULL,\n"
+	                   + " LISTA_EJ ARRAY NOT NULL,\n" 
+	                   + " NUMERO_EJ INTEGER NOT NULL,\n"
+	                   + ");";
 
           
 
