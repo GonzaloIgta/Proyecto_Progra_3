@@ -1,6 +1,8 @@
 package interfaces_graficas;
 
 import clases_de_apyo.Rescalar_imagen;
+import gestorbd.GestorBD;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -20,6 +22,7 @@ public class Login extends JFrame implements ActionListener {
     private JLabel statusLabel;
     private JLabel label_de_foto_usuario;
     private JButton botonMostrarContraseña;
+    private GestorBD gestor;
     private boolean mostrandoContraseña = false; 
     private HashMap<String, String> baseDeDatos = new HashMap<>();
     
@@ -27,7 +30,8 @@ public class Login extends JFrame implements ActionListener {
     private final String USUARIO = "";
     private final String CONTRASEÑA = "";
 
-    public Login() {
+    public Login(GestorBD gestor) {
+    	this.gestor = gestor;
         // Configuración de la ventana
         setTitle("Login DeustoGym");
         setSize(400, 300);
@@ -125,7 +129,7 @@ public class Login extends JFrame implements ActionListener {
         if (baseDeDatos.containsKey(usuario) && baseDeDatos.get(usuario).equals(contraseña)) {
             statusLabel.setText("Login exitoso");
             JOptionPane.showMessageDialog(this, "Bienvenido " + usuario + "!");
-            new Pagina_principal();
+            new Pagina_principal(gestor);
             dispose();
         } else {
             statusLabel.setText("Usuario o contraseña incorrectos");

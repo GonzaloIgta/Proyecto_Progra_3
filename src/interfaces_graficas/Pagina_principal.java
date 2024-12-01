@@ -11,10 +11,11 @@ import clases_de_apyo.Ejercicio_Natacion.EstiloNat;
 import clases_de_apyo.Ejercicio_gym;
 import clases_de_apyo.Ejercicio_cardio;
 import clases_de_apyo.Rutina;
+import gestorbd.GestorBD;
 
 public class Pagina_principal extends JFrame {
     private static final long serialVersionUID = 1;
-    
+	private GestorBD gestor;
     public static ArrayList<Rutina> rutinas = new ArrayList<>();
     
     static{
@@ -96,12 +97,12 @@ public class Pagina_principal extends JFrame {
 
 
     }
-    public Pagina_principal() {
+    public Pagina_principal(GestorBD gestor) {
 
-        
+        this.gestor = gestor;
         //CREAR OBJETOS PARA CADA VENTANA
-        Rutinas_guardadas rutinas_guardadas = new Rutinas_guardadas(Pagina_principal.rutinas);
-        Planning planing = new Planning(Pagina_principal.rutinas);
+        Rutinas_guardadas rutinas_guardadas = new Rutinas_guardadas(Pagina_principal.rutinas,gestor);
+        Planning planing = new Planning(Pagina_principal.rutinas,gestor);
         ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
         this.setIconImage(icono.getImage());
         

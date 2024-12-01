@@ -1,19 +1,13 @@
 package gestorbd;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+
 
 public class GestorBD {
 

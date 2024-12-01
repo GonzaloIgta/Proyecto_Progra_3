@@ -30,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 
 	import clases_de_apyo.Rescalar_imagen;
 	import clases_de_apyo.Rutina;
+import gestorbd.GestorBD;
 	
 	public class Planning extends JFrame{
 	
@@ -37,11 +38,14 @@ import javax.swing.table.DefaultTableModel;
 	
 		
 		private ArrayList<Rutina> rutinasGuardadas;
-		JButton botonAgregarRutina;
-		JButton eliminarBoton;
+		private JButton botonAgregarRutina;
+		private JButton eliminarBoton;
+		private GestorBD gestor;
+	
 		
 		
-		public Planning(ArrayList<Rutina> rutinasGuardadas){
+		public Planning(ArrayList<Rutina> rutinasGuardadas,GestorBD gestor){
+			this.gestor = gestor;
 			this.rutinasGuardadas = rutinasGuardadas;
 			
 	        ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
@@ -70,7 +74,7 @@ import javax.swing.table.DefaultTableModel;
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new Pagina_principal();
+					new Pagina_principal(gestor);
 					dispose();
 				}
 			});

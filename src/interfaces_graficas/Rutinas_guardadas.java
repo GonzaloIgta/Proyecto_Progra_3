@@ -38,6 +38,7 @@ import clases_de_apyo.Modelo_de_datos_ejercicio;
 import clases_de_apyo.Modelo_de_datos_rutinas;
 import clases_de_apyo.Rescalar_imagen;
 import clases_de_apyo.Rutina;
+import gestorbd.GestorBD;
 
 public class Rutinas_guardadas extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -56,8 +57,9 @@ public class Rutinas_guardadas extends JFrame {
     private JPanel ventanadondetablas;
     private GridBagConstraints constantes_ej = new GridBagConstraints();
     private Rutina rutina_seleccionada;
+    private GestorBD gestor;
 
-    public Rutinas_guardadas(ArrayList<Rutina> rutinas) {
+    public Rutinas_guardadas(ArrayList<Rutina> rutinas, GestorBD gestor) {
         this.rutinas = rutinas;
         ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
         this.setIconImage(icono.getImage());
@@ -84,7 +86,7 @@ public class Rutinas_guardadas extends JFrame {
         JButton home = new JButton();
         home.setFocusable(false);
         home.addActionListener(e -> {
-            new Pagina_principal();
+            new Pagina_principal(gestor);
             dispose();
         });
         rescalar.setScaledImage(home, "/resourses/images/casa.png", 20, 20);
@@ -127,7 +129,7 @@ public class Rutinas_guardadas extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
             	if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_PLUS) {
-                    new Nueva_Rutina().open();
+                    new Nueva_Rutina(gestor).open();
                     dispose();
                    
                 }
