@@ -108,49 +108,81 @@ public class GestorBD {
 	 * Borra las tablas y el fichero de la BBDD.
 	 */
 	public void borrarBBDD() {
-		// Sólo se borra la BBDD si la propiedad deleteBBDD es true
-		if (properties.get("deleteBBDD").equals("true")) {
-			String sql1 = "DROP TABLE IF EXISTS TABLA AUN POR CREAR;"; // CAMBIAR LA SENTENCIA
+	    if (properties.get("deleteBBDD").equals("true")) {
+	        String sqlDropTieneNatacion = "DROP TABLE IF EXISTS TIENE_NATACION;";
+	        String sqlDropTieneCardio = "DROP TABLE IF EXISTS TIENE_CARDIO;";
+	        String sqlDropTieneGym = "DROP TABLE IF EXISTS TIENE_GYM;";
+	        String sqlDropEjNatacion = "DROP TABLE IF EXISTS EJERCICIO_NATACION;";
+	        String sqlDropEjCardio = "DROP TABLE IF EXISTS EJERCICIO_CARDIO;";
+	        String sqlDropEjGym = "DROP TABLE IF EXISTS EJERCICIO_GYM;";
+	        String sqlDropRutina = "DROP TABLE IF EXISTS RUTINA;";
 
-			// Se abre la conexión y se crea un PreparedStatement para borrar cada tabla
-			try (Connection con = DriverManager.getConnection(connectionString);
-					PreparedStatement pStmt1 = con.prepareStatement(sql1)) {
+	        try (Connection con = DriverManager.getConnection(connectionString);
+	             PreparedStatement pStmt1 = con.prepareStatement(sqlDropTieneNatacion);
+	             PreparedStatement pStmt2 = con.prepareStatement(sqlDropTieneCardio);
+	             PreparedStatement pStmt3 = con.prepareStatement(sqlDropTieneGym);
+	             PreparedStatement pStmt4 = con.prepareStatement(sqlDropEjNatacion);
+	             PreparedStatement pStmt5 = con.prepareStatement(sqlDropEjCardio);
+	             PreparedStatement pStmt6 = con.prepareStatement(sqlDropEjGym);
+	             PreparedStatement pStmt7 = con.prepareStatement(sqlDropRutina)) {
 
-				// Se ejecutan las sentencias de borrado de las tablas
-				if (!pStmt1.execute()) {
-					System.out.println("Se han borrado las tablas");
-				}
-			} catch (Exception ex) {
-				System.out.println(String.format("Error al borrar las tablas: %s", ex.getMessage()));
-			}
+	            pStmt1.execute();
+	            pStmt2.execute();
+	            pStmt3.execute();
+	            pStmt4.execute();
+	            pStmt5.execute();
+	            pStmt6.execute();
+	            pStmt7.execute();
 
-			try {
-				Files.delete(Paths.get(databaseFile));
-				System.out.println("Se ha borrado el fichero de la BBDD");
-			} catch (Exception ex) {
-				System.out.println(String.format("Error al borrar el fichero de la BBDD: %s", ex.getMessage()));
-			}
-		}
+	            System.out.println("Se han borrado todas las tablas");
+	        } catch (Exception ex) {
+	            System.out.println(String.format("Error al borrar las tablas: %s", ex.getMessage()));
+	        }
+
+	        try {
+	            Files.delete(Paths.get(databaseFile));
+	            System.out.println("Se ha borrado el fichero de la BBDD");
+	        } catch (Exception ex) {
+	            System.out.println(String.format("Error al borrar el fichero de la BBDD: %s", ex.getMessage()));
+	        }
+	    }
 	}
+
 
 	public void borrarDatos() {
-		// Sólo se borran los datos si la propiedad cleanBBDD es true
-		if (properties.get("cleanBBDD").equals("true")) {
-			String sql1 = "DELETE FROM TABLA POR CREAR;";
+	    if (properties.get("cleanBBDD").equals("true")) {
+	        String sqlDeleteTieneNatacion = "DELETE FROM TIENE_NATACION;";
+	        String sqlDeleteTieneCardio = "DELETE FROM TIENE_CARDIO;";
+	        String sqlDeleteTieneGym = "DELETE FROM TIENE_GYM;";
+	        String sqlDeleteEjNatacion = "DELETE FROM EJERCICIO_NATACION;";
+	        String sqlDeleteEjCardio = "DELETE FROM EJERCICIO_CARDIO;";
+	        String sqlDeleteEjGym = "DELETE FROM EJERCICIO_GYM;";
+	        String sqlDeleteRutina = "DELETE FROM RUTINA;";
 
-			// Se abre la conexión y se crea un PreparedStatement para borrar los datos de
-			// cada tabla
-			try (Connection con = DriverManager.getConnection(connectionString);
-					PreparedStatement pStmt1 = con.prepareStatement(sql1)) {
+	        try (Connection con = DriverManager.getConnection(connectionString);
+	             PreparedStatement pStmt1 = con.prepareStatement(sqlDeleteTieneNatacion);
+	             PreparedStatement pStmt2 = con.prepareStatement(sqlDeleteTieneCardio);
+	             PreparedStatement pStmt3 = con.prepareStatement(sqlDeleteTieneGym);
+	             PreparedStatement pStmt4 = con.prepareStatement(sqlDeleteEjNatacion);
+	             PreparedStatement pStmt5 = con.prepareStatement(sqlDeleteEjCardio);
+	             PreparedStatement pStmt6 = con.prepareStatement(sqlDeleteEjGym);
+	             PreparedStatement pStmt7 = con.prepareStatement(sqlDeleteRutina)) {
 
-				// Se ejecutan las sentencias de borrado de las tablas
-				if (!pStmt1.execute()) {
-					System.out.println("Se han borrado los datos");
-				}
-			} catch (Exception ex) {
-				System.out.println(String.format("Error al borrar los datos: %s", ex.getMessage()));
-			}
-		}
+	            // Se ejecutan las sentencias de borrado de los datos
+	            pStmt1.execute();
+	            pStmt2.execute();
+	            pStmt3.execute();
+	            pStmt4.execute();
+	            pStmt5.execute();
+	            pStmt6.execute();
+	            pStmt7.execute();
+
+	            System.out.println("Se han borrado los datos de todas las tablas");
+	        } catch (Exception ex) {
+	            System.out.println(String.format("Error al borrar los datos: %s", ex.getMessage()));
+	        }
+	    }
 	}
+
 
 }
