@@ -27,6 +27,11 @@ public class Ejercicio_cardio extends Ejercicio {
 		id = identificador;
 		identificador++;
 	}
+	public Ejercicio_cardio(int id, String nombre, String ubicacion_foto, int duracion) {
+		super(nombre, ubicacion_foto);
+		this.duracion = duracion;
+		this.id = id;
+	}
 
 
 

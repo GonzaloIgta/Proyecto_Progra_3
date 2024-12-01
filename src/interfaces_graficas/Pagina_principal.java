@@ -101,7 +101,7 @@ public class Pagina_principal extends JFrame {
 
         this.gestor = gestor;
         //CREAR OBJETOS PARA CADA VENTANA
-        Rutinas_guardadas rutinas_guardadas = new Rutinas_guardadas(Pagina_principal.rutinas,gestor);
+        Rutinas_guardadas rutinas_guardadas = new Rutinas_guardadas(gestor);
         Planning planing = new Planning(Pagina_principal.rutinas,gestor);
         ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
         this.setIconImage(icono.getImage());

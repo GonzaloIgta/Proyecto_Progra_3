@@ -59,8 +59,9 @@ public class Rutinas_guardadas extends JFrame {
     private Rutina rutina_seleccionada;
     private GestorBD gestor;
 
-    public Rutinas_guardadas(ArrayList<Rutina> rutinas, GestorBD gestor) {
-        this.rutinas = rutinas;
+    public Rutinas_guardadas( GestorBD gestor) {
+    	
+        this.rutinas = gestor.getTodasRutinas();;
         ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
         this.setIconImage(icono.getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

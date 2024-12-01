@@ -22,8 +22,22 @@ public class Rutina {
 		this.objetivo = objetivo;
 		this.lista_ejercicios = lista_ejercicios;
 	}
+	public Rutina(int id,String nombre,Objetivo_de_la_sesion objetivo, ArrayList<Ejercicio> lista_ejercicios) {
+		this.nombre = nombre;
+		this.id = id;
+		this.objetivo = objetivo;
+		this.lista_ejercicios = lista_ejercicios;
+	}
 	
 	public Rutina(String nombre, Objetivo_de_la_sesion objetivo) {
+		this.id = ident;
+		ident++;
+		this.nombre = nombre;
+		this.objetivo = objetivo;
+		this.lista_ejercicios = new ArrayList<>();
+	}
+	public Rutina(int id,String nombre, Objetivo_de_la_sesion objetivo) {
+		this.id = id;
 		this.nombre = nombre;
 		this.objetivo = objetivo;
 		this.lista_ejercicios = new ArrayList<>();
@@ -115,6 +129,10 @@ public class Rutina {
 			return lista_ejercicios.size();
 		}
 		return 0;
+	}
+	public void agregarEjercicio(Ejercicio ejercicio) {
+		this.getLista_ejercicios().add(ejercicio);
+		
 	}
 	
 	

@@ -207,6 +207,14 @@ public class Ejercicio_gym extends  Ejercicio{
 		id = identificador;
 		identificador ++;
 	}
+	
+	public Ejercicio_gym(int id,String nombre, String ubicacion_foto,
+			int series,int peso) {
+		super(nombre, ubicacion_foto);
+		this.series = series;
+		this.peso = peso;
+		this.id = id;
+	}
 
 	
 

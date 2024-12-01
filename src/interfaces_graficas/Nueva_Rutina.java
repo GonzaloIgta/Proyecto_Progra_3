@@ -74,7 +74,7 @@ public class Nueva_Rutina extends JFrame {
 	private GestorBD gestor;
 
 	public Nueva_Rutina(GestorBD gestor) {
-		this.rutinas_guardadas =  new Rutinas_guardadas(Pagina_principal.rutinas, gestor);
+		this.rutinas_guardadas =  new Rutinas_guardadas( gestor);
 		this.gestor = gestor;
 		// para que se cierre al darle a la x
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

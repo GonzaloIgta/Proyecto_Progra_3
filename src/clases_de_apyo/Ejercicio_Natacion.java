@@ -45,6 +45,13 @@ public class Ejercicio_Natacion extends Ejercicio {
 		identificador ++;
 
 	}
+	public Ejercicio_Natacion(int id,String nombre, String ubicacion_foto, EstiloNat estilo, int duracion) {
+		super(nombre, ubicacion_foto);
+		this.estilo = estilo;
+		this.duracion = duracion;
+		this.id = id;
+		
+	}
 
 	public EstiloNat getEstilo() {
 		return estilo;
