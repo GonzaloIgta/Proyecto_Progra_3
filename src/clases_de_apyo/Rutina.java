@@ -10,12 +10,15 @@ public class Rutina {
 		MUSCULACION,CARDIOVASCULAR,PERDIDA_DE_PESO
 	}
 	
-	private int id = -1;
+	private static int ident = 0;
 	protected Objetivo_de_la_sesion objetivo;
+	protected int id;
 	protected String nombre;
 	protected ArrayList<Ejercicio> lista_ejercicios;
 	public Rutina(String nombre,Objetivo_de_la_sesion objetivo, ArrayList<Ejercicio> lista_ejercicios) {
 		this.nombre = nombre;
+		id = ident;
+		ident++;
 		this.objetivo = objetivo;
 		this.lista_ejercicios = lista_ejercicios;
 	}

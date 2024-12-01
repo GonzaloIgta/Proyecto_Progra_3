@@ -6,7 +6,8 @@ public class Ejercicio_gym extends  Ejercicio{
 	
 	protected int repeticiones,series, peso;
 	public PartesDelCuerpo musculo_trabajado;
-
+	private static int identificador=0;
+	private int id;
 	
 	public enum PartesDelCuerpo{
 		
@@ -203,6 +204,8 @@ public class Ejercicio_gym extends  Ejercicio{
 		super(nombre, ubicacion_foto);
 		this.series = series;
 		this.peso = peso;
+		id = identificador;
+		identificador ++;
 	}
 
 	
@@ -254,7 +257,9 @@ public class Ejercicio_gym extends  Ejercicio{
 	}
 
 	
-	
+	public int getid() {
+		return this.id;
+	}
 	
 }
 

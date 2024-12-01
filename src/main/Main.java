@@ -10,7 +10,7 @@ public class Main {
 		new Login();
 
 		GestorBD gestor = new GestorBD();
-		gestor.borrarBBDD();
+		gestor.crearBBDD();
 	}
 
 }
