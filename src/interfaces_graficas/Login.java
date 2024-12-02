@@ -3,6 +3,9 @@ package interfaces_graficas;
 import gestorbd.GestorBD;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+
+import clases_de_apyo.Rescalar_imagen;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +42,7 @@ public class Login extends JFrame implements ActionListener {
         // Imagen de usuario en la parte superior
         label_de_foto_usuario = new JLabel();
         label_de_foto_usuario.setHorizontalAlignment(SwingConstants.CENTER);
-        label_de_foto_usuario.setIcon(new ImageIcon(this.getClass().getResource("/resourses/images/icono_usuario.png")));
+        new Rescalar_imagen().setScaledImage(label_de_foto_usuario, "/resourses/images/icono_usuario.png", 120, 120);
         add(label_de_foto_usuario, BorderLayout.NORTH);
 
         // Panel para los campos de entrada
@@ -103,6 +106,8 @@ public class Login extends JFrame implements ActionListener {
 
         if (gestorBD.verificarUsuario(usuario, contraseña)) {
             JOptionPane.showMessageDialog(this, "Login exitoso. Bienvenido " + usuario + "!");
+            new Pagina_principal(gestorBD);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
         }

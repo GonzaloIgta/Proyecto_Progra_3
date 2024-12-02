@@ -86,7 +86,7 @@ public class GestorBD {
 					PreparedStatement pStmt7 = con.prepareStatement(sqletienenatacion);
 					PreparedStatement pStmt6 = con.prepareStatement(sqletienecardio);
 					PreparedStatement pStmt2 = con.prepareStatement(sqlejgym)) {
-
+				crearTablaUsuarios();
 				if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute()
 						&& !pStmt5.execute() && !pStmt6.execute() && !pStmt7.execute()) {
 					System.out.println("Base de datos creada con exito creada con exito");
