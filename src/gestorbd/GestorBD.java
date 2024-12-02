@@ -94,6 +94,7 @@ public class GestorBD {
 			} catch (Exception ex) {
 				System.out.println(String.format("Error al crear las tablas: %s", ex.getMessage()));
 			}
+			
 		}
 	}
 
@@ -430,8 +431,60 @@ public class GestorBD {
 
 		    return rutinas;
 		}
+		
+		public void crearTablaUsuarios() {
+	        String sqlCrearTabla = "CREATE TABLE IF NOT EXISTS usuarios (" +
+	                               "usuario TEXT PRIMARY KEY, " +
+	                               "contraseña TEXT NOT NULL);";
+
+	        try (Connection con = DriverManager.getConnection(connectionString);
+	             PreparedStatement stmt = con.prepareStatement(sqlCrearTabla)) {
+	            stmt.execute();
+	            System.out.println("Tabla de usuarios creada correctamente.");
+	        } catch (SQLException e) {
+	            System.out.println("Error al crear la tabla de usuarios: " + e.getMessage());
+	        }
+	    }
+
+	    // Insertar usuario
+	    public boolean insertarUsuario(String usuario, String contraseña) {
+	        String sqlInsertar = "INSERT INTO usuarios (usuario, contraseña) VALUES (?, ?);";
+
+	        try (Connection con = DriverManager.getConnection(connectionString);
+	             PreparedStatement stmt = con.prepareStatement(sqlInsertar)) {
+	            stmt.setString(1, usuario);
+	            stmt.setString(2, contraseña);
+	            stmt.executeUpdate();
+	            return true;
+	        } catch (SQLException e) {
+	            if (e.getMessage().contains("PRIMARY")) {
+	                System.out.println("El usuario ya existe.");
+	            } else {
+	                System.out.println("Error al insertar el usuario: " + e.getMessage());
+	            }
+	        }
+	        return false;
+	    }
+
+	    // Verificar usuario y contraseña
+	    public boolean verificarUsuario(String usuario, String contraseña) {
+	        String sqlVerificar = "SELECT contraseña FROM usuarios WHERE usuario = ?;";
+
+	        try (Connection con = DriverManager.getConnection(connectionString);
+	             PreparedStatement stmt = con.prepareStatement(sqlVerificar)) {
+	            stmt.setString(1, usuario);
+	            ResultSet rs = stmt.executeQuery();
+	            if (rs.next()) {
+	                return rs.getString("contraseña").equals(contraseña);
+	            }
+	        } catch (SQLException e) {
+	            System.out.println("Error al verificar el usuario: " + e.getMessage());
+	        }
+	        return false;
+	    }
+	}
 
 
 
 
-}
+
