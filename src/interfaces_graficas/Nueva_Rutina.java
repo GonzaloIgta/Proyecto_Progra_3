@@ -529,7 +529,7 @@ public class Nueva_Rutina extends JFrame {
 
 						}
 					});
-
+					
 				} else if (cbParteCuerpo.getSelectedItem().equals(PartesDelCuerpo.Pierna)) {
 
 					JComboBox<MuscPierna> cbMusculo = new JComboBox<>(MuscPierna.values());
