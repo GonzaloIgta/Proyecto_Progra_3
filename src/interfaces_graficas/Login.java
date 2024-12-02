@@ -51,16 +51,21 @@ public class Login extends JFrame implements ActionListener {
         // Campos de entrada
         texto_usuario = new JTextField();
         TitledBorder bordeUsuario = BorderFactory.createTitledBorder("Usuario");
+        bordeUsuario.setTitleJustification(TitledBorder.LEFT);
         texto_usuario.setBorder(bordeUsuario);
         panel.add(texto_usuario);
 
         JPanel panel_contraseña = new JPanel(new BorderLayout());
         texto_contraseña = new JPasswordField();
         TitledBorder bordeContraseña = BorderFactory.createTitledBorder("Contraseña");
+        bordeContraseña.setTitleJustification(TitledBorder.LEFT);
         texto_contraseña.setBorder(bordeContraseña);
 
-        botonMostrarContraseña = new JButton("Mostrar");
+        botonMostrarContraseña = new JButton();
         botonMostrarContraseña.addActionListener(e -> toggleMostrarContraseña());
+        botonMostrarContraseña.setFocusable(false);
+        setIconoOjo(botonMostrarContraseña, mostrandoContraseña);
+       
         panel_contraseña.add(texto_contraseña, BorderLayout.CENTER);
         panel_contraseña.add(botonMostrarContraseña, BorderLayout.EAST);
 
@@ -69,18 +74,24 @@ public class Login extends JFrame implements ActionListener {
         // Botón de login
         JPanel panelBoton = new JPanel();
         botonLogin = new JButton("Iniciar sesión");
+        botonLogin.setFocusable(false);
         botonLogin.addActionListener(this);
         panelBoton.add(botonLogin);
         panel.add(panelBoton);
+        getRootPane().setDefaultButton(botonLogin);
 
         // Botón de registro
         JPanel panelBoton2 = new JPanel();
         botonRegistrar = new JButton("Registrarse");
+        botonRegistrar.setFocusable(false);
         botonRegistrar.addActionListener(e -> openRegisterWindow());
         panelBoton2.add(botonRegistrar);
         panel.add(panelBoton2);
 
-        add(panel, BorderLayout.CENTER);
+        this.add(panel, BorderLayout.CENTER);
+        
+        ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
+        this.setIconImage(icono.getImage());
 
         // Estado del login
         statusLabel = new JLabel(" ");
@@ -96,7 +107,7 @@ public class Login extends JFrame implements ActionListener {
             texto_contraseña.setEchoChar((char) 0); // Muestra el texto
         } else {
             texto_contraseña.setEchoChar('•'); // Oculta el texto
-        }
+        }		setIconoOjo(botonMostrarContraseña, mostrandoContraseña); 
     }
     private void setIconoOjo(JButton boton, boolean abierto) {
         String iconPath = abierto ? "/resourses/images/ojo_abierto.png" : "/resourses/images/ojo_cerrado.png";
@@ -139,17 +150,17 @@ public class Login extends JFrame implements ActionListener {
         panel.add(nuevoUsuario);
 
         JPanel panel_contraseña = new JPanel(new BorderLayout());
-        nuevaContraseña = new JPasswordField();
+        texto_contraseña = new JPasswordField();
         TitledBorder bordeContraseña = BorderFactory.createTitledBorder("Contraseña");
         bordeContraseña.setTitleJustification(TitledBorder.LEFT);
-        nuevaContraseña.setBorder(bordeContraseña);
+        texto_contraseña.setBorder(bordeContraseña);
         
         botonMostrarContraseña = new JButton();
-        botonMostrarContraseña.setFocusable(false);
-        setIconoOjo(botonMostrarContraseña, mostrandoContraseña); // Establece el ícono inicial
         botonMostrarContraseña.addActionListener(e -> toggleMostrarContraseña());
+        botonMostrarContraseña.setFocusable(false);
+        setIconoOjo(botonMostrarContraseña, mostrandoContraseña);
         
-        panel_contraseña.add(nuevaContraseña, BorderLayout.CENTER);
+        panel_contraseña.add(texto_contraseña, BorderLayout.CENTER);
         panel_contraseña.add(botonMostrarContraseña, BorderLayout.EAST);
 
         panel.add(panel_contraseña);
@@ -157,7 +168,7 @@ public class Login extends JFrame implements ActionListener {
         JButton botonCrearCuenta = new JButton("Crear cuenta");
         botonCrearCuenta.addActionListener(e -> {
             String usuario = nuevoUsuario.getText();
-            String contraseña = new String(nuevaContraseña.getPassword());
+            String contraseña = new String(texto_contraseña.getPassword());
 
             if (usuario.isEmpty() || contraseña.isEmpty()) {
                 JOptionPane.showMessageDialog(frameRegistrar, "Por favor, complete todos los campos.");
