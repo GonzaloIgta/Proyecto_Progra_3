@@ -77,6 +77,9 @@ public class GestorBD {
 					+ " ID_RUTINA INTEGER,\n" + " PRIMARY KEY(ID_EJERCICIO, ID_RUTINA),\n"
 					+ " FOREIGN KEY(ID_EJERCICIO) REFERENCES EJERCICIO_NATACION(ID) ON DELETE CASCADE,\n"
 					+ " FOREIGN KEY(ID_RUTINA) REFERENCES RUTINA(ID) ON DELETE CASCADE\n" + ");";
+			
+			String sqlRutinaSemanal = "CREATE TABLE IF NOT EXISTS RUTINA_SEMANAL (\n" + " ID INTEGER PRIMARY KEY,\n"
+					+ " NOMBRE VARCHAR(20)\n" + ");";
 
 			try (Connection con = DriverManager.getConnection(connectionString);
 					PreparedStatement pStmt1 = con.prepareStatement(sqlrutina);
@@ -85,10 +88,12 @@ public class GestorBD {
 					PreparedStatement pStmt5 = con.prepareStatement(sqletienegym);
 					PreparedStatement pStmt7 = con.prepareStatement(sqletienenatacion);
 					PreparedStatement pStmt6 = con.prepareStatement(sqletienecardio);
-					PreparedStatement pStmt2 = con.prepareStatement(sqlejgym)) {
+					PreparedStatement pStmt2 = con.prepareStatement(sqlejgym);
+					PreparedStatement pStmt8 = con.prepareStatement(sqlRutinaSemanal))
+{
 				crearTablaUsuarios();
 				if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute()
-						&& !pStmt5.execute() && !pStmt6.execute() && !pStmt7.execute()) {
+						&& !pStmt5.execute() && !pStmt6.execute() && !pStmt7.execute()  && !pStmt8.execute()) {
 					System.out.println("Base de datos creada con exito creada con exito");
 				}
 			} catch (Exception ex) {
@@ -110,6 +115,9 @@ public class GestorBD {
 			String sqlDropEjCardio = "DROP TABLE IF EXISTS EJERCICIO_CARDIO;";
 			String sqlDropEjGym = "DROP TABLE IF EXISTS EJERCICIO_GYM;";
 			String sqlDropRutina = "DROP TABLE IF EXISTS RUTINA;";
+			String sqlDropRutinaSemanal = "DROP TABLE IF EXISTS RUTINA_SEMANAL;";
+			
+
 
 			try (Connection con = DriverManager.getConnection(connectionString);
 					PreparedStatement pStmt1 = con.prepareStatement(sqlDropTieneNatacion);
@@ -118,7 +126,9 @@ public class GestorBD {
 					PreparedStatement pStmt4 = con.prepareStatement(sqlDropEjNatacion);
 					PreparedStatement pStmt5 = con.prepareStatement(sqlDropEjCardio);
 					PreparedStatement pStmt6 = con.prepareStatement(sqlDropEjGym);
-					PreparedStatement pStmt7 = con.prepareStatement(sqlDropRutina)) {
+					PreparedStatement pStmt7 = con.prepareStatement(sqlDropRutina);
+					PreparedStatement pStmt8 = con.prepareStatement(sqlDropRutinaSemanal))
+			{
 
 				pStmt1.execute();
 				pStmt2.execute();
@@ -127,6 +137,7 @@ public class GestorBD {
 				pStmt5.execute();
 				pStmt6.execute();
 				pStmt7.execute();
+				pStmt8.execute();
 
 				System.out.println("Se han borrado todas las tablas");
 			} catch (Exception ex) {
@@ -151,6 +162,8 @@ public class GestorBD {
 			String sqlDeleteEjCardio = "DELETE FROM EJERCICIO_CARDIO;";
 			String sqlDeleteEjGym = "DELETE FROM EJERCICIO_GYM;";
 			String sqlDeleteRutina = "DELETE FROM RUTINA;";
+			String sqlDeleteRutinaSemanal = "DELETE FROM RUTINA_SEMANAL;";
+
 
 			try (Connection con = DriverManager.getConnection(connectionString);
 					PreparedStatement pStmt1 = con.prepareStatement(sqlDeleteTieneNatacion);
@@ -159,7 +172,9 @@ public class GestorBD {
 					PreparedStatement pStmt4 = con.prepareStatement(sqlDeleteEjNatacion);
 					PreparedStatement pStmt5 = con.prepareStatement(sqlDeleteEjCardio);
 					PreparedStatement pStmt6 = con.prepareStatement(sqlDeleteEjGym);
-					PreparedStatement pStmt7 = con.prepareStatement(sqlDeleteRutina)) {
+					PreparedStatement pStmt7 = con.prepareStatement(sqlDeleteRutina); 
+					PreparedStatement pStmt8 = con.prepareStatement(sqlDeleteRutinaSemanal)) {
+
 
 				// Se ejecutan las sentencias de borrado de los datos
 				pStmt1.execute();
@@ -169,7 +184,9 @@ public class GestorBD {
 				pStmt5.execute();
 				pStmt6.execute();
 				pStmt7.execute();
+				pStmt8.execute();
 
+				
 				System.out.println("Se han borrado los datos de todas las tablas");
 			} catch (Exception ex) {
 				System.out.println(String.format("Error al borrar los datos: %s", ex.getMessage()));
