@@ -23,11 +23,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
@@ -72,7 +74,18 @@ public class Nueva_Rutina extends JFrame {
 	private Rutinas_guardadas rutinas_guardadas;
 	private Rescalar_imagen rescalar = new Rescalar_imagen();
 	private GestorBD gestor;
+	private JScrollPane scrollPane2;
+    private ArrayList<JProgressBar> barras;
+    private JProgressBar barra_gym;
+    private JProgressBar barra_natacion;
+    private JProgressBar barra_running;
+	private JPanel panelboxl;
+	private int numEjGym = 0; 
+	private int numEjCard = 0; 
+	private int numEjNat = 0; 
+	private int numEjTotal = 0;
 
+	
 	public Nueva_Rutina(GestorBD gestor) {
 		this.rutinas_guardadas =  new Rutinas_guardadas( gestor);
 		this.gestor = gestor;
@@ -88,7 +101,7 @@ public class Nueva_Rutina extends JFrame {
 		JPanel ventana_nuevaRutinaDOWN = new JPanel(new BorderLayout());
 		JScrollPane scrollPane = new JScrollPane(this.tablaEjercicios);
 
-		JPanel panelboxl = new JPanel();
+		panelboxl = new JPanel();
 		panelboxl.setLayout(new BoxLayout(panelboxl, BoxLayout.Y_AXIS));
 
 		ventana_central_MuestraRutinas = new JPanel(new BorderLayout());
@@ -296,45 +309,27 @@ public class Nueva_Rutina extends JFrame {
 
 		ventana_central_MuestraRutinas.add(scrollPane, BorderLayout.CENTER);
 
-		JScrollPane scrollPane2 = new JScrollPane(panelboxl);
+		scrollPane2 = new JScrollPane(panelboxl);
 
+		
 		// crear boton de guardar/pasar datos a rutina
 		JButton btnPasarARutina = new JButton("⬇Guardar En Rutina⬇");
 		ActionListener listener_boton_Pasar_Rutina = e -> {
-			JLabel lablnuevo = new JLabel();
+			
+			if(modeloDatostablaEjercicios!=null) { //si ya hemos seleccionado un tipo de ejercicio (la tabla no es null) y no hay ninguna celda vacia
+				añadirEjercicioRutina();
+			}else if(modeloDatostablaEjercicios==null){ // si no hemos seleccionado ningun tipo de ejercicio (es decir es null el valor del a tabla) sale un mensaje
+				
+				JOptionPane.showMessageDialog(
+					    null, // Componente padre
+					    "Para guardar un ejercicio en la rutina primero debes seleccionar un tipo de ejercicio", // Mensaje
+					    "Advertencia", // Título del cuadro
+					    JOptionPane.WARNING_MESSAGE // Tipo de mensaje
+					);
 
-			StringBuilder sb = new StringBuilder(); // FUENTE EXTERNA CHATGP: solo el sb
 
-			int rowCount = tablaEjercicios.getRowCount();
-			int columnCount = tablaEjercicios.getColumnCount();
-
-			int row = 0;
-			while (row < rowCount) {
-				int column = 0;
-				while (column < columnCount) {
-					Object value = tablaEjercicios.getValueAt(row, column);
-
-					if (value != null) {
-						sb.append(value.toString()).append(" ");
-					}
-
-					column++;
-				}
-
-				sb.append("<br>");
-
-				row++;
+				
 			}
-
-			lablnuevo.setText("<html>" + sb.toString() + "</html>"); // FUENTE EXTERNA CHATGP
-
-			panelboxl.add(lablnuevo);
-
-			panelboxl.revalidate();
-			panelboxl.repaint();
-
-			scrollPane2.revalidate();
-			scrollPane2.repaint();
 
 		};
 
@@ -343,6 +338,17 @@ public class Nueva_Rutina extends JFrame {
 		ventana_nuevaRutinaDOWN.add(btnPasarARutina, BorderLayout.NORTH);
 
 		ventana_nuevaRutinaDOWN.add(scrollPane2, BorderLayout.CENTER);
+		
+		
+		//progressbar de abajo 
+		initbarras();
+        JPanel panel_de_abajo_progbar = new JPanel();
+        panel_de_abajo_progbar.setLayout(new FlowLayout());
+        for (JProgressBar barra : barras) {
+        	panel_de_abajo_progbar.add(barra);
+        }
+		
+		ventana_nuevaRutinaDOWN.add(panel_de_abajo_progbar, BorderLayout.SOUTH);
 
 		// Crear un borde a cada panel
 
@@ -833,5 +839,125 @@ public class Nueva_Rutina extends JFrame {
 			return button; // Muestra el botón en la celda
 		}
 	}
+	
+	private  void añadirEjercicioRutina() {
+		
+	
+
+			JLabel lablnuevo = new JLabel();
+
+			StringBuilder sb = new StringBuilder(); // FUENTE EXTERNA CHATGP: solo el sb
+
+			int rowCount = tablaEjercicios.getRowCount();
+			int columnCount = tablaEjercicios.getColumnCount();
+
+			int row = 0;
+			while (row < rowCount) {
+				int column = 0;
+				while (column < columnCount) {
+					Object value = tablaEjercicios.getValueAt(row, column);
+
+					if (value != null) {
+						sb.append(value.toString()).append(" ");
+					}
+
+					column++;
+				}
+
+				sb.append("<br>");
+
+				row++;
+			}
+
+			lablnuevo.setText("<html>" + sb.toString() + "</html>"); // FUENTE EXTERNA CHATGP
+			
+			if(modeloDatostablaEjercicios.getColumnCount()==7) { //ejercicio de fuerza
+				lablnuevo.setBackground(new Color(90, 155, 121));
+
+				numEjGym += modeloDatostablaEjercicios.getRowCount();
+				
+				
+			}else if (modeloDatostablaEjercicios.getColumnCount()==4) {//ejercicio cardio
+				
+				lablnuevo.setBackground(new Color(238, 44, 44));
+				numEjCard += modeloDatostablaEjercicios.getRowCount();
+
+
+			}else {
+				lablnuevo.setBackground(new Color(30, 144, 255));
+				numEjNat += modeloDatostablaEjercicios.getRowCount();
+
+				
+			}
+			
+	        numEjTotal = numEjGym + numEjCard + numEjNat;
+
+	        actualizar_barras();
+	        
+			lablnuevo.setOpaque(true);
+			lablnuevo.setBorder(new LineBorder(Color.BLACK, 1));
+			
+			panelboxl.add(lablnuevo);
+
+			panelboxl.revalidate();
+			panelboxl.repaint();
+
+			scrollPane2.revalidate();
+			scrollPane2.repaint();
+
+		
+	
+	}
+	 private void initbarras() {
+	        barra_gym = new JProgressBar(0, 100);
+	        barra_gym.setStringPainted(true);
+	        barra_gym.setForeground(new Color(90, 155, 121));
+	        barra_gym.setString("Ejercicios de Fuerza");
+
+	        barra_natacion = new JProgressBar(0, 100);
+	        barra_natacion.setStringPainted(true);
+	        barra_natacion.setForeground(new Color(30, 144, 255));
+	        barra_natacion.setString("Ejercicios de Natación");
+
+	        barra_running = new JProgressBar(0, 100);
+	        barra_running.setStringPainted(true);
+	        barra_running.setForeground(new Color(238, 44, 44));
+	        barra_running.setString("Ejercicios de Cardio");
+
+	        barras = new ArrayList<>();
+	        
+	        barras.add(barra_gym);
+	        barras.add(barra_running);
+	        barras.add(barra_natacion);
+	    }
+	 
+	 private void actualizar_barras() {
+
+
+		    // Calcular los valores de las barras como porcentajes
+		    int valorGym = (int) ((double) numEjGym / numEjTotal * 100);
+		    int valorCardio = (int) ((double) numEjCard / numEjTotal * 100);
+		    int valorNatacion = (int) ((double) numEjNat / numEjTotal * 100);
+
+		    // Actualizar las barras
+		    barra_gym.setValue(valorGym);
+		    barra_running.setValue(valorCardio);
+		    barra_natacion.setValue(valorNatacion);
+		}
+	 
+	 /*
+	 private boolean comprobardatosTabla() {
+		 boolean esnull=false;
+		 for (int row=0; row<modeloDatostablaEjercicios.getRowCount();row++) {
+			 for (int column = 0; column < modeloDatostablaEjercicios.getColumnCount(); column++) {
+		            if (tablaEjercicios.getValueAt(row, column) == null) {
+		                esnull= true; // Si encontramos un null, retornamos true
+		            }
+		        }
+		 }
+		 
+		 return esnull;
+	 }*/ 
+
 
 }
