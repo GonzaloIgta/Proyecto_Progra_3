@@ -219,7 +219,7 @@ public class Nueva_Rutina extends JFrame {
 				}
 
 				Rutina rutina_a_añadir = new Rutina(nombreField.getText(), objetivo, ejercicios);
-				Pagina_principal.rutinas.add(rutina_a_añadir);
+				gestor.insertarRutina(rutina_a_añadir);
 				dispose();
 				rutinas_guardadas.open();
 			}

@@ -262,13 +262,11 @@ public class GestorBD {
 	public void insertarRutina(Rutina rutina) {
 	    String sqlVerificarRutina = "SELECT 1 FROM RUTINA WHERE ID = ?";
 	    String sqlInsertarRutina = "INSERT INTO RUTINA (ID, NOMBRE, OBJETIVO) VALUES (?, ?, ?)";
-	    String sqlInsertarRelacionGym = "INSERT INTO TIENE_GYM (ID_EJERCICIO, ID_RUTINA) VALUES (?, ?)";
-	    String sqlInsertarRelacionCardio = "INSERT INTO TIENE_CARDIO (ID_EJERCICIO, ID_RUTINA) VALUES (?, ?)";
-	    String sqlInsertarRelacionNatacion = "INSERT INTO TIENE_NATACION (ID_EJERCICIO, ID_RUTINA) VALUES (?, ?)";
 	    
 	    try (Connection con = DriverManager.getConnection(connectionString)) {
 	        con.setAutoCommit(false);  // Iniciar transacción
 	        
+	        // Verificar si la rutina ya existe
 	        try (PreparedStatement verificarStmt = con.prepareStatement(sqlVerificarRutina)) {
 	            verificarStmt.setInt(1, rutina.getId());
 	            try (ResultSet rsRutina = verificarStmt.executeQuery()) {
@@ -291,14 +289,8 @@ public class GestorBD {
 	                // Insertar el ejercicio si no existe
 	                insertarEjercicio(ejercicio);
 	                
-	                // Verificar e insertar la relación en la tabla correspondiente
-	                if (ejercicio instanceof Ejercicio_gym) {
-	                    insertarRelacionEjercicio(rutina.getId(), ejercicio.getid(), sqlInsertarRelacionGym, con);
-	                } else if (ejercicio instanceof Ejercicio_cardio) {
-	                    insertarRelacionEjercicio(rutina.getId(), ejercicio.getid(), sqlInsertarRelacionCardio, con);
-	                } else if (ejercicio instanceof Ejercicio_Natacion) {
-	                    insertarRelacionEjercicio(rutina.getId(), ejercicio.getid(), sqlInsertarRelacionNatacion, con);
-	                }
+	                // Insertar la relación para cada ejercicio
+	                insertarRelacionEjercicio(rutina.getId(), ejercicio, con);
 	            }
 	            
 	            con.commit();  // Confirmar la transacción
@@ -311,28 +303,44 @@ public class GestorBD {
 	    }
 	}
 
-		private void insertarRelacionEjercicio(int idRutina, int idEjercicio, String sqlInsertarRelacion, Connection con) {
-		    try {
-		        PreparedStatement verificarRelacionStmt = con.prepareStatement(sqlInsertarRelacion.replace("INSERT INTO", "SELECT 1 FROM"));
-		        verificarRelacionStmt.setInt(1, idEjercicio);
-		        verificarRelacionStmt.setInt(2, idRutina);
-		        ResultSet rsRelacion = verificarRelacionStmt.executeQuery();
+	//CREO ESTA BIEN
+	private void insertarRelacionEjercicio(int idRutina, Ejercicio ejercicio, Connection con) {
+	    String tabla = "";
+	    
+	    // Determina la tabla correcta según el tipo del ejercicio
+	    if (ejercicio instanceof Ejercicio_gym) {
+	        tabla = "TIENE_GYM";
+	    } else if (ejercicio instanceof Ejercicio_Natacion) {
+	        tabla = "TIENE_NATACION";
+	    } else if (ejercicio instanceof Ejercicio_cardio) {
+	        tabla = "TIENE_CARDIO";
+	    } else {
+	        System.out.println("Tipo de ejercicio no reconocido.");
+	        return; // Sale si el tipo de ejercicio no es válido
+	    }
 
-		        if (!rsRelacion.next()) {
-		            PreparedStatement insertarRelacionStmt = con.prepareStatement(sqlInsertarRelacion);
-		            insertarRelacionStmt.setInt(1, idEjercicio);
-		            insertarRelacionStmt.setInt(2, idRutina);
-		            insertarRelacionStmt.executeUpdate();
-		            System.out.println("Relación insertada en la tabla correspondiente.");
-		        } else {
-		            System.out.println("La relación ya existe.");
-		        }
-		    } catch (Exception e) {
-		    	System.out.println("insertar rutina");
-		        System.out.println("Error al insertar la relación: " + e.getMessage());
-		    }
-		}
+	    String sql = "INSERT INTO " + tabla + " (ID_EJERCICIO, ID_RUTINA) VALUES (?, ?);";
 
+	    try (PreparedStatement insertarRelacionStmt = con.prepareStatement(sql)) {
+	        // Asigna los valores a los parámetros
+	        insertarRelacionStmt.setInt(1, ejercicio.getid()); 
+	        insertarRelacionStmt.setInt(2, idRutina);
+	        
+	        // Ejecuta la actualización
+	        int filasInsertadas = insertarRelacionStmt.executeUpdate();
+	        
+	        if (filasInsertadas > 0) {
+	            System.out.println("Relación insertada en la tabla " + tabla + ".");
+	        } else {
+	            System.out.println("No se insertó ninguna relación.");
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Error al insertar la relación: " + e.getMessage());
+	    }
+	}
+
+		
+		//ESTE CREO QUE ESTA BIEN
 		public List<Rutina> getTodasRutinas() {
 		    List<Rutina> rutinas = new ArrayList<>();
 
@@ -341,6 +349,8 @@ public class GestorBD {
 		    String sqlEjerciciosCardio = "SELECT E.ID, E.NOMBRE, E.DURACION FROM EJERCICIO_CARDIO E WHERE E.ID IN (SELECT T.ID_EJERCICIO FROM TIENE_CARDIO T WHERE T.ID_RUTINA = ?)";
 		    String sqlEjerciciosNatacion = "SELECT E.ID, E.NOMBRE, E.ESTILO_NATACION, E.DURACION FROM EJERCICIO_NATACION E WHERE E.ID IN (SELECT T.ID_EJERCICIO FROM TIENE_NATACION T WHERE T.ID_RUTINA = ?)";
 
+		    
+		    
 		    try (Connection con = DriverManager.getConnection(connectionString);
 		         PreparedStatement stmtRutinas = con.prepareStatement(sqlRutinas);
 		         ResultSet rsRutinas = stmtRutinas.executeQuery()) {
@@ -411,7 +421,6 @@ public class GestorBD {
 		                }
 		            }
 
-		            // Añadir la rutina a la lista
 		            rutinas.add(rutina);
 		        }
 		    } catch (Exception e) {
