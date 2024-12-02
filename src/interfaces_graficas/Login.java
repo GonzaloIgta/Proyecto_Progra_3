@@ -98,6 +98,10 @@ public class Login extends JFrame implements ActionListener {
             texto_contraseña.setEchoChar('•'); // Oculta el texto
         }
     }
+    private void setIconoOjo(JButton boton, boolean abierto) {
+        String iconPath = abierto ? "/resourses/images/ojo_abierto.png" : "/resourses/images/ojo_cerrado.png";
+        new Rescalar_imagen().setScaledImage(boton, iconPath, 20, 20); 
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -119,19 +123,34 @@ public class Login extends JFrame implements ActionListener {
         frameRegistrar.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frameRegistrar.setLocationRelativeTo(null);
         frameRegistrar.setLayout(new BorderLayout());
+        
+        label_de_foto_usuario = new JLabel();
+        label_de_foto_usuario.setHorizontalAlignment(SwingConstants.CENTER); // Centra la imagen en el panel
+        new Rescalar_imagen().setScaledImage(label_de_foto_usuario, "/resourses/images/icono_usuario.png", 100, 100); // Tamaño 100x100
+        frameRegistrar.add(label_de_foto_usuario, BorderLayout.NORTH);
+
 
         JPanel panel = new JPanel(new GridLayout(3, 1));
 
         nuevoUsuario = new JTextField();
-        TitledBorder bordeUsuario = BorderFactory.createTitledBorder("Nuevo Usuario");
+        TitledBorder bordeUsuario = BorderFactory.createTitledBorder("Usuario");
+        bordeUsuario.setTitleJustification(TitledBorder.LEFT);
         nuevoUsuario.setBorder(bordeUsuario);
         panel.add(nuevoUsuario);
 
         JPanel panel_contraseña = new JPanel(new BorderLayout());
         nuevaContraseña = new JPasswordField();
-        TitledBorder bordeContraseña = BorderFactory.createTitledBorder("Nueva Contraseña");
+        TitledBorder bordeContraseña = BorderFactory.createTitledBorder("Contraseña");
+        bordeContraseña.setTitleJustification(TitledBorder.LEFT);
         nuevaContraseña.setBorder(bordeContraseña);
+        
+        botonMostrarContraseña = new JButton();
+        botonMostrarContraseña.setFocusable(false);
+        setIconoOjo(botonMostrarContraseña, mostrandoContraseña); // Establece el ícono inicial
+        botonMostrarContraseña.addActionListener(e -> toggleMostrarContraseña());
+        
         panel_contraseña.add(nuevaContraseña, BorderLayout.CENTER);
+        panel_contraseña.add(botonMostrarContraseña, BorderLayout.EAST);
 
         panel.add(panel_contraseña);
 
