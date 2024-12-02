@@ -5,8 +5,7 @@ import java.util.Objects;
 
 public class Ejercicio_cardio extends Ejercicio {
 	protected int duracion;
-	private int id;
-	private static int identificador = 0;
+
 
 	public enum TipoCardio{
 		
@@ -24,13 +23,7 @@ public class Ejercicio_cardio extends Ejercicio {
 	public Ejercicio_cardio(String nombre, String ubicacion_foto, int duracion) {
 		super(nombre, ubicacion_foto);
 		this.duracion = duracion;
-		id = identificador;
-		identificador++;
-	}
-	public Ejercicio_cardio(int id, String nombre, String ubicacion_foto, int duracion) {
-		super(nombre, ubicacion_foto);
-		this.duracion = duracion;
-		this.id = id;
+
 	}
 
 
@@ -75,12 +68,6 @@ public class Ejercicio_cardio extends Ejercicio {
 	}
 
 
-
-
-	
-	public int getid() {
-		return this.id;
-	}
 
 
 

@@ -53,7 +53,6 @@ public abstract class Ejercicio {
 	}
 
 
-	public abstract int getid();
 
 
 	

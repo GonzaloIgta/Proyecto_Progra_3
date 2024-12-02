@@ -6,8 +6,7 @@ public class Ejercicio_gym extends  Ejercicio{
 	
 	protected int repeticiones,series, peso;
 	public PartesDelCuerpo musculo_trabajado;
-	private static int identificador=0;
-	private int id;
+
 	
 	public enum PartesDelCuerpo{
 		
@@ -199,21 +198,13 @@ public class Ejercicio_gym extends  Ejercicio{
 
 	
 	
-	public Ejercicio_gym(String nombre, String ubicacion_foto,
-			 int series,int peso) {
-		super(nombre, ubicacion_foto);
-		this.series = series;
-		this.peso = peso;
-		id = identificador;
-		identificador ++;
-	}
+
 	
-	public Ejercicio_gym(int id,String nombre, String ubicacion_foto,
+	public Ejercicio_gym(String nombre, String ubicacion_foto,
 			int series,int peso) {
 		super(nombre, ubicacion_foto);
 		this.series = series;
 		this.peso = peso;
-		this.id = id;
 	}
 
 	
@@ -264,10 +255,7 @@ public class Ejercicio_gym extends  Ejercicio{
 				&& series == other.series;
 	}
 
-	
-	public int getid() {
-		return this.id;
-	}
+
 	
 }
 

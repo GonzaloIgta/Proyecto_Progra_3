@@ -8,8 +8,6 @@ public class Ejercicio_Natacion extends Ejercicio {
 	
 	protected EstiloNat estilo;
 	protected int duracion;
-	private static int identificador = 0;
-	private int id;
 	public enum TipoNat {
 	    
 	    Mar_Abierto, 
@@ -41,17 +39,9 @@ public class Ejercicio_Natacion extends Ejercicio {
 		super(nombre, ubicacion_foto);
 		this.estilo = estilo;
 		this.duracion = duracion;
-		id = identificador;
-		identificador ++;
 
 	}
-	public Ejercicio_Natacion(int id,String nombre, String ubicacion_foto, EstiloNat estilo, int duracion) {
-		super(nombre, ubicacion_foto);
-		this.estilo = estilo;
-		this.duracion = duracion;
-		this.id = id;
-		
-	}
+
 
 	public EstiloNat getEstilo() {
 		return estilo;
@@ -89,9 +79,6 @@ public class Ejercicio_Natacion extends Ejercicio {
 		this.duracion = duracion;
 	}
 	
-	public int getid() {
-		return this.id;
-	}
-
+	
 	
 }

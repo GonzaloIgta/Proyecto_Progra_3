@@ -3,4 +3,4 @@ file=db/basededatos.db
 connection=jdbc:sqlite:db/basededatos.db
 cleanBBDD=true
 createBBDD=true
-deleteBBDD=false
+deleteBBDD=true
