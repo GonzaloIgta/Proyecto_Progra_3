@@ -56,11 +56,11 @@ private static final long serialVersionUID = 1L;
 	        case 0: return ejercicio.getNombre();           // nombre del ejercicio
 	        case 1: { // tipo de ejercicio
 	        	if(ejercicio instanceof Ejercicio_gym) {
-	        		return "GYM";
+	        		return "Fuerza";
 	        	} else if(ejercicio instanceof Ejercicio_Natacion) {
 	        		return "Natacion";
 	        	} else if(ejercicio instanceof Ejercicio_cardio) {
-	        		return "Running";
+	        		return "Cardio";
 	        	}
 	        	break;
 	        }

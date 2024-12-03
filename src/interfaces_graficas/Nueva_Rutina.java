@@ -70,9 +70,10 @@ public class Nueva_Rutina extends JFrame {
 	private JTable tablaEjercicios;
 	private DefaultTableModel modeloDatostablaEjercicios;
 	
-	//la tabla RutinaGuardado será una tabla que no se mostrará en la que se guardarán los ejercicios cada vez que le des a guardar ejercicio en rutina
-	private JTable tablaRutinaGuardado;
-	private DefaultTableModel modeloDatostablaRutinaGuardado;
+
+	
+	//las tablas auxiliares creadas al guardar ejercicios en la rutina se guardaran en este arraylist que luego recorreremos para hacer el guardado de la rutina
+	private ArrayList<DefaultTableModel>listaDeTablasEjercicios = new ArrayList<>();
 	
 	private JPanel ventana_central_MuestraRutinas;
 	private Rutinas_guardadas rutinas_guardadas;
@@ -93,6 +94,7 @@ public class Nueva_Rutina extends JFrame {
 	
 	public Nueva_Rutina(GestorBD gestor,String usuario) {
 		this.usuario=usuario;
+		this.rutinas_guardadas =  new Rutinas_guardadas( gestor,usuario);
 		this.gestor = gestor;
 		// para que se cierre al darle a la x
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -199,46 +201,76 @@ public class Nueva_Rutina extends JFrame {
 																							// ingresó solo espacios,
 																							// también se considera
 																							// vacío.
+			//listaDeTablasEjercicios
+			// tablaCopia
 				ArrayList<Ejercicio> ejercicios = new ArrayList<>();
-				for (int fila = 0; fila < tablaEjercicios.getRowCount(); fila++) {
-					Object valor = tablaEjercicios.getValueAt(fila, 0);
-					int peso = 0;
-
-					try {
-						peso = (int) tablaEjercicios.getValueAt(fila, 4);
-					} catch (Exception a) {
-					}
-
-					if (valor instanceof PartesDelCuerpo) {
-						ejercicios.add(new Ejercicio_gym(tablaEjercicios.getValueAt(fila, 2).toString(),
-								"ubicacion por definir",
-								Integer.valueOf(tablaEjercicios.getValueAt(fila, 5).toString()), peso));
-					} else if (valor instanceof TipoNat) {
-						int duracion = 0; // valor por defecto
-						try {
-							duracion = Integer.valueOf(tablaEjercicios.getValueAt(fila, 3).toString());
-						} catch (Exception a) {
-							System.out.println("error al crear ejercicio natacion en la clase nueva rutina por duracion");
-						}
-
-						ejercicios.add(new Ejercicio_Natacion(valor.toString(), "ubicacion por definir",
-								EstiloNat.valueOf(tablaEjercicios.getValueAt(fila, 1).toString()), duracion));
-					} else {
-						int duracion = 0; // valor por defecto
-						try {
-							duracion = Integer.valueOf(tablaEjercicios.getValueAt(fila, 3).toString());
-						} catch (Exception a) {
-							System.out.println("error al crear ejercicio cardio en la clase nueva rutina por duracion");
-						}
-
-						ejercicios.add(new Ejercicio_cardio(valor.toString(), "ubicacion por definir", duracion));
-					}
-				}
-
 				Rutina rutina_a_añadir = new Rutina(nombreField.getText(), objetivo, ejercicios);
+
+
+				for (DefaultTableModel modeloTabla : listaDeTablasEjercicios) {
+					
+					
+					JTable tabla = new JTable(modeloTabla);
+				    
+					for (int fila = 0; fila < tabla.getRowCount(); fila++) {
+						Object valor = tabla.getValueAt(fila, 0);
+						int peso = 0;
+
+						try {
+							peso = (int) tabla.getValueAt(fila, 4);
+						} catch (Exception a) {
+							// no hacer nada en caso de error
+						}
+
+						if (valor instanceof PartesDelCuerpo) {
+							
+							Ejercicio_gym ejercicio = new Ejercicio_gym(tabla.getValueAt(fila, 2).toString(),
+									"ubicacion por definir",Integer.valueOf(tabla.getValueAt(fila, 5).toString()), peso);
+				            if (!ejercicios.contains(ejercicio)) {
+								ejercicios.add(ejercicio);
+				            }
+							
+							
+						} else if (valor instanceof TipoNat) {
+							int duracion = 0; // valor por defecto
+							try {
+								duracion = Integer.valueOf(tabla.getValueAt(fila, 3).toString());
+							} catch (Exception a) {
+								// no hacer nada en caso de error
+							}
+
+							
+							Ejercicio_Natacion ejercicio = new Ejercicio_Natacion(valor.toString(), "ubicacion por definir",
+									EstiloNat.valueOf(tabla.getValueAt(fila, 1).toString()), duracion);
+				            if (!ejercicios.contains(ejercicio)) {
+								ejercicios.add(ejercicio);
+				            }
+							
+						} else {
+							int duracion = 0; // valor por defecto
+							try {
+								duracion = Integer.valueOf(tabla.getValueAt(fila, 3).toString());
+							} catch (Exception a) {
+								// no hacer nada en caso de error
+							}
+
+							Ejercicio_cardio ejercicio = new Ejercicio_cardio(valor.toString(), "ubicacion por definir", duracion);
+				            if (!ejercicios.contains(ejercicio)) {
+								ejercicios.add(ejercicio);
+				            }
+						}
+						
+					}
+
+							
+					
+				}
 				gestor.insertarRutina(rutina_a_añadir,usuario);
+
 				dispose();
 				new Rutinas_guardadas(gestor,usuario);
+				
+
 			}
 
 		};
@@ -966,27 +998,31 @@ public class Nueva_Rutina extends JFrame {
 	 }*/ 
 	 
 	 private void guardarEjercicioEnTablaAuxiliar() {
-		 
-		 if(modeloDatostablaEjercicios.getColumnCount()==7) {			 //hacemos una tabla auxiliar tipo gym
-			 
-			 for (int fila = 0; fila < tablaEjercicios.getRowCount(); fila++) {
-				 
-				 
-				 
-			 }
-			 
-			 
-			 
-		 }else if(modeloDatostablaEjercicios.getColumnCount()==4) {			 //hacemos una tabla auxiliar tipo cardio
+		    if (modeloDatostablaEjercicios != null) {
+		        DefaultTableModel modeloCopia = new DefaultTableModel();
 
-			 
-		 }else { //hacemos una tabla auxiliar tipo natacion
-			 
-			 
-		 }
-		 
-		 
-	 }
+		        // Copiar nombres de columnas
+		        for (int col = 0; col < modeloDatostablaEjercicios.getColumnCount()-1; col++) {
+		            modeloCopia.addColumn(modeloDatostablaEjercicios.getColumnName(col));
+		        }
+
+		        // Copiar filas
+		        for (int i = 0; i < modeloDatostablaEjercicios.getRowCount(); i++) {
+		            Object[] fila = new Object[modeloDatostablaEjercicios.getColumnCount()];
+		            for (int j = 0; j < modeloDatostablaEjercicios.getColumnCount()-1; j++) {
+		                fila[j] = modeloDatostablaEjercicios.getValueAt(i, j);
+		            }
+		            modeloCopia.addRow(fila);
+			        listaDeTablasEjercicios.add(modeloCopia);
+
+		        }
+
+		        // Agregar modelo copiado a la lista
+		    } else {
+		        JOptionPane.showMessageDialog(null, "La tabla original es null, no se puede copiar.");
+		    }
+		}
+
 
 
 
