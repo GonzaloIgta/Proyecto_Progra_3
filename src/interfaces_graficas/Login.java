@@ -158,7 +158,6 @@ public class Login extends JFrame implements ActionListener {
         botonMostrarContraseña = new JButton();
         botonMostrarContraseña.addActionListener(e -> toggleMostrarContraseña());
         botonMostrarContraseña.setFocusable(false);
-        setIconoOjo(botonMostrarContraseña, mostrandoContraseña);
         
         panel_contraseña.add(texto_contraseña, BorderLayout.CENTER);
         panel_contraseña.add(botonMostrarContraseña, BorderLayout.EAST);

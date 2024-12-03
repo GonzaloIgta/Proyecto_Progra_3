@@ -169,6 +169,7 @@ public class Rutinas_guardadas extends JFrame {
 
     public void open() {
         setVisible(true);
+        JTable tablaRutinas = new JTable(modelo_de_datos_rutinas);
         JOptionPane.showMessageDialog(null, "Pulsa 'Control +' para crear una nueva rutina" , "Informativo",JOptionPane.INFORMATION_MESSAGE);
         
     }

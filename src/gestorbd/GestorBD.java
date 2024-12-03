@@ -124,6 +124,7 @@ public class GestorBD {
 			String sqlDropEjGym = "DROP TABLE IF EXISTS EJERCICIO_GYM;";
 			String sqlDropRutina = "DROP TABLE IF EXISTS RUTINA;";
 			String sqlDropRutinaSemanal = "DROP TABLE IF EXISTS RUTINA_SEMANAL;";
+			String sqlDropTablaUsuarios = "DROP TABLE IF EXISTS USUARIOS";
 
 			try (Connection con = DriverManager.getConnection(connectionString);
 					PreparedStatement pStmt1 = con.prepareStatement(sqlDropTieneNatacion);
@@ -133,6 +134,7 @@ public class GestorBD {
 					PreparedStatement pStmt5 = con.prepareStatement(sqlDropEjCardio);
 					PreparedStatement pStmt6 = con.prepareStatement(sqlDropEjGym);
 					PreparedStatement pStmt7 = con.prepareStatement(sqlDropRutina);
+					PreparedStatement pStmt9 = con.prepareStatement(sqlDropRutina);
 					PreparedStatement pStmt8 = con.prepareStatement(sqlDropRutinaSemanal)) {
 
 				pStmt1.execute();
@@ -143,6 +145,8 @@ public class GestorBD {
 				pStmt6.execute();
 				pStmt7.execute();
 				pStmt8.execute();
+				pStmt9.execute();
+				
 
 				System.out.println("Se han borrado todas las tablas");
 			} catch (Exception ex) {
@@ -169,6 +173,7 @@ public class GestorBD {
 			String sqlDeleteEjGym = "DELETE FROM EJERCICIO_GYM;";
 			String sqlDeleteRutina = "DELETE FROM RUTINA;";
 			String sqlDeleteRutinaSemanal = "DELETE FROM RUTINA_SEMANAL;";
+			String sqlDeleteUsuarios = "DELETE FROM USUARIOS;";
 
 			try (Connection con = DriverManager.getConnection(connectionString);
 					PreparedStatement pStmt1 = con.prepareStatement(sqlDeleteTieneNatacion);
@@ -177,6 +182,7 @@ public class GestorBD {
 					PreparedStatement pStmt4 = con.prepareStatement(sqlDeleteEjNatacion);
 					PreparedStatement pStmt5 = con.prepareStatement(sqlDeleteEjCardio);
 					PreparedStatement pStmt6 = con.prepareStatement(sqlDeleteEjGym);
+					PreparedStatement pStmt9 = con.prepareStatement(sqlDeleteUsuarios);
 					PreparedStatement pStmt7 = con.prepareStatement(sqlDeleteRutina);
 					PreparedStatement pStmt8 = con.prepareStatement(sqlDeleteRutinaSemanal)) {
 
@@ -189,6 +195,7 @@ public class GestorBD {
 				pStmt6.execute();
 				pStmt7.execute();
 				pStmt8.execute();
+				pStmt9.execute();
 
 				System.out.println("Se han borrado los datos de todas las tablas");
 			} catch (Exception ex) {
@@ -198,158 +205,11 @@ public class GestorBD {
 	}
 
 	public void insertarEjercicio(Ejercicio ejercicio) {
-		String sqlVerificar = "SELECT 1 FROM ";
-		String sqlInsertar = "INSERT INTO ";
-		String tabla = "";
-
-		try (Connection con = DriverManager.getConnection(connectionString)) {
-			PreparedStatement verificarStmt;
-			PreparedStatement insertarStmt;
-
-			if (ejercicio instanceof Ejercicio_gym) {
-				Ejercicio_gym gym = (Ejercicio_gym) ejercicio;
-				tabla = "EJERCICIO_GYM";
-				sqlVerificar += tabla + " WHERE NOMBRE = ? AND SERIES = ? AND PESO = ?";
-				sqlInsertar += tabla + " (NOMBRE, SERIES, PESO) VALUES (?, ?, ?)";
-
-				// Verificar si el ejercicio ya existe
-				verificarStmt = con.prepareStatement(sqlVerificar);
-				verificarStmt.setString(1, gym.getNombre());
-				verificarStmt.setInt(2, gym.getSeries());
-				verificarStmt.setInt(3, gym.getPeso());
-				ResultSet rs = verificarStmt.executeQuery();
-
-				if (!rs.next()) {
-					// Insertar si no existe
-					insertarStmt = con.prepareStatement(sqlInsertar);
-					insertarStmt.setString(1, gym.getNombre());
-					insertarStmt.setInt(2, gym.getSeries());
-					insertarStmt.setInt(3, gym.getPeso());
-					insertarStmt.executeUpdate();
-					System.out.println("Ejercicio gym insertado correctamente.");
-				} else {
-					System.out.println("El ejercicio gym ya existe en la base de datos.");
-				}
-			} else if (ejercicio instanceof Ejercicio_cardio) {
-				Ejercicio_cardio cardio = (Ejercicio_cardio) ejercicio;
-				tabla = "EJERCICIO_CARDIO";
-				sqlVerificar += tabla + " WHERE NOMBRE = ? AND DURACION = ?";
-				sqlInsertar += tabla + " (NOMBRE, DURACION) VALUES (?, ?)";
-
-				verificarStmt = con.prepareStatement(sqlVerificar);
-				verificarStmt.setString(1, cardio.getNombre());
-				verificarStmt.setInt(2, cardio.getDuracion());
-				ResultSet rs = verificarStmt.executeQuery();
-
-				if (!rs.next()) {
-					insertarStmt = con.prepareStatement(sqlInsertar);
-					insertarStmt.setString(1, cardio.getNombre());
-					insertarStmt.setInt(2, cardio.getDuracion());
-					insertarStmt.executeUpdate();
-					System.out.println("Ejercicio cardio insertado correctamente.");
-				} else {
-					System.out.println("El ejercicio cardio ya existe en la base de datos.");
-				}
-			} else if (ejercicio instanceof Ejercicio_Natacion) {
-				Ejercicio_Natacion natacion = (Ejercicio_Natacion) ejercicio;
-				tabla = "EJERCICIO_NATACION";
-				sqlVerificar += tabla + " WHERE NOMBRE = ? AND ESTILO_NATACION = ? AND DURACION = ?";
-				sqlInsertar += tabla + " (NOMBRE, ESTILO_NATACION, DURACION) VALUES (?, ?, ?)";
-
-				verificarStmt = con.prepareStatement(sqlVerificar);
-				verificarStmt.setString(1, natacion.getNombre());
-				verificarStmt.setString(2, natacion.getEstilo().name()); // Usar el nombre del estilo como string
-				verificarStmt.setInt(3, natacion.getDuracion());
-				ResultSet rs = verificarStmt.executeQuery();
-
-				if (!rs.next()) {
-					insertarStmt = con.prepareStatement(sqlInsertar);
-					insertarStmt.setString(1, natacion.getNombre());
-					insertarStmt.setString(2, natacion.getEstilo().name());
-					insertarStmt.setInt(3, natacion.getDuracion());
-					insertarStmt.executeUpdate();
-					System.out.println("Ejercicio de natación insertado correctamente.");
-				} else {
-					System.out.println("El ejercicio de natación ya existe en la base de datos.");
-				}
-			} else {
-				System.out.println("Tipo de ejercicio desconocido.");
-			}
-		} catch (Exception e) {
-			System.out.println("Error al insertar el ejercicio: " + e.getMessage());
-		}
+		
 	}
 
 	private void insertarRelacionEjercicio(Rutina rutina, Ejercicio ejercicio, Connection con) throws SQLException {
-		String sqlInsertarRelacion = "";
-		if (ejercicio instanceof Ejercicio_gym) {
-			sqlInsertarRelacion = "INSERT INTO TIENE_GYM (RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, SERIES, PESO) VALUES (?, ?, ?, ?, ?)";
-			try (PreparedStatement stmt = con.prepareStatement(sqlInsertarRelacion)) {
-				Ejercicio_gym gym = (Ejercicio_gym) ejercicio;
-				stmt.setString(1, rutina.getNombre());
-				stmt.setString(2, rutina.getObjetivo().toString());
-				stmt.setString(3, gym.getNombre());
-				stmt.setInt(4, gym.getSeries());
-				stmt.setInt(5, gym.getPeso());
-				stmt.executeUpdate();
-			}
-		} else if (ejercicio instanceof Ejercicio_cardio) {
-			sqlInsertarRelacion = "INSERT INTO TIENE_CARDIO (RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, DURACION) VALUES (?, ?, ?, ?)";
-			try (PreparedStatement stmt = con.prepareStatement(sqlInsertarRelacion)) {
-				Ejercicio_cardio cardio = (Ejercicio_cardio) ejercicio;
-				stmt.setString(1, rutina.getNombre());
-				stmt.setString(2, rutina.getObjetivo().toString());
-				stmt.setString(3, cardio.getNombre());
-				stmt.setInt(4, cardio.getDuracion());
-				stmt.executeUpdate();
-			}
-		} else if (ejercicio instanceof Ejercicio_Natacion) {
-			sqlInsertarRelacion = "INSERT INTO TIENE_NATACION (RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, ESTILO_NATACION, DURACION) VALUES (?, ?, ?, ?, ?)";
-			try (PreparedStatement stmt = con.prepareStatement(sqlInsertarRelacion)) {
-				Ejercicio_Natacion natacion = (Ejercicio_Natacion) ejercicio;
-				stmt.setString(1, rutina.getNombre());
-				stmt.setString(2, rutina.getObjetivo().toString());
-				stmt.setString(3, natacion.getNombre());
-				stmt.setString(4, natacion.getEstilo().name());
-				stmt.setInt(5, natacion.getDuracion());
-				stmt.executeUpdate();
-			}
-		}
-	}
-
-	private void insertarRelacionEjercicio(String nombreRutina, Objetivo_de_la_sesion objetivoRutina, Ejercicio ejercicio, Connection con) {
-	    String tabla = "";
-
-	    // Determina la tabla correcta según el tipo del ejercicio
-	    if (ejercicio instanceof Ejercicio_gym) {
-	        tabla = "TIENE_GYM";
-	    } else if (ejercicio instanceof Ejercicio_Natacion) {
-	        tabla = "TIENE_NATACION";
-	    } else if (ejercicio instanceof Ejercicio_cardio) {
-	        tabla = "TIENE_CARDIO";
-	    } else {
-	        System.out.println("Tipo de ejercicio no reconocido.");
-	        return; // Sale si el tipo de ejercicio no es válido
-	    }
-
-	    // Construye la consulta de inserción utilizando los valores de nombre y objetivo
-	    String sql = "INSERT INTO " + tabla + " (EJERCICIO_NOMBRE, RUTINA_NOMBRE, RUTINA_OBJETIVO) VALUES (?, ?, ?);";
-
-	    try (PreparedStatement insertarRelacionStmt = con.prepareStatement(sql)) {
-	        // Asigna los valores a los parámetros
-	        insertarRelacionStmt.setString(1, ejercicio.getNombre());  // Nombre del ejercicio
-	        insertarRelacionStmt.setString(2, nombreRutina);           // Nombre de la rutina
-	        insertarRelacionStmt.setString(3, objetivoRutina.toString());  // Objetivo de la rutina
-	        // Ejecuta la actualización
-	        int filasInsertadas = insertarRelacionStmt.executeUpdate();
-	        if (filasInsertadas > 0) {
-	            System.out.println("Relación insertada en la tabla " + tabla + ".");
-	        } else {
-	            System.out.println("No se insertó ninguna relación.");
-	        }
-	    } catch (SQLException e) {
-	        System.out.println("Error al insertar la relación: " + e.getMessage());
-	    }
+		
 	}
 
 
@@ -470,11 +330,99 @@ public class GestorBD {
 	            
 	            // Insertar ejercicios y relaciones específicas
 	            for (Ejercicio ejercicio : rutina.getLista_ejercicios()) {
-	                // Insertar el ejercicio si no existe
-	                insertarEjercicio(ejercicio);
-	                
-	                // Insertar la relación para cada ejercicio
-	                insertarRelacionEjercicio(rutina.getNombre(), rutina.getObjetivo(), ejercicio, con);
+	            	
+	            	
+	            	String sqlInsertar = "INSERT INTO ";
+	        		String tabla = "";
+
+	        		try  {
+	        			PreparedStatement insertarStmt;
+
+	        			if (ejercicio instanceof Ejercicio_gym) {
+	        				Ejercicio_gym gym = (Ejercicio_gym) ejercicio;
+	        				tabla = "EJERCICIO_GYM";
+	        				sqlInsertar += tabla + " (NOMBRE, SERIES, PESO) VALUES (?, ?, ?)";
+
+	        			
+	        				
+	        					// Insertar si no existe
+	        					insertarStmt = con.prepareStatement(sqlInsertar);
+	        					insertarStmt.setString(1, gym.getNombre());
+	        					insertarStmt.setInt(2, gym.getSeries());
+	        					insertarStmt.setInt(3, gym.getPeso());
+	        					insertarStmt.execute();
+	        					System.out.println("Ejercicio gym insertado correctamente.");
+	        				
+	        			} else if (ejercicio instanceof Ejercicio_cardio) {
+	        				Ejercicio_cardio cardio = (Ejercicio_cardio) ejercicio;
+	        				tabla = "EJERCICIO_CARDIO";
+	        				sqlInsertar += tabla + " (NOMBRE, DURACION) VALUES (?, ?)";
+
+	        					insertarStmt = con.prepareStatement(sqlInsertar);
+	        					insertarStmt.setString(1, cardio.getNombre());
+	        					insertarStmt.setInt(2, cardio.getDuracion());
+	        					insertarStmt.execute();
+	        					System.out.println("Ejercicio cardio insertado correctamente.");
+	        				
+	        				
+	        			} else if (ejercicio instanceof Ejercicio_Natacion) {
+	        				Ejercicio_Natacion natacion = (Ejercicio_Natacion) ejercicio;
+	        				tabla = "EJERCICIO_NATACION";
+	        				sqlInsertar += tabla + " (NOMBRE, ESTILO_NATACION, DURACION) VALUES (?, ?, ?)";
+
+
+	        					insertarStmt = con.prepareStatement(sqlInsertar);
+	        					insertarStmt.setString(1, natacion.getNombre());
+	        					insertarStmt.setString(2, natacion.getEstilo().toString());
+	        					insertarStmt.setInt(3, natacion.getDuracion());
+	        					insertarStmt.executeUpdate();
+	        					System.out.println("Ejercicio de natación insertado correctamente.");
+	        				
+	        			} else {
+	        				System.out.println("Tipo de ejercicio desconocido.");
+	        			}
+	        		} catch (Exception e) {
+	        			System.out.println("Error al insertar el ejercicio: " + e.getMessage());
+	        		}
+	            	
+	            	
+	            	
+	            	String sqlInsertarRelacion = "";
+	        		if (ejercicio instanceof Ejercicio_gym) {
+	        			sqlInsertarRelacion = "INSERT INTO TIENE_GYM (RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, SERIES, PESO) VALUES (?, ?, ?, ?, ?)";
+	        			try (PreparedStatement stmt = con.prepareStatement(sqlInsertarRelacion)) {
+	        				Ejercicio_gym gym = (Ejercicio_gym) ejercicio;
+	        				stmt.setString(1, rutina.getNombre());
+	        				stmt.setString(2, rutina.getObjetivo().toString());
+	        				stmt.setString(3, gym.getNombre());
+	        				stmt.setInt(4, gym.getSeries());
+	        				stmt.setInt(5, gym.getPeso());
+	        				stmt.executeUpdate();
+	        			}
+	        		} else if (ejercicio instanceof Ejercicio_cardio) {
+	        			sqlInsertarRelacion = "INSERT INTO TIENE_CARDIO (RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, DURACION) VALUES (?, ?, ?, ?)";
+	        			try (PreparedStatement stmt = con.prepareStatement(sqlInsertarRelacion)) {
+	        				Ejercicio_cardio cardio = (Ejercicio_cardio) ejercicio;
+	        				stmt.setString(1, rutina.getNombre());
+	        				stmt.setString(2, rutina.getObjetivo().toString());
+	        				stmt.setString(3, cardio.getNombre());
+	        				stmt.setInt(4, cardio.getDuracion());
+	        				stmt.executeUpdate();
+	        			}
+	        		} else if (ejercicio instanceof Ejercicio_Natacion) {
+	        			sqlInsertarRelacion = "INSERT INTO TIENE_NATACION (RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, ESTILO_NATACION, DURACION) VALUES (?, ?, ?, ?, ?)";
+	        			try (PreparedStatement stmt = con.prepareStatement(sqlInsertarRelacion)) {
+	        				Ejercicio_Natacion natacion = (Ejercicio_Natacion) ejercicio;
+	        				stmt.setString(1, rutina.getNombre());
+	        				stmt.setString(2, rutina.getObjetivo().toString());
+	        				stmt.setString(3, natacion.getNombre());
+	        				stmt.setString(4, natacion.getEstilo().toString());
+	        				stmt.setInt(5, natacion.getDuracion());
+	        				stmt.executeUpdate();
+	        			}
+	        		}
+
+
 	            }
 	            
 	            con.commit();  // Confirmar la transacción
