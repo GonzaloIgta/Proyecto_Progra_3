@@ -17,10 +17,11 @@ public class Pagina_principal extends JFrame {
     private static final long serialVersionUID = 1;
 	private GestorBD gestor;
     public static ArrayList<Rutina> rutinas = new ArrayList<>();
+    private  String usuario;
     
   
     public Pagina_principal(GestorBD gestor,String usuario) {
-
+    	this.usuario = usuario;
         this.gestor = gestor;
         //CREAR OBJETOS PARA CADA VENTANA
         Rutinas_guardadas rutinas_guardadas = new Rutinas_guardadas(gestor,usuario);

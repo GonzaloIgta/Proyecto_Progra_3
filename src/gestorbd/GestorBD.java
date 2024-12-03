@@ -217,7 +217,7 @@ public class GestorBD {
 	public ArrayList<Rutina> getTodasRutinas(String usuario) {
 	    ArrayList<Rutina> rutinas = new ArrayList<>();
 
-	    String sqlRutinas = "SELECT NOMBRE, OBJETIVO FROM RUTINA WHERE USARIO = ?";
+	    String sqlRutinas = "SELECT NOMBRE, OBJETIVO FROM RUTINA WHERE USUARIO = ?";
 	    String sqlEjerciciosGym = "SELECT E.NOMBRE, E.SERIES, E.PESO FROM EJERCICIO_GYM E WHERE E.NOMBRE IN " +
 	                              "(SELECT T.EJERCICIO_NOMBRE FROM TIENE_GYM T WHERE T.RUTINA_NOMBRE = ? AND T.RUTINA_OBJETIVO = ?)";
 	    String sqlEjerciciosCardio = "SELECT E.NOMBRE, E.DURACION FROM EJERCICIO_CARDIO E WHERE E.NOMBRE IN " +
@@ -226,10 +226,9 @@ public class GestorBD {
 	                                   "(SELECT T.EJERCICIO_NOMBRE FROM TIENE_NATACION T WHERE T.RUTINA_NOMBRE = ? AND T.RUTINA_OBJETIVO = ?)";
 
 	    try (Connection con = DriverManager.getConnection(connectionString);
-	         PreparedStatement stmtRutinas = con.prepareStatement(sqlRutinas);
-	         ResultSet rsRutinas = stmtRutinas.executeQuery()) {
-    		stmtRutinas.setString(1, usuario);
-
+	         PreparedStatement stmtRutinas = con.prepareStatement(sqlRutinas);) {
+	    	stmtRutinas.setString(1, usuario);
+	    	ResultSet rsRutinas = stmtRutinas.executeQuery();
 	        while (rsRutinas.next()) {
 	            String nombreRutina = rsRutinas.getString("NOMBRE");
 	            String objetivoRutinaString = rsRutinas.getString("OBJETIVO");
@@ -305,7 +304,7 @@ public class GestorBD {
 	}
 
 	public void insertarRutina(Rutina rutina,String usuario) {
-	    String sqlVerificarRutina = "SELECT 1 FROM RUTINA WHERE NOMBRE = ? AND OBJETIVO = ?";
+	    String sqlVerificarRutina = "SELECT 1 FROM RUTINA WHERE NOMBRE = ? AND OBJETIVO = ? AND USUARIO = ?";
 	    String sqlInsertarRutina = "INSERT INTO RUTINA (NOMBRE, OBJETIVO,usuario) VALUES (?, ?,?)";
 	    
 	    try (Connection con = DriverManager.getConnection(connectionString)) {
@@ -322,6 +321,7 @@ public class GestorBD {
 	                    try (PreparedStatement insertarStmt = con.prepareStatement(sqlInsertarRutina)) {
 	                        insertarStmt.setString(1, rutina.getNombre());
 	                        insertarStmt.setString(2, rutina.getObjetivo().toString());
+	                        insertarStmt.setString(3, usuario);
 	                        insertarStmt.executeUpdate();
 	                        System.out.println("Rutina insertada correctamente.");
 	                    }

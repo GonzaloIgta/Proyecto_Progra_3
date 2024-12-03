@@ -88,9 +88,11 @@ public class Nueva_Rutina extends JFrame {
 	private int numEjCard = 0; 
 	private int numEjNat = 0; 
 	private int numEjTotal = 0;
+	private String usuario;
 
 	
 	public Nueva_Rutina(GestorBD gestor,String usuario) {
+		this.usuario=usuario;
 		this.rutinas_guardadas =  new Rutinas_guardadas( gestor,usuario);
 		this.gestor = gestor;
 		// para que se cierre al darle a la x
