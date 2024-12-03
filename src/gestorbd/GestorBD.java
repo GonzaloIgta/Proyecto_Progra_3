@@ -55,7 +55,7 @@ public class GestorBD {
 					+ "contraseña TEXT NOT NULL);";
 			
 			String sqlrutina = "CREATE TABLE IF NOT EXISTS RUTINA (\n" + " NOMBRE VARCHAR(20),\n"
-					+ " OBJETIVO VARCHAR(20),\n"+"USUARIO NOT NULL," + " PRIMARY KEY(NOMBRE, OBJETIVO)\n" + ");";
+					+ " OBJETIVO VARCHAR(20),\n"+"USUARIO NOT NULL," + " PRIMARY KEY(NOMBRE, OBJETIVO, USUARIO) \n" + ");";
 
 			String sqlejgym = "CREATE TABLE IF NOT EXISTS EJERCICIO_GYM (\n" + " NOMBRE VARCHAR(20),\n"
 					+ " SERIES INT,\n" + " PESO INT,\n" + " PRIMARY KEY(NOMBRE, SERIES, PESO)\n" + ");";
@@ -212,9 +212,7 @@ public class GestorBD {
 		
 	}
 
-	private void insertarRelacionEjercicio(Rutina rutina, Ejercicio ejercicio, Connection con) throws SQLException {
-		
-	}
+
 
 
 	// ESTE CREO QUE ESTA BIEN
@@ -351,7 +349,6 @@ public class GestorBD {
 
 	        			
 	        				
-	        					// Insertar si no existe
 	        					insertarStmt = con.prepareStatement(sqlInsertar);
 	        					insertarStmt.setString(1, gym.getNombre());
 	        					insertarStmt.setInt(2, gym.getSeries());
@@ -395,6 +392,7 @@ public class GestorBD {
 	            	
 	            	String sqlInsertarRelacion = "";
 	        		if (ejercicio instanceof Ejercicio_gym) {
+	        		System.out.println("llego");
 	        			sqlInsertarRelacion = "INSERT INTO TIENE_GYM (RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, SERIES, PESO) VALUES (?, ?, ?, ?, ?)";
 	        			try (PreparedStatement stmt = con.prepareStatement(sqlInsertarRelacion)) {
 	        				Ejercicio_gym gym = (Ejercicio_gym) ejercicio;

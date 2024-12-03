@@ -207,7 +207,6 @@ public class Nueva_Rutina extends JFrame {
 					try {
 						peso = (int) tablaEjercicios.getValueAt(fila, 4);
 					} catch (Exception a) {
-						// no hacer nada en caso de error
 					}
 
 					if (valor instanceof PartesDelCuerpo) {
@@ -219,7 +218,7 @@ public class Nueva_Rutina extends JFrame {
 						try {
 							duracion = Integer.valueOf(tablaEjercicios.getValueAt(fila, 3).toString());
 						} catch (Exception a) {
-							// no hacer nada en caso de error
+							System.out.println("error al crear ejercicio natacion en la clase nueva rutina por duracion");
 						}
 
 						ejercicios.add(new Ejercicio_Natacion(valor.toString(), "ubicacion por definir",
@@ -229,7 +228,7 @@ public class Nueva_Rutina extends JFrame {
 						try {
 							duracion = Integer.valueOf(tablaEjercicios.getValueAt(fila, 3).toString());
 						} catch (Exception a) {
-							// no hacer nada en caso de error
+							System.out.println("error al crear ejercicio cardio en la clase nueva rutina por duracion");
 						}
 
 						ejercicios.add(new Ejercicio_cardio(valor.toString(), "ubicacion por definir", duracion));

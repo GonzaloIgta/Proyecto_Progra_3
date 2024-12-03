@@ -133,8 +133,8 @@ public class Rutinas_guardadas extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
             	if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_PLUS) {
-                    new Nueva_Rutina(gestor,usuario).open();
                     dispose();
+                    new Nueva_Rutina(gestor,usuario).open();
                    
                 }
             }
