@@ -57,10 +57,10 @@ public class Rutinas_guardadas extends JFrame {
     private JPanel ventanadondetablas;
     private GridBagConstraints constantes_ej = new GridBagConstraints();
     private Rutina rutina_seleccionada;
-    private GestorBD gestor;
+    private GestorBD gestor = new GestorBD();
 
     public Rutinas_guardadas(GestorBD gestor) {
-    	
+    	this.gestor=gestor;
         this.rutinas = gestor.getTodasRutinas();;
         ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
         this.setIconImage(icono.getImage());
@@ -169,12 +169,7 @@ public class Rutinas_guardadas extends JFrame {
 
     public void open() {
         setVisible(true);
-        JOptionPane.showMessageDialog(null, "Pulsa 'Control +' para crear una nueva rutina" , "Informativo",JOptionPane.INFORMATION_MESSAGE);
-        this.repaint();
-        initRutinas();
-        this.tabla_ejercicios.repaint();
-        this.tabla_rutinas.repaint();
-        
+        JOptionPane.showMessageDialog(null, "Pulsa 'Control +' para crear una nueva rutina" , "Informativo",JOptionPane.INFORMATION_MESSAGE);        
     }
 
     public Rutina getRutinaSeleccionada() {
@@ -190,6 +185,7 @@ public class Rutinas_guardadas extends JFrame {
     }
 
     private void initRutinas() {
+    	this.rutinas=gestor.getTodasRutinas();
         modelo_de_datos_rutinas = new Modelo_de_datos_rutinas(rutinas);
         JTable tablaRutinas = new JTable(modelo_de_datos_rutinas);
         this.tabla_rutinas = tablaRutinas;
