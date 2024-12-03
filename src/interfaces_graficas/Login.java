@@ -106,7 +106,8 @@ public class Login extends JFrame implements ActionListener {
             texto_contraseña.setEchoChar((char) 0); // Muestra el texto
         } else {
             texto_contraseña.setEchoChar('•'); // Oculta el texto
-        }		setIconoOjo(botonMostrarContraseña, mostrandoContraseña); 
+        }		
+        setIconoOjo(botonMostrarContraseña, mostrandoContraseña); 
     }
     private void setIconoOjo(JButton boton, boolean abierto) {
         String iconPath = abierto ? "/resourses/images/ojo_abierto.png" : "/resourses/images/ojo_cerrado.png";
@@ -160,6 +161,11 @@ public class Login extends JFrame implements ActionListener {
         
         panel_contraseña.add(texto_contraseña, BorderLayout.CENTER);
         panel_contraseña.add(botonMostrarContraseña, BorderLayout.EAST);
+        //NO ENTIENDO POR QUE PERO LLAMANDO A LA FUNCION DOS VECES SE VE EL ICONO DEL OJO BIEN
+        //SI NO LO PONES NO SE VE NADA HASTA QUE CLICKAS
+        toggleMostrarContraseña();
+        toggleMostrarContraseña();
+        
 
         panel.add(panel_contraseña);
 
