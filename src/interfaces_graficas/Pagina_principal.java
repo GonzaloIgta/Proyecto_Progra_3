@@ -5,18 +5,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import javax.swing.*;
-import clases_de_apyo.Ejercicio;
-import clases_de_apyo.Ejercicio_Natacion;
-import clases_de_apyo.Ejercicio_Natacion.EstiloNat;
-import clases_de_apyo.Ejercicio_gym;
-import clases_de_apyo.Ejercicio_cardio;
+
 import clases_de_apyo.Rutina;
 import gestorbd.GestorBD;
 
 public class Pagina_principal extends JFrame {
     private static final long serialVersionUID = 1;
 	private GestorBD gestor;
-    public static ArrayList<Rutina> rutinas = new ArrayList<>();
     private  String usuario;
     
   
@@ -24,7 +19,6 @@ public class Pagina_principal extends JFrame {
     	this.usuario = usuario;
         this.gestor = gestor;
         //CREAR OBJETOS PARA CADA VENTANA
-        Rutinas_guardadas rutinas_guardadas = new Rutinas_guardadas(gestor,usuario);
         Planning planing = new Planning(gestor.getTodasRutinas(usuario),gestor,usuario);
         ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
         this.setIconImage(icono.getImage());
@@ -73,7 +67,7 @@ public class Pagina_principal extends JFrame {
 
         boton_rutinas_guardadas.addActionListener(e -> {
             dispose();
-            rutinas_guardadas.open();
+			new Rutinas_guardadas(gestor,usuario);
         });
         
         

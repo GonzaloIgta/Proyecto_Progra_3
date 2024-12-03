@@ -63,6 +63,7 @@ public class Rutinas_guardadas extends JFrame {
     public Rutinas_guardadas(GestorBD gestor, String usuario) {
     	this.usuario=usuario;
     	this.gestor=gestor;
+    	this.setVisible(true);
         this.rutinas = gestor.getTodasRutinas(usuario);
         ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
         this.setIconImage(icono.getImage());
@@ -167,12 +168,11 @@ public class Rutinas_guardadas extends JFrame {
         setLocationRelativeTo(null);
         ventana_principal.add(ventanadondetablas, BorderLayout.CENTER);
         this.add(ventana_principal);
+    	JOptionPane.showMessageDialog(null, "Presiona Ctrl + para añadir una nueva rutina","Información",JOptionPane.INFORMATION_MESSAGE);
+
     }
 
-    public void open() {
-        setVisible(true);
-        JOptionPane.showMessageDialog(null, "Pulsa 'Control +' para crear una nueva rutina" , "Informativo",JOptionPane.INFORMATION_MESSAGE);        
-    }
+  
 
     public Rutina getRutinaSeleccionada() {
         return rutina_seleccionada;

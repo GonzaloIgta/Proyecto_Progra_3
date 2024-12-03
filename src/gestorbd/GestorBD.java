@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import clases_de_apyo.Ejercicio;
@@ -46,11 +45,15 @@ public class GestorBD {
 
 	}
 
+
 	/**
 	 * Crea la base de datos y sus tablas con las configuraciones especificadas.
 	 */
 	public void crearBBDD() {
 		if (properties.getProperty("createBBDD").equals("true")) {
+			String sqlCrearTabla = "CREATE TABLE IF NOT EXISTS usuarios (" + "usuario TEXT PRIMARY KEY, "
+					+ "contraseña TEXT NOT NULL);";
+			
 			String sqlrutina = "CREATE TABLE IF NOT EXISTS RUTINA (\n" + " NOMBRE VARCHAR(20),\n"
 					+ " OBJETIVO VARCHAR(20),\n"+"USUARIO NOT NULL," + " PRIMARY KEY(NOMBRE, OBJETIVO)\n" + ");";
 
@@ -97,11 +100,12 @@ public class GestorBD {
 					PreparedStatement pStmt7 = con.prepareStatement(sqletienenatacion);
 					PreparedStatement pStmt6 = con.prepareStatement(sqletienecardio);
 					PreparedStatement pStmt2 = con.prepareStatement(sqlejgym);
+					PreparedStatement pStmt9 = con.prepareStatement(sqlCrearTabla); 
+
 					PreparedStatement pStmt8 = con.prepareStatement(sqlRutinaSemanal)) {
 
-				crearTablaUsuarios();
 				if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute()
-						&& !pStmt5.execute() && !pStmt6.execute() && !pStmt7.execute() && !pStmt8.execute()) {
+						&& !pStmt5.execute() && !pStmt6.execute() && !pStmt7.execute() && !pStmt8.execute() && !pStmt9.execute()) {
 					System.out.println("Base de datos creada con éxito.");
 				}
 
@@ -438,18 +442,7 @@ public class GestorBD {
 	    }
 	}
 
-	public void crearTablaUsuarios() {
-		String sqlCrearTabla = "CREATE TABLE IF NOT EXISTS usuarios (" + "usuario TEXT PRIMARY KEY, "
-				+ "contraseña TEXT NOT NULL);";
 
-		try (Connection con = DriverManager.getConnection(connectionString);
-				PreparedStatement stmt = con.prepareStatement(sqlCrearTabla)) {
-			stmt.execute();
-			System.out.println("Tabla de usuarios creada correctamente.");
-		} catch (SQLException e) {
-			System.out.println("Error al crear la tabla de usuarios: " + e.getMessage());
-		}
-	}
 
 	// Insertar usuario
 	public boolean insertarUsuario(String usuario, String contraseña) {

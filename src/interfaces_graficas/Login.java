@@ -30,7 +30,6 @@ public class Login extends JFrame implements ActionListener {
     public Login(GestorBD gestor) {
         // Inicialización del gestor de base de datos
         gestorBD = gestor;
-        gestorBD.crearTablaUsuarios(); // Crea la tabla de usuarios si no existe
 
         // Configuración de la ventana
         setTitle("Login DeustoGym");

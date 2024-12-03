@@ -240,7 +240,7 @@ public class Nueva_Rutina extends JFrame {
 				Rutina rutina_a_añadir = new Rutina(nombreField.getText(), objetivo, ejercicios);
 				gestor.insertarRutina(rutina_a_añadir,usuario);
 				dispose();
-				rutinas_guardadas.open();
+				new Rutinas_guardadas(gestor,usuario);
 			}
 
 		};
@@ -260,7 +260,7 @@ public class Nueva_Rutina extends JFrame {
 
 			if (respuesta == JOptionPane.YES_OPTION) {
 				dispose();
-				rutinas_guardadas.open();
+				new Rutinas_guardadas(gestor,usuario);
 				;
 			} else {
 
