@@ -9,6 +9,8 @@ public class Main {
 	public static void main(String[] args) {
 
 		GestorBD gestor = new GestorBD();
+		gestor.borrarDatos();
+		gestor.borrarBBDD();
 		gestor.crearBBDD();
 		new Login(gestor);
 		
