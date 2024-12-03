@@ -59,7 +59,7 @@ public class Rutinas_guardadas extends JFrame {
     private Rutina rutina_seleccionada;
     private GestorBD gestor;
 
-    public Rutinas_guardadas( GestorBD gestor) {
+    public Rutinas_guardadas(GestorBD gestor) {
     	
         this.rutinas = gestor.getTodasRutinas();;
         ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
@@ -169,8 +169,11 @@ public class Rutinas_guardadas extends JFrame {
 
     public void open() {
         setVisible(true);
-        JTable tablaRutinas = new JTable(modelo_de_datos_rutinas);
         JOptionPane.showMessageDialog(null, "Pulsa 'Control +' para crear una nueva rutina" , "Informativo",JOptionPane.INFORMATION_MESSAGE);
+        this.repaint();
+        initRutinas();
+        this.tabla_ejercicios.repaint();
+        this.tabla_rutinas.repaint();
         
     }
 
@@ -326,17 +329,17 @@ public class Rutinas_guardadas extends JFrame {
         barra_gym = new JProgressBar(0, 100);
         barra_gym.setStringPainted(true);
         barra_gym.setForeground(new Color(90, 155, 121));
-        barra_gym.setString("Ejercicios en Gym");
+        barra_gym.setString("Ejercicios Fuerza");
 
         barra_natacion = new JProgressBar(0, 100);
         barra_natacion.setStringPainted(true);
         barra_natacion.setForeground(new Color(30, 144, 255));
-        barra_natacion.setString("Ejercicios en Natacion");
+        barra_natacion.setString("Ejercicios Natacion");
 
         barra_running = new JProgressBar(0, 100);
         barra_running.setStringPainted(true);
         barra_running.setForeground(new Color(238, 44, 44));
-        barra_running.setString("Ejercicios en Running");
+        barra_running.setString("Ejercicios Cardio");
 
         barras = new ArrayList<>();
         barras.add(barra_gym);

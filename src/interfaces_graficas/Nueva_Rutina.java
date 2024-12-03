@@ -368,6 +368,7 @@ public class Nueva_Rutina extends JFrame {
 	public void open() {
 		setVisible(true);
 	}
+	
 
 	private JScrollPane init_tabla_fuerza() {
 		// Crear cabecera de la tabla
