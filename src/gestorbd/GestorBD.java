@@ -52,7 +52,7 @@ public class GestorBD {
 	public void crearBBDD() {
 		if (properties.getProperty("createBBDD").equals("true")) {
 			String sqlrutina = "CREATE TABLE IF NOT EXISTS RUTINA (\n" + " NOMBRE VARCHAR(20),\n"
-					+ " OBJETIVO VARCHAR(20),\n" + " PRIMARY KEY(NOMBRE, OBJETIVO)\n" + ");";
+					+ " OBJETIVO VARCHAR(20),\n"+"USUARIO NOT NULL," + " PRIMARY KEY(NOMBRE, OBJETIVO)\n" + ");";
 
 			String sqlejgym = "CREATE TABLE IF NOT EXISTS EJERCICIO_GYM (\n" + " NOMBRE VARCHAR(20),\n"
 					+ " SERIES INT,\n" + " PESO INT,\n" + " PRIMARY KEY(NOMBRE, SERIES, PESO)\n" + ");";
@@ -214,10 +214,10 @@ public class GestorBD {
 
 
 	// ESTE CREO QUE ESTA BIEN
-	public List<Rutina> getTodasRutinas() {
-	    List<Rutina> rutinas = new ArrayList<>();
+	public ArrayList<Rutina> getTodasRutinas(String usuario) {
+	    ArrayList<Rutina> rutinas = new ArrayList<>();
 
-	    String sqlRutinas = "SELECT NOMBRE, OBJETIVO FROM RUTINA";
+	    String sqlRutinas = "SELECT NOMBRE, OBJETIVO FROM RUTINA WHERE USARIO = ?";
 	    String sqlEjerciciosGym = "SELECT E.NOMBRE, E.SERIES, E.PESO FROM EJERCICIO_GYM E WHERE E.NOMBRE IN " +
 	                              "(SELECT T.EJERCICIO_NOMBRE FROM TIENE_GYM T WHERE T.RUTINA_NOMBRE = ? AND T.RUTINA_OBJETIVO = ?)";
 	    String sqlEjerciciosCardio = "SELECT E.NOMBRE, E.DURACION FROM EJERCICIO_CARDIO E WHERE E.NOMBRE IN " +
@@ -228,6 +228,7 @@ public class GestorBD {
 	    try (Connection con = DriverManager.getConnection(connectionString);
 	         PreparedStatement stmtRutinas = con.prepareStatement(sqlRutinas);
 	         ResultSet rsRutinas = stmtRutinas.executeQuery()) {
+    		stmtRutinas.setString(1, usuario);
 
 	        while (rsRutinas.next()) {
 	            String nombreRutina = rsRutinas.getString("NOMBRE");
@@ -303,9 +304,9 @@ public class GestorBD {
 	    return rutinas;
 	}
 
-	public void insertarRutina(Rutina rutina) {
+	public void insertarRutina(Rutina rutina,String usuario) {
 	    String sqlVerificarRutina = "SELECT 1 FROM RUTINA WHERE NOMBRE = ? AND OBJETIVO = ?";
-	    String sqlInsertarRutina = "INSERT INTO RUTINA (NOMBRE, OBJETIVO) VALUES (?, ?)";
+	    String sqlInsertarRutina = "INSERT INTO RUTINA (NOMBRE, OBJETIVO,usuario) VALUES (?, ?,?)";
 	    
 	    try (Connection con = DriverManager.getConnection(connectionString)) {
 	        con.setAutoCommit(false);  // Iniciar transacción
@@ -314,6 +315,7 @@ public class GestorBD {
 	        try (PreparedStatement verificarStmt = con.prepareStatement(sqlVerificarRutina)) {
 	            verificarStmt.setString(1, rutina.getNombre());
 	            verificarStmt.setString(2, rutina.getObjetivo().toString());
+	            verificarStmt.setString(3, usuario);
 	            try (ResultSet rsRutina = verificarStmt.executeQuery()) {
 	                if (!rsRutina.next()) {
 	                    // Insertar rutina

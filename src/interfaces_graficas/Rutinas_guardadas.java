@@ -58,10 +58,12 @@ public class Rutinas_guardadas extends JFrame {
     private GridBagConstraints constantes_ej = new GridBagConstraints();
     private Rutina rutina_seleccionada;
     private GestorBD gestor = new GestorBD();
+    private String usuario;
 
-    public Rutinas_guardadas(GestorBD gestor) {
+    public Rutinas_guardadas(GestorBD gestor, String usuario) {
+    	this.usuario=usuario;
     	this.gestor=gestor;
-        this.rutinas = gestor.getTodasRutinas();;
+        this.rutinas = gestor.getTodasRutinas(usuario);
         ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
         this.setIconImage(icono.getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,7 +89,7 @@ public class Rutinas_guardadas extends JFrame {
         JButton home = new JButton();
         home.setFocusable(false);
         home.addActionListener(e -> {
-            new Pagina_principal(gestor);
+            new Pagina_principal(gestor,usuario);
             dispose();
         });
         rescalar.setScaledImage(home, "/resourses/images/casa.png", 20, 20);
@@ -130,7 +132,7 @@ public class Rutinas_guardadas extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
             	if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_PLUS) {
-                    new Nueva_Rutina(gestor).open();
+                    new Nueva_Rutina(gestor,usuario).open();
                     dispose();
                    
                 }
@@ -185,7 +187,7 @@ public class Rutinas_guardadas extends JFrame {
     }
 
     private void initRutinas() {
-    	this.rutinas=gestor.getTodasRutinas();
+    	this.rutinas=gestor.getTodasRutinas(usuario);
         modelo_de_datos_rutinas = new Modelo_de_datos_rutinas(rutinas);
         JTable tablaRutinas = new JTable(modelo_de_datos_rutinas);
         this.tabla_rutinas = tablaRutinas;

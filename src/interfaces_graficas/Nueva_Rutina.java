@@ -68,8 +68,12 @@ public class Nueva_Rutina extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JTable tablaEjercicios;
-
 	private DefaultTableModel modeloDatostablaEjercicios;
+	
+	//la tabla RutinaGuardado será una tabla que no se mostrará en la que se guardarán los ejercicios cada vez que le des a guardar ejercicio en rutina
+	private JTable tablaRutinaGuardado;
+	private DefaultTableModel modeloDatostablaRutinaGuardado;
+	
 	private JPanel ventana_central_MuestraRutinas;
 	private Rutinas_guardadas rutinas_guardadas;
 	private Rescalar_imagen rescalar = new Rescalar_imagen();
@@ -86,8 +90,8 @@ public class Nueva_Rutina extends JFrame {
 	private int numEjTotal = 0;
 
 	
-	public Nueva_Rutina(GestorBD gestor) {
-		this.rutinas_guardadas =  new Rutinas_guardadas( gestor);
+	public Nueva_Rutina(GestorBD gestor,String usuario) {
+		this.rutinas_guardadas =  new Rutinas_guardadas( gestor,usuario);
 		this.gestor = gestor;
 		// para que se cierre al darle a la x
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -232,7 +236,7 @@ public class Nueva_Rutina extends JFrame {
 				}
 
 				Rutina rutina_a_añadir = new Rutina(nombreField.getText(), objetivo, ejercicios);
-				gestor.insertarRutina(rutina_a_añadir);
+				gestor.insertarRutina(rutina_a_añadir,usuario);
 				dispose();
 				rutinas_guardadas.open();
 			}
@@ -317,7 +321,8 @@ public class Nueva_Rutina extends JFrame {
 		ActionListener listener_boton_Pasar_Rutina = e -> {
 			
 			if(modeloDatostablaEjercicios!=null) { //si ya hemos seleccionado un tipo de ejercicio (la tabla no es null) y no hay ninguna celda vacia
-				añadirEjercicioRutina();
+				guardarEjercicioEnTablaAuxiliar();
+				añadirEjercicioRutina();	
 			}else if(modeloDatostablaEjercicios==null){ // si no hemos seleccionado ningun tipo de ejercicio (es decir es null el valor del a tabla) sale un mensaje
 				
 				JOptionPane.showMessageDialog(
@@ -959,6 +964,30 @@ public class Nueva_Rutina extends JFrame {
 		 
 		 return esnull;
 	 }*/ 
+	 
+	 private void guardarEjercicioEnTablaAuxiliar() {
+		 
+		 if(modeloDatostablaEjercicios.getColumnCount()==7) {			 //hacemos una tabla auxiliar tipo gym
+			 
+			 for (int fila = 0; fila < tablaEjercicios.getRowCount(); fila++) {
+				 
+				 
+				 
+			 }
+			 
+			 
+			 
+		 }else if(modeloDatostablaEjercicios.getColumnCount()==4) {			 //hacemos una tabla auxiliar tipo cardio
+
+			 
+		 }else { //hacemos una tabla auxiliar tipo natacion
+			 
+			 
+		 }
+		 
+		 
+	 }
+
 
 
 }

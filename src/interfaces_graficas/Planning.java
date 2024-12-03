@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -44,9 +45,9 @@ import gestorbd.GestorBD;
 	
 		
 		
-		public Planning(ArrayList<Rutina> rutinasGuardadas,GestorBD gestor){
+		public Planning(ArrayList<Rutina> rutinas,GestorBD gestor,String usuario){
 			this.gestor = gestor;
-			this.rutinasGuardadas = rutinasGuardadas;
+			this.rutinasGuardadas = rutinas;
 			
 	        ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
 	        this.setIconImage(icono.getImage());
@@ -74,7 +75,7 @@ import gestorbd.GestorBD;
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new Pagina_principal(gestor);
+					new Pagina_principal(gestor,usuario);
 					dispose();
 				}
 			});

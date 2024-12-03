@@ -121,7 +121,7 @@ public class Login extends JFrame implements ActionListener {
 
         if (gestorBD.verificarUsuario(usuario, contraseña)) {
             JOptionPane.showMessageDialog(this, "Login exitoso. Bienvenido " + usuario + "!");
-            new Pagina_principal(gestorBD);
+            new Pagina_principal(gestorBD,usuario);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
