@@ -1,3 +1,4 @@
+
 package interfaces_graficas;
 	
 import java.awt.BorderLayout;
@@ -11,6 +12,10 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,9 +32,10 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.StyledEditorKit.ForegroundAction;
 
-	import clases_de_apyo.Rescalar_imagen;
-	import clases_de_apyo.Rutina;
+import clases_de_apyo.Rescalar_imagen;
+import clases_de_apyo.Rutina;
 import gestorbd.GestorBD;
 	
 	public class Planning extends JFrame{
@@ -41,12 +47,17 @@ import gestorbd.GestorBD;
 		private JButton botonAgregarRutina;
 		private JButton eliminarBoton;
 		private GestorBD gestor;
+		private static int idRutinaSemanal;
+		private ArrayList<Rutina> todasRutinas;
+		private HashMap<String, ArrayList<Rutina>> mapaRutinasPorDia;
 	
 		
 		
 		public Planning(ArrayList<Rutina> rutinas,GestorBD gestor,String usuario){
 			this.gestor = gestor;
 			this.rutinasGuardadas = rutinas;
+			this.todasRutinas = new ArrayList<Rutina>();
+			this.mapaRutinasPorDia = new HashMap<String, ArrayList<Rutina>>();
 			
 	        ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
 	        this.setIconImage(icono.getImage());
@@ -65,6 +76,7 @@ import gestorbd.GestorBD;
 	     	     	
 	     	JPanel panelPrincipal = new JPanel(new GridLayout(1,7));
 	     	
+	     	
 	     	JButton botonVolver = new JButton(); 
 	     	botonVolver.setFocusable(false);
 	     	Rescalar_imagen rescalar = new Rescalar_imagen();
@@ -79,12 +91,28 @@ import gestorbd.GestorBD;
 				}
 			});
 	     	
+	     	JButton botonGuardarRutina = new JButton("Guardar rutina");
+
+	     	botonGuardarRutina.addActionListener(e -> {
+	            String nombre = JOptionPane.showInputDialog(getContentPane(), "Nombre de rutina:", "Guardar rutina", JOptionPane.PLAIN_MESSAGE);
+	           
+	            if (nombre != null && !nombre.trim().isEmpty()) {
+	            	
+	            	
+	            	gestor.insertarRutinaSemanal(nombre, mapaRutinasPorDia);
+	            }
+	        });
+	     	
 	     	JPanel panelVolver = new JPanel(new FlowLayout(FlowLayout.LEFT));
 	     	panelVolver.add(botonVolver); 
+	     	panelVolver.add(botonGuardarRutina);
 	     	
 	     	
 	     	String[] diaSemana = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
 	
+	     	for(String dia : diaSemana) {
+	     		mapaRutinasPorDia.put(dia, new ArrayList<Rutina>());
+	     	}
 	     	
 	     	//FUENTE EXTERNA
 	     	//IAG
@@ -122,7 +150,7 @@ import gestorbd.GestorBD;
 					public void actionPerformed(ActionEvent e) {
 						if (contadorRutina[0] < 5) {
 							
-							mostrarRutinasGuardadas(panelRutinas, mensajeSinRutinas, contadorRutina, botonAgregarRutina);
+							mostrarRutinasGuardadas(panelRutinas, mensajeSinRutinas, contadorRutina, botonAgregarRutina, todasRutinas, dia);
 							
 						} 
 					} 
@@ -144,7 +172,7 @@ import gestorbd.GestorBD;
 	     	
 		}
 	     	
-	     public void mostrarRutinasGuardadas(JPanel panelRutinas, JLabel mensajeSinRutinas, int[] contadorRutina, JButton botonAgregarRutina) {
+	     public void mostrarRutinasGuardadas(JPanel panelRutinas, JLabel mensajeSinRutinas, int[] contadorRutina, JButton botonAgregarRutina, ArrayList<Rutina> todasRutinas, String dia) {
 	     	    JDialog dialogoRutinas = new JDialog(this, "Seleccionar Rutina", true); // ventana modal
 	     	    dialogoRutinas.setSize(500, 400);
 	     	    dialogoRutinas.setLocationRelativeTo(this);
@@ -191,7 +219,7 @@ import gestorbd.GestorBD;
 						
 		     	    	if (filaSeleccionada != -1) {
 		     	    		Rutina rutinaSeleccionada = listaRutinas.get(filaSeleccionada);
-		     	    		agregarRutinaAPlanning(panelRutinas, mensajeSinRutinas, rutinaSeleccionada.getNombre(), contadorRutina, botonAgregarRutina, rutinaSeleccionada);      	    		//LE PASAMOS EL PANEL DEL DIA, EL MENSAJE DE SIN RUTINAS POR SI LO TIENE QUE PONER, Y EL NOMBRE DE LA RUTINA
+		     	    		agregarRutinaAPlanning(panelRutinas, mensajeSinRutinas, rutinaSeleccionada.getNombre(), contadorRutina, botonAgregarRutina, rutinaSeleccionada, todasRutinas, dia);      	    		//LE PASAMOS EL PANEL DEL DIA, EL MENSAJE DE SIN RUTINAS POR SI LO TIENE QUE PONER, Y EL NOMBRE DE LA RUTINA
 		     	    		dialogoRutinas.dispose();
 		     	    		
 		     	    	}else {
@@ -206,10 +234,15 @@ import gestorbd.GestorBD;
 	     	    
 	    }
 	     
-	     private void agregarRutinaAPlanning(JPanel panelRutinas, JLabel mensajeSinRutinas,String nombreRutina, int[] contadorRutina, JButton botonAgregarRutina, Rutina rutinaSeleccionada) {
+	     private void agregarRutinaAPlanning(JPanel panelRutinas, JLabel mensajeSinRutinas,String nombreRutina, int[] contadorRutina, JButton botonAgregarRutina, Rutina rutinaSeleccionada, ArrayList<Rutina> todasRutinas, String dia) {
 	    	 
+
+	    	 mapaRutinasPorDia.get(dia).add(rutinaSeleccionada);
+	    	 for(Rutina rutina : mapaRutinasPorDia.get(dia)) {
+	    		 System.out.println(rutina.getNombre());
+	    	 }
 	    	 JPanel panelRutina = new JPanel();
-	    	 
+	    	   
 	    	 JButton rutinaBoton = new JButton(nombreRutina);
 
 	    	 rutinaBoton.addActionListener(new ActionListener() {
@@ -315,6 +348,12 @@ import gestorbd.GestorBD;
 				@Override
 				public void actionPerformed(ActionEvent e) {
 						
+					
+					int tamaño = mapaRutinasPorDia.get(dia).size();
+					
+					mapaRutinasPorDia.get(dia).remove(tamaño-1);
+					
+					
 					 panelRutinas.remove(panelRutina);
 					 panelRutinas.revalidate();
 					 panelRutinas.repaint();
@@ -368,5 +407,15 @@ import gestorbd.GestorBD;
 		public void open() {
 	        setVisible(true);
 		}
+		
+		public void agregarRutina(String dia, Rutina rutina) {
+	        ArrayList<Rutina> rutinas = mapaRutinasPorDia.get(dia);
+	        if (rutinas != null) {
+	            rutinas.add(rutina);
+	            System.out.println("Rutina agregada a " + dia + ": " + rutina.getNombre());
+	        } else {
+	            System.out.println("Día inválido: " + dia);
+	        }
+	    }
 	
 	}

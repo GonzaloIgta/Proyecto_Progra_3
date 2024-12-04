@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 import clases_de_apyo.Ejercicio;
@@ -304,6 +305,40 @@ public class GestorBD {
 	    }
 	    return rutinas;
 	}
+	
+	
+	
+		public void insertarRutinaSemanal(String nombre, HashMap<String, ArrayList<Rutina>> mapasRutinas) {
+			    
+				String sqlInsertarRutinaSemanal = "INSERT INTO RUTINA_SEMANAL (NOMBRE, ID) VALUES (?, ?)";
+			    
+			    
+			    try (Connection con = DriverManager.getConnection(connectionString)){
+			        con.setAutoCommit(false);  // Iniciar transacción
+		
+			        try (PreparedStatement verificarStmt = con.prepareStatement(sqlInsertarRutinaSemanal)) {
+			            verificarStmt.setString(1, nombre);
+			            verificarStmt.setInt(2, 0);
+		
+		
+			        }catch (SQLException e) {
+			            con.rollback();  // Deshacer la transacción en caso de error
+			            System.out.println("Error al insertar la rutina: " + e.getMessage());
+					}
+			        
+			       
+			        
+				} catch (Exception e) {
+					
+					
+				}
+		
+			    
+			    
+			}
+
+	
+	
 
 	public void insertarRutina(Rutina rutina,String usuario) {
 	    String sqlVerificarRutina = "SELECT 1 FROM RUTINA WHERE NOMBRE = ? AND OBJETIVO = ? AND USUARIO = ?";
