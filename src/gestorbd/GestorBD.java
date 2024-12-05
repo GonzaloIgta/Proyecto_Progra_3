@@ -47,74 +47,76 @@ public class GestorBD {
 	}
 
 
-	/**
-	 * Crea la base de datos y sus tablas con las configuraciones especificadas.
-	 */
-	public void crearBBDD() {
-		if (properties.getProperty("createBBDD").equals("true")) {
-			String sqlCrearTabla = "CREATE TABLE IF NOT EXISTS usuarios (" + "usuario TEXT PRIMARY KEY, "
-					+ "contraseña TEXT NOT NULL);";
-			
-			String sqlrutina = "CREATE TABLE IF NOT EXISTS RUTINA (\n" + " NOMBRE VARCHAR(20),\n"
-					+ " OBJETIVO VARCHAR(20),\n"+"USUARIO NOT NULL," + " PRIMARY KEY(NOMBRE, OBJETIVO, USUARIO) \n" + ");";
+/**
+		 * Crea la base de datos y sus tablas con las configuraciones especificadas.
+		 */
+		public void crearBBDD() {
+			if (properties.getProperty("createBBDD").equals("true")) {
+				String sqlCrearTabla = "CREATE TABLE IF NOT EXISTS usuarios (" + "usuario TEXT PRIMARY KEY, "
+						+ "contraseña TEXT NOT NULL);";
+				
+				String sqlrutina = "CREATE TABLE IF NOT EXISTS RUTINA (\n" + " NOMBRE VARCHAR(20),\n"
+						+ " OBJETIVO VARCHAR(20),\n"+"USUARIO NOT NULL," + " PRIMARY KEY(NOMBRE, OBJETIVO, USUARIO) \n" + ");";
 
-			String sqlejgym = "CREATE TABLE IF NOT EXISTS EJERCICIO_GYM (\n" + " NOMBRE VARCHAR(20),\n"
-					+ " SERIES INT,\n" + " PESO INT,\n" + " PRIMARY KEY(NOMBRE, SERIES, PESO)\n" + ");";
+				String sqlejgym = "CREATE TABLE IF NOT EXISTS EJERCICIO_GYM (\n" + " NOMBRE VARCHAR(20),\n"
+						+ " SERIES INT,\n" + " PESO INT,\n" + " PRIMARY KEY(NOMBRE, SERIES, PESO)\n" + ");";
 
-			String sqlejcard = "CREATE TABLE IF NOT EXISTS EJERCICIO_CARDIO (\n" + " NOMBRE VARCHAR(20),\n"
-					+ " DURACION INT,\n" + " PRIMARY KEY(NOMBRE, DURACION)\n" + ");";
+				String sqlejcard = "CREATE TABLE IF NOT EXISTS EJERCICIO_CARDIO (\n" + " NOMBRE VARCHAR(20),\n"
+						+ " DURACION INT,\n" + " PRIMARY KEY(NOMBRE, DURACION)\n" + ");";
 
-			String sqlejnat = "CREATE TABLE IF NOT EXISTS EJERCICIO_NATACION (\n" + " NOMBRE VARCHAR(20),\n"
-					+ " ESTILO_NATACION VARCHAR(20),\n" + " DURACION INT,\n"
-					+ " PRIMARY KEY(NOMBRE, ESTILO_NATACION, DURACION)\n" + ");";
+				String sqlejnat = "CREATE TABLE IF NOT EXISTS EJERCICIO_NATACION (\n" + " NOMBRE VARCHAR(20),\n"
+						+ " ESTILO_NATACION VARCHAR(20),\n" + " DURACION INT,\n"
+						+ " PRIMARY KEY(NOMBRE, ESTILO_NATACION, DURACION)\n" + ");";
 
-			String sqletienegym = "CREATE TABLE IF NOT EXISTS TIENE_GYM (\n" + " RUTINA_NOMBRE VARCHAR(20),\n"
-					+ " RUTINA_OBJETIVO VARCHAR(20),\n" + " EJERCICIO_NOMBRE VARCHAR(20),\n" + " SERIES INT,\n"
-					+ " PESO INT,\n" + " PRIMARY KEY(RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, SERIES, PESO),\n"
-					+ " FOREIGN KEY(RUTINA_NOMBRE, RUTINA_OBJETIVO) REFERENCES RUTINA(NOMBRE, OBJETIVO) ON DELETE CASCADE,\n"
-					+ " FOREIGN KEY(EJERCICIO_NOMBRE, SERIES, PESO) REFERENCES EJERCICIO_GYM(NOMBRE, SERIES, PESO) ON DELETE CASCADE\n"
-					+ ");";
+				String sqletienegym = "CREATE TABLE IF NOT EXISTS TIENE_GYM (\n" + " RUTINA_NOMBRE VARCHAR(20),\n"
+						+ " RUTINA_OBJETIVO VARCHAR(20),\n" + " EJERCICIO_NOMBRE VARCHAR(20),\n" + " SERIES INT,\n"
+						+ " PESO INT,\n" + " PRIMARY KEY(RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, SERIES, PESO),\n"
+						+ " FOREIGN KEY(RUTINA_NOMBRE, RUTINA_OBJETIVO) REFERENCES RUTINA(NOMBRE, OBJETIVO) ON DELETE CASCADE,\n"
+						+ " FOREIGN KEY(EJERCICIO_NOMBRE, SERIES, PESO) REFERENCES EJERCICIO_GYM(NOMBRE, SERIES, PESO) ON DELETE CASCADE\n"
+						+ ");";
 
-			String sqletienecardio = "CREATE TABLE IF NOT EXISTS TIENE_CARDIO (\n" + " RUTINA_NOMBRE VARCHAR(20),\n"
-					+ " RUTINA_OBJETIVO VARCHAR(20),\n" + " EJERCICIO_NOMBRE VARCHAR(20),\n" + " DURACION INT,\n"
-					+ " PRIMARY KEY(RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, DURACION),\n"
-					+ " FOREIGN KEY(RUTINA_NOMBRE, RUTINA_OBJETIVO) REFERENCES RUTINA(NOMBRE, OBJETIVO) ON DELETE CASCADE,\n"
-					+ " FOREIGN KEY(EJERCICIO_NOMBRE, DURACION) REFERENCES EJERCICIO_CARDIO(NOMBRE, DURACION) ON DELETE CASCADE\n"
-					+ ");";
+				String sqletienecardio = "CREATE TABLE IF NOT EXISTS TIENE_CARDIO (\n" + " RUTINA_NOMBRE VARCHAR(20),\n"
+						+ " RUTINA_OBJETIVO VARCHAR(20),\n" + " EJERCICIO_NOMBRE VARCHAR(20),\n" + " DURACION INT,\n"
+						+ " PRIMARY KEY(RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, DURACION),\n"
+						+ " FOREIGN KEY(RUTINA_NOMBRE, RUTINA_OBJETIVO) REFERENCES RUTINA(NOMBRE, OBJETIVO) ON DELETE CASCADE,\n"
+						+ " FOREIGN KEY(EJERCICIO_NOMBRE, DURACION) REFERENCES EJERCICIO_CARDIO(NOMBRE, DURACION) ON DELETE CASCADE\n"
+						+ ");";
 
-			String sqletienenatacion = "CREATE TABLE IF NOT EXISTS TIENE_NATACION (\n" + " RUTINA_NOMBRE VARCHAR(20),\n"
-					+ " RUTINA_OBJETIVO VARCHAR(20),\n" + " EJERCICIO_NOMBRE VARCHAR(20),\n"
-					+ " ESTILO_NATACION VARCHAR(20),\n" + " DURACION INT,\n"
-					+ " PRIMARY KEY(RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, ESTILO_NATACION, DURACION),\n"
-					+ " FOREIGN KEY(RUTINA_NOMBRE, RUTINA_OBJETIVO) REFERENCES RUTINA(NOMBRE, OBJETIVO) ON DELETE CASCADE,\n"
-					+ " FOREIGN KEY(EJERCICIO_NOMBRE, ESTILO_NATACION, DURACION) REFERENCES EJERCICIO_NATACION(NOMBRE, ESTILO_NATACION, DURACION) ON DELETE CASCADE\n"
-					+ ");";
+				String sqletienenatacion = "CREATE TABLE IF NOT EXISTS TIENE_NATACION (\n" + " RUTINA_NOMBRE VARCHAR(20),\n"
+						+ " RUTINA_OBJETIVO VARCHAR(20),\n" + " EJERCICIO_NOMBRE VARCHAR(20),\n"
+						+ " ESTILO_NATACION VARCHAR(20),\n" + " DURACION INT,\n"
+						+ " PRIMARY KEY(RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, ESTILO_NATACION, DURACION),\n"
+						+ " FOREIGN KEY(RUTINA_NOMBRE, RUTINA_OBJETIVO) REFERENCES RUTINA(NOMBRE, OBJETIVO) ON DELETE CASCADE,\n"
+						+ " FOREIGN KEY(EJERCICIO_NOMBRE, ESTILO_NATACION, DURACION) REFERENCES EJERCICIO_NATACION(NOMBRE, ESTILO_NATACION, DURACION) ON DELETE CASCADE\n"
+						+ ");";
 
-			String sqlRutinaSemanal = "CREATE TABLE IF NOT EXISTS RUTINA_SEMANAL (\n" + " NOMBRE VARCHAR(20),\n"
-					+ " PRIMARY KEY(NOMBRE)\n" + ");";
+				String sqlRutinaSemanal = "CREATE TABLE IF NOT EXISTS RUTINA_SEMANAL (\n" + " NOMBRE VARCHAR(20),\n"
+						+ " PRIMARY KEY(NOMBRE)\n" + ");";
 
-			try (Connection con = DriverManager.getConnection(connectionString);
-					PreparedStatement pStmt1 = con.prepareStatement(sqlrutina);
-					PreparedStatement pStmt3 = con.prepareStatement(sqlejcard);
-					PreparedStatement pStmt4 = con.prepareStatement(sqlejnat);
-					PreparedStatement pStmt5 = con.prepareStatement(sqletienegym);
-					PreparedStatement pStmt7 = con.prepareStatement(sqletienenatacion);
-					PreparedStatement pStmt6 = con.prepareStatement(sqletienecardio);
-					PreparedStatement pStmt2 = con.prepareStatement(sqlejgym);
-					PreparedStatement pStmt9 = con.prepareStatement(sqlCrearTabla); 
+				try (Connection con = DriverManager.getConnection(connectionString);
+						PreparedStatement pStmt1 = con.prepareStatement(sqlrutina);
+						PreparedStatement pStmt3 = con.prepareStatement(sqlejcard);
+						PreparedStatement pStmt4 = con.prepareStatement(sqlejnat);
+						PreparedStatement pStmt5 = con.prepareStatement(sqletienegym);
+						PreparedStatement pStmt7 = con.prepareStatement(sqletienenatacion);
+						PreparedStatement pStmt6 = con.prepareStatement(sqletienecardio);
+						PreparedStatement pStmt2 = con.prepareStatement(sqlejgym);
+						PreparedStatement pStmt9 = con.prepareStatement(sqlCrearTabla); 
 
-					PreparedStatement pStmt8 = con.prepareStatement(sqlRutinaSemanal)) {
+						PreparedStatement pStmt8 = con.prepareStatement(sqlRutinaSemanal)) {
 
-				if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute()
-						&& !pStmt5.execute() && !pStmt6.execute() && !pStmt7.execute() && !pStmt8.execute() && !pStmt9.execute()) {
-					System.out.println("Base de datos creada con éxito.");
+					if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute()
+							&& !pStmt5.execute() && !pStmt6.execute() && !pStmt7.execute() && !pStmt8.execute() && !pStmt9.execute()) {
+						System.out.println("Base de datos creada con éxito.");
+					}
+
+				} catch (Exception ex) {
+					System.out.println(String.format("Error al crear las tablas: %s", ex.getMessage()));
 				}
-
-			} catch (Exception ex) {
-				System.out.println(String.format("Error al crear las tablas: %s", ex.getMessage()));
 			}
 		}
-	}
+
+
 
 	/**
 	 * Borra las tablas y el fichero de la BBDD.
@@ -219,14 +221,10 @@ public class GestorBD {
 	// ESTE CREO QUE ESTA BIEN
 	public ArrayList<Rutina> getTodasRutinas(String usuario) {
 	    ArrayList<Rutina> rutinas = new ArrayList<>();
-
 	    String sqlRutinas = "SELECT NOMBRE, OBJETIVO FROM RUTINA WHERE USUARIO = ?";
-	    String sqlEjerciciosGym = "SELECT E.NOMBRE, E.SERIES, E.PESO FROM EJERCICIO_GYM E WHERE E.NOMBRE IN " +
-	                              "(SELECT T.EJERCICIO_NOMBRE FROM TIENE_GYM T WHERE T.RUTINA_NOMBRE = ? AND T.RUTINA_OBJETIVO = ?)";
-	    String sqlEjerciciosCardio = "SELECT E.NOMBRE, E.DURACION FROM EJERCICIO_CARDIO E WHERE E.NOMBRE IN " +
-	                                 "(SELECT T.EJERCICIO_NOMBRE FROM TIENE_CARDIO T WHERE T.RUTINA_NOMBRE = ? AND T.RUTINA_OBJETIVO = ?)";
-	    String sqlEjerciciosNatacion = "SELECT E.NOMBRE, E.ESTILO_NATACION, E.DURACION FROM EJERCICIO_NATACION E WHERE E.NOMBRE IN " +
-	                                   "(SELECT T.EJERCICIO_NOMBRE FROM TIENE_NATACION T WHERE T.RUTINA_NOMBRE = ? AND T.RUTINA_OBJETIVO = ?)";
+	    String sqlEjerciciosGym = "SELECT T.EJERCICIO_NOMBRE NOMBRE, T.SERIES, T.PESO FROM TIENE_GYM T WHERE T.RUTINA_NOMBRE = ? AND T.RUTINA_OBJETIVO = ?";
+	    String sqlEjerciciosCardio = "SELECT T.EJERCICIO_NOMBRE NOMBRE, T.DURACION FROM TIENE_CARDIO T WHERE T.RUTINA_NOMBRE = ? AND T.RUTINA_OBJETIVO = ?";
+	    String sqlEjerciciosNatacion = "SELECT T.EJERCICIO_NOMBRE NOMBRE, T.ESTILO_NATACION, T.DURACION FROM TIENE_NATACION T WHERE T.RUTINA_NOMBRE = ? AND T.RUTINA_OBJETIVO = ?";
 
 	    try (Connection con = DriverManager.getConnection(connectionString);
 	         PreparedStatement stmtRutinas = con.prepareStatement(sqlRutinas);) {
