@@ -90,8 +90,8 @@ public class Rutinas_guardadas extends JFrame {
         JButton home = new JButton();
         home.setFocusable(false);
         home.addActionListener(e -> {
-            new Pagina_principal(gestor,usuario);
             dispose();
+            new Pagina_principal(gestor,usuario);
         });
         rescalar.setScaledImage(home, "/resourses/images/casa.png", 20, 20);
         lo_de_arriba.add(home);

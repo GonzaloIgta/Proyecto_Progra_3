@@ -94,7 +94,6 @@ public class Nueva_Rutina extends JFrame {
 	
 	public Nueva_Rutina(GestorBD gestor,String usuario) {
 		this.usuario=usuario;
-		this.rutinas_guardadas =  new Rutinas_guardadas( gestor,usuario);
 		this.gestor = gestor;
 		// para que se cierre al darle a la x
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -232,11 +231,11 @@ public class Nueva_Rutina extends JFrame {
 							
 							
 						} else if (valor instanceof TipoNat) {
-							int duracion = 0; // valor por defecto
+							int duracion = 99; // valor por defecto
 							try {
 								duracion = Integer.valueOf(tabla.getValueAt(fila, 3).toString());
 							} catch (Exception a) {
-								// no hacer nada en caso de error
+								System.out.println("error al coger el tiempo");
 							}
 
 							
@@ -247,11 +246,11 @@ public class Nueva_Rutina extends JFrame {
 				            }
 							
 						} else {
-							int duracion = 0; // valor por defecto
+							int duracion = 99; // valor por defecto
 							try {
 								duracion = Integer.valueOf(tabla.getValueAt(fila, 3).toString());
 							} catch (Exception a) {
-								// no hacer nada en caso de error
+								System.out.println("error al coger el tiempo");
 							}
 
 							Ejercicio_cardio ejercicio = new Ejercicio_cardio(valor.toString(), "ubicacion por definir", duracion);

@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,14 +27,22 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.StyledEditorKit.ForegroundAction;
 
+import clases_de_apyo.Ejercicio;
+import clases_de_apyo.Ejercicio_Natacion;
+import clases_de_apyo.Ejercicio_cardio;
+import clases_de_apyo.Ejercicio_gym;
+import clases_de_apyo.ProgressCircleUI;
 import clases_de_apyo.Rescalar_imagen;
 import clases_de_apyo.Rutina;
 import gestorbd.GestorBD;
@@ -211,22 +220,55 @@ import gestorbd.GestorBD;
 	     	    
 	     	    JButton botonSeleccionar = new JButton("Agregar Rutina");
 	     	    
-	     	    botonSeleccionar.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						int filaSeleccionada = tablaRutinas.getSelectedRow();
-						
-		     	    	if (filaSeleccionada != -1) {
-		     	    		Rutina rutinaSeleccionada = listaRutinas.get(filaSeleccionada);
-		     	    		agregarRutinaAPlanning(panelRutinas, mensajeSinRutinas, rutinaSeleccionada.getNombre(), contadorRutina, botonAgregarRutina, rutinaSeleccionada, todasRutinas, dia);      	    		//LE PASAMOS EL PANEL DEL DIA, EL MENSAJE DE SIN RUTINAS POR SI LO TIENE QUE PONER, Y EL NOMBRE DE LA RUTINA
-		     	    		dialogoRutinas.dispose();
-		     	    		
-		     	    	}else {
-		     	    		JOptionPane.showMessageDialog(dialogoRutinas, "Seleccione una rutina para agregar","Advertencia",JOptionPane.WARNING_MESSAGE);
-		     	    	}
-					}
-				});
+	     	   botonSeleccionar.addActionListener(new ActionListener() {
+	     		    @Override
+	     		    public void actionPerformed(ActionEvent e) {
+	     		        int filaSeleccionada = tablaRutinas.getSelectedRow();
+
+	     		        if (filaSeleccionada != -1) {
+	     		            Rutina rutinaSeleccionada = listaRutinas.get(filaSeleccionada);
+
+	     		            // Remover mensaje de "No hay ninguna rutina" si existe
+	     		            if (mensajeSinRutinas.getParent() != null) {
+	     		                panelRutinas.remove(mensajeSinRutinas);
+	     		            }
+
+	     		            // Crear botón con el nombre de la rutina
+	     		            JButton botonRutina = new JButton(rutinaSeleccionada.getNombre());
+	     		            botonRutina.setHorizontalAlignment(JButton.CENTER);
+	     		            botonRutina.setFocusable(false);
+
+	     		            // Añadir acción al botón para iniciar la rutina
+	     		            botonRutina.addActionListener(evt -> {
+	     		                iniciarRutina(Planning.this, rutinaSeleccionada, 10); // Cambia 10 por el tiempo de descanso deseado
+	     		            });
+
+	     		            // Agregar el botón al panel de rutinas
+	     		            panelRutinas.add(botonRutina);
+
+	     		            // Incrementar el contador de rutinas
+	     		            contadorRutina[0]++;
+
+	     		            // Desactivar el botón "Añadir Rutina" si se alcanzan las 5 rutinas
+	     		            if (contadorRutina[0] >= 5) {
+	     		                botonAgregarRutina.setEnabled(false);
+	     		            }
+
+	     		            // Añadir la rutina al mapa usando el método definido
+	     		            agregarRutina(dia, rutinaSeleccionada);
+
+	     		            // Refrescar el panel para reflejar los cambios
+	     		            panelRutinas.revalidate();
+	     		            panelRutinas.repaint();
+
+	     		            // Cerrar el diálogo de selección de rutina
+	     		            dialogoRutinas.dispose();
+	     		        } else {
+	     		            JOptionPane.showMessageDialog(dialogoRutinas, "Seleccione una rutina para agregar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+	     		        }
+	     		    }
+	     		});
+
 	     	    
 	     	    dialogoRutinas.add(botonSeleccionar,BorderLayout.SOUTH);
 	     	    dialogoRutinas.setVisible(true);
@@ -234,169 +276,152 @@ import gestorbd.GestorBD;
 	     	    
 	    }
 	     
-	     private void agregarRutinaAPlanning(JPanel panelRutinas, JLabel mensajeSinRutinas,String nombreRutina, int[] contadorRutina, JButton botonAgregarRutina, Rutina rutinaSeleccionada, ArrayList<Rutina> todasRutinas, String dia) {
-	    	 
+	     public void iniciarRutina(JFrame frame, Rutina rutinaSeleccionada, int tiempoDescanso) {
+	    	    JFrame ventanaRutina = new JFrame("Ejecutando Rutina: " + rutinaSeleccionada.getNombre());
+	    	    ventanaRutina.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    	    ventanaRutina.setSize(600, 400);
+	    	    ventanaRutina.setLayout(new BorderLayout());
 
-	    	 mapaRutinasPorDia.get(dia).add(rutinaSeleccionada);
-	    	 for(Rutina rutina : mapaRutinasPorDia.get(dia)) {
-	    		 System.out.println(rutina.getNombre());
-	    	 }
-	    	 JPanel panelRutina = new JPanel();
-	    	   
-	    	 JButton rutinaBoton = new JButton(nombreRutina);
+	    	    JPanel panelEjercicio = new JPanel();
+	    	    panelEjercicio.setLayout(new BoxLayout(panelEjercicio, BoxLayout.Y_AXIS));
 
-	    	 rutinaBoton.addActionListener(new ActionListener() {
-				
-				@Override
-				//FUENTE EXTERNA
-				//IAG
-				//ADAPTADO A MEDIDA
-				
-				public void actionPerformed(ActionEvent e) {
-					
-					//JFRAME -----------------------------------------------------------------
-					JFrame frameInformacion = new JFrame("Detalles de " + nombreRutina);
-			        frameInformacion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			        frameInformacion.setSize(600, 400); // Un tamaño más amplio
-			        frameInformacion.setResizable(true); // Permitir que la ventana sea redimensionable
-			        
-			        // Crear JPanel con BoxLayout para los componentes
-			        JPanel informacionRutina = new JPanel();
-			        informacionRutina.setLayout(new BoxLayout(informacionRutina, BoxLayout.Y_AXIS));
-			        informacionRutina.setAlignmentX(Component.CENTER_ALIGNMENT); // Alineación horizontal del panel
+	    	    JLabel labelEjercicio = new JLabel("Preparado para comenzar");
+	    	    labelEjercicio.setFont(new Font("Arial", Font.BOLD, 18));
+	    	    labelEjercicio.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-			        // Crear el título con el nombre de la rutina
-			        JLabel labelNombreRutina = new JLabel("Rutina: " + nombreRutina);
-			        labelNombreRutina.setFont(new Font("Arial", Font.BOLD, 16));
-			        labelNombreRutina.setAlignmentX(JLabel.CENTER_ALIGNMENT);  // Alineación centrada horizontalmente
-			        informacionRutina.add(labelNombreRutina);
+	    	    JLabel fotoEjercicio = new JLabel();
+	    	    fotoEjercicio.setHorizontalAlignment(SwingConstants.CENTER);
 
-			        // Crear el objetivo de la rutina
-			        JLabel labelObjetivo = new JLabel("Objetivo: " + rutinaSeleccionada.getObjetivo());
-			        labelObjetivo.setFont(new Font("Arial", Font.PLAIN, 14));
-			        labelObjetivo.setAlignmentX(JLabel.CENTER_ALIGNMENT);  // Alineación centrada horizontalmente
+	    	    JProgressBar progressBar = new JProgressBar();
+	    	    progressBar.setUI(new ProgressCircleUI());
+	    	    progressBar.setForeground(Color.black);
+	    	    progressBar.setValue(100);
+	    	    progressBar.setMaximum(100);
 
-			        informacionRutina.add(labelObjetivo);
+	    	    JButton botonCompletarSerie = new JButton("Completar Serie");
+	    	    botonCompletarSerie.setEnabled(false);
 
-			        // Crear los ejercicios y convertirlos en JLabels
-			        String ejercicios = rutinaSeleccionada.printLista_Ejercicios();
-			        String[] listaEjercicios = ejercicios.split(",");  // Separar los ejercicios por COMAS
+	    	    panelEjercicio.add(labelEjercicio);
+	    	    panelEjercicio.add(Box.createVerticalStrut(20)); // Espaciado
+	    	    panelEjercicio.add(fotoEjercicio);
+	    	    panelEjercicio.add(Box.createVerticalStrut(20));
+	    	    panelEjercicio.add(progressBar);
+	    	    panelEjercicio.add(Box.createVerticalStrut(20));
+	    	    panelEjercicio.add(botonCompletarSerie);
 
-			        // Crear un JLabel para cada ejercicio y añadirlos al panel
-			        for (String ejercicio : listaEjercicios) {
-			            JLabel labelEjercicio = new JLabel(ejercicio);
-			            labelEjercicio.setFont(new Font("Arial", Font.PLAIN, 14));
-			            labelEjercicio.setAlignmentX(JLabel.CENTER_ALIGNMENT);  // Alineación centrada horizontalmente			            
-			            informacionRutina.add(labelEjercicio);
-			        }
+	    	    ventanaRutina.add(panelEjercicio, BorderLayout.CENTER);
 
-			        // Añadir un espacio para separar los elementos visualmente
-			        informacionRutina.add(Box.createVerticalStrut(10));
+	    	    JButton botonCancelar = new JButton("Cancelar Rutina");
+	    	    botonCancelar.addActionListener(e -> ventanaRutina.dispose());
+	    	    ventanaRutina.add(botonCancelar, BorderLayout.SOUTH);
 
-			        // Crear un JScrollPane si el contenido es grande
-			        JScrollPane scrollPane = new JScrollPane(informacionRutina);
-			        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);  // Habilitar desplazamiento vertical
+	    	    ventanaRutina.setLocationRelativeTo(null);
+	    	    ventanaRutina.setVisible(true);
 
-			        // Crear un JPanel principal para centrar el contenido en la ventana
-			        JPanel panelPrincipal = new JPanel();
-			        panelPrincipal.setLayout(new BorderLayout());
+	    	    Rescalar_imagen rescaler = new Rescalar_imagen(); // Instancia de la clase para redimensionar las imágenes
 
-			        // Añadir espacio flexible para centrar el contenido verticalmente
-			        panelPrincipal.add(Box.createVerticalGlue(), BorderLayout.NORTH);  // Empujar hacia el centro
-			        panelPrincipal.add(scrollPane, BorderLayout.CENTER); // El contenido central
-			        panelPrincipal.add(Box.createVerticalGlue(), BorderLayout.SOUTH); // Empujar hacia el centro
+	    	    // Hilo para gestionar la ejecución de ejercicios
+	    	    new Thread(() -> {
+	    	        for (Ejercicio ejercicio : rutinaSeleccionada.getLista_ejercicios()) {
+	    	            SwingUtilities.invokeLater(() -> {
+	    	                botonCompletarSerie.setVisible(false);
+	    	                labelEjercicio.setText("Ejercicio: " + ejercicio.getNombre());
 
-			        // Crear el botón "Volver"
-			        JButton botonVolver = new JButton("Volver");
-			        botonVolver.setAlignmentX(JButton.CENTER_ALIGNMENT); // Alinear el botón en el centro horizontalmente
-			        botonVolver.setPreferredSize(new Dimension(150, 40)); // Tamaño del botón
+	    	                if (ejercicio instanceof Ejercicio_cardio) {
+	    	                    labelEjercicio.setText(labelEjercicio.getText() + " - Duración: " + ((Ejercicio_cardio) ejercicio).getDuracion() + " seg.");
+	    	                    botonCompletarSerie.setVisible(false); // Ocultar botón para ejercicios de cardio
+	    	                } else if (ejercicio instanceof Ejercicio_Natacion) {
+	    	                    labelEjercicio.setText(labelEjercicio.getText() + " - Estilo: " + ((Ejercicio_Natacion) ejercicio).getEstilo() + " " + ((Ejercicio_Natacion) ejercicio).getDuracion() + " min");
+	    	                    botonCompletarSerie.setVisible(false); // Ocultar botón para ejercicios de natación
+	    	                } else if (ejercicio instanceof Ejercicio_gym) {
+	    	                    Ejercicio_gym gym = (Ejercicio_gym) ejercicio;
+	    	                    labelEjercicio.setText(labelEjercicio.getText() +
+	    	                            " - Series: " + gym.getSeries() +
+	    	                            ", Peso: " + gym.getPeso() + " kg");
+	    	                    botonCompletarSerie.setVisible(true); // Mostrar botón para ejercicios de gym
+	    	                    botonCompletarSerie.setEnabled(true);
+	    	                }
 
-			        // Agregar el ActionListener para el botón Volver
-			        botonVolver.addActionListener(new ActionListener() {
-						
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							frameInformacion.dispose();
-						}
-					});
-			        // Crear un panel para colocar el botón abajo
-			        JPanel panelBoton = new JPanel();
-			        panelBoton.setLayout(new FlowLayout(FlowLayout.CENTER)); // Alinear el botón al centro
-			        panelBoton.add(botonVolver);
+	    	                String photoPath = ejercicio.getUbicacion_foto();
+	    	                if (photoPath != null && !photoPath.isEmpty()) {
+	    	                    rescaler.setScaledImage(fotoEjercicio, photoPath, 300, 200); // Redimensiona la foto
+	    	                } else {
+	    	                    fotoEjercicio.setIcon(null); // Si no hay foto, se elimina la imagen
+	    	                }
+	    	            });
 
-			        // Añadir el panel del botón en el BorderLayout.SOUTH
-			        panelPrincipal.add(panelBoton, BorderLayout.SOUTH);
+	    	            if (ejercicio instanceof Ejercicio_gym) {
+	    	                Ejercicio_gym gym = (Ejercicio_gym) ejercicio;
+	    	                botonCompletarSerie.setVisible(true);
+	    	                SwingUtilities.invokeLater(() -> progressBar.setValue(0)); // Restablecer la barra de progreso a 0 antes de las series
 
-			        // Agregar el JPanel principal al JFrame
-			        frameInformacion.add(panelPrincipal);
+	    	                for (int serie = 0; serie <= gym.getSeries(); serie++) {
+	    	                    final int serieActual = serie;
+	    	                    final int totalSeries = gym.getSeries();
 
-			        frameInformacion.setLocationRelativeTo(null);
+	    	                    SwingUtilities.invokeLater(() -> {
+	    	                        labelEjercicio.setText(gym.getNombre() + " " + gym.getPeso() + " kg Serie " + serieActual + " de " + totalSeries);
+	    	                        // Actualizar la barra de progreso para reflejar el progreso actual
+	    	                        progressBar.setValue((serieActual * 100) / totalSeries);
+	    	                        progressBar.setString(serieActual + " de " + totalSeries); // Mostrar "serie actual / total series"
+	    	                    });
 
-			        // Hacer visible la ventana
-			        frameInformacion.setVisible(true);
-				}
-			});
-	    	 
-	    	 rutinaBoton.setFocusable(false);
-	    	 
-	    	 JButton eliminarRutina = new JButton("Eliminar");
-	    	 
-	    	 eliminarRutina.setFocusable(false);
-	    	 
-	    	 eliminarRutina.addActionListener( new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-						
-					
-					int tamaño = mapaRutinasPorDia.get(dia).size();
-					
-					mapaRutinasPorDia.get(dia).remove(tamaño-1);
-					
-					
-					 panelRutinas.remove(panelRutina);
-					 panelRutinas.revalidate();
-					 panelRutinas.repaint();
-					 contadorRutina[0]--;
-					 
-	
-					if (contadorRutina[0] < 5) {
-						botonAgregarRutina.setEnabled(true);
-					} 
-					
-					
-					if(contadorRutina[0] == 0 ) {
-						panelRutinas.add(mensajeSinRutinas);
-						panelRutinas.revalidate();
-						panelRutinas.repaint();
-					}
-	    		 
-					
-				}
-			});
-	  
-	    	 
-		    	panelRutina.add(rutinaBoton);
-				panelRutina.add(eliminarRutina);
-				panelRutinas.add(panelRutina);
-				panelRutinas.revalidate();  // Actualiza el panel para enseñar la nueva rutina
-		        panelRutinas.repaint();  // Redibuja el panel
-		        contadorRutina[0]++;
-		        
-		        
-		        if (contadorRutina[0] > 0) {
-		            panelRutinas.remove(mensajeSinRutinas);
-		            panelRutinas.revalidate();
-		            panelRutinas.repaint();
-		        }
+	    	                    // Esperar a que el usuario complete la serie
+	    	                    synchronized (botonCompletarSerie) {
+	    	                        botonCompletarSerie.addActionListener(e -> {
+	    	                            synchronized (botonCompletarSerie) {
+	    	                                botonCompletarSerie.notify(); // Despertar el hilo principal para avanzar
+	    	                            }
+	    	                            // Después de completar la serie, actualizar la barra de progreso
+	    	                            SwingUtilities.invokeLater(() -> progressBar.setValue((serieActual * 100) / totalSeries));
+	    	                        });
 
-		        if (contadorRutina[0] == 5) {
-		            botonAgregarRutina.setEnabled(false);
-		        }
-		       
-	    	 
-	     }
-	     
+	    	                        try {
+	    	                            botonCompletarSerie.wait(); // Espera hasta que el usuario presione el botón
+	    	                        } catch (InterruptedException e) {
+	    	                            Thread.currentThread().interrupt();
+	    	                            return;
+	    	                        }
+	    	                    }
+	    	                }
+	    	            } else {
+	    	                // Simular la duración del ejercicio (para cardio o natación)
+	    	                simularDuracion(progressBar, ejercicio instanceof Ejercicio_cardio ? ((Ejercicio_cardio) ejercicio).getDuracion() : 10);
+	    	            }
+
+	    	            // Periodo de descanso
+	    	            SwingUtilities.invokeLater(() -> labelEjercicio.setText("Descanso: " + tiempoDescanso + " seg."));
+	    	            botonCompletarSerie.setVisible(false);
+	    	            simularDuracion(progressBar, tiempoDescanso);
+	    	        }
+
+	    	        // Rutina completada
+	    	        SwingUtilities.invokeLater(() -> {
+	    	            labelEjercicio.setText("¡Rutina completada!");
+	    	            progressBar.setValue(100);
+	    	            botonCompletarSerie.setVisible(false); // Ocultar el botón cuando la rutina se complete
+	    	        });
+	    	    }).start();
+	    	}
+
+
+	    	private void simularDuracion(JProgressBar progressBar, int duracion) {
+	    	    int intervalo = 1000; // 1 segundo
+	    	    int pasos = duracion;
+	    	    int progresoPorPaso = 100 / pasos;
+
+	    	    for (int i = 0; i < pasos; i++) {
+	    	        try {
+	    	            Thread.sleep(intervalo);
+	    	        } catch (InterruptedException e) {
+	    	            Thread.currentThread().interrupt();
+	    	            return;
+	    	        }
+	    	        final int progreso = (i + 1) * progresoPorPaso;
+	    	        SwingUtilities.invokeLater(() -> progressBar.setValue(progreso));
+	    	    }
+	    	}
+
 	     private ArrayList<Rutina> obtenerRutinasGuardadas() {
 	    	 return rutinasGuardadas;
 	    	 
@@ -407,6 +432,8 @@ import gestorbd.GestorBD;
 		public void open() {
 	        setVisible(true);
 		}
+		
+		
 		
 		public void agregarRutina(String dia, Rutina rutina) {
 	        ArrayList<Rutina> rutinas = mapaRutinasPorDia.get(dia);

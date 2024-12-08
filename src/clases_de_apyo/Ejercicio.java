@@ -13,7 +13,7 @@ public abstract class Ejercicio {
 		this.ubicacion_foto = ubicacion_foto;
 	}
 
-
+	
 	public String getNombre() {
 		return nombre;
 	}
