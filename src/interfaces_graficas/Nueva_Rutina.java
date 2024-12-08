@@ -216,7 +216,7 @@ public class Nueva_Rutina extends JFrame {
 						int peso = 0;
 
 						try {
-							peso = (int) tabla.getValueAt(fila, 4);
+							peso = (int) Integer.valueOf(tabla.getValueAt(fila, 4).toString());
 						} catch (Exception a) {
 							// no hacer nada en caso de error
 						}
@@ -233,7 +233,18 @@ public class Nueva_Rutina extends JFrame {
 						} else if (valor instanceof TipoNat) {
 							int duracion = 99; // valor por defecto
 							try {
-								duracion = Integer.valueOf(tabla.getValueAt(fila, 3).toString());
+								Object obj =tabla.getValueAt(fila, 3);
+								if (obj instanceof Integer) {
+								    duracion = (Integer) obj;
+								} else if (obj instanceof String) {
+								    try {
+								        duracion = Integer.parseInt((String) obj);
+								    } catch (NumberFormatException e1) {
+								        System.out.println("El string no es un número válido");
+								    }
+								} else {
+									System.out.println("ERRORR");
+								}
 							} catch (Exception a) {
 								System.out.println("error al coger el tiempo");
 							}
@@ -248,7 +259,16 @@ public class Nueva_Rutina extends JFrame {
 						} else {
 							int duracion = 99; // valor por defecto
 							try {
-								duracion = Integer.valueOf(tabla.getValueAt(fila, 3).toString());
+								Object obj =tabla.getValueAt(fila, 2);
+								if (obj instanceof Integer) {
+								    duracion = (Integer) obj;
+								} else if (obj instanceof String) {
+								    try {
+								        duracion = Integer.parseInt((String) obj);
+								    } catch (NumberFormatException e1) {
+								        System.out.println("El string no es un número válido");
+								    }
+								}
 							} catch (Exception a) {
 								System.out.println("error al coger el tiempo");
 							}
