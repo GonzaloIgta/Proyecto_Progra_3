@@ -398,8 +398,21 @@ import gestorbd.GestorBD;
 	    	        // Rutina completada
 	    	        SwingUtilities.invokeLater(() -> {
 	    	            labelEjercicio.setText("¡Rutina completada!");
-	    	            progressBar.setValue(100);
+	    	            labelEjercicio.setHorizontalAlignment(SwingConstants.CENTER); 
+	    	            progressBar.setVisible(false);
+	    	            ventanaRutina.remove(panelEjercicio);
+	    	            JPanel ventanaterminado = new JPanel(new BorderLayout());
+	    	            ventanaterminado.add(labelEjercicio, BorderLayout.NORTH);
+	    	            JLabel foto = new JLabel();
+	    	            foto.setHorizontalAlignment(SwingConstants.CENTER);
+	    	            Rescalar_imagen rescalar = new Rescalar_imagen();
+	    	            foto.setIcon(new ImageIcon("src/resourses/images/fiesta.gif"));
+	    	            //rescalar.setScaledImage(foto, "/resourses/images/fiesta.gif", 100, 100);
+	    	            ventanaterminado.add(foto,BorderLayout.CENTER);
+	    	            ventanaRutina.add(ventanaterminado);
+
 	    	            botonCompletarSerie.setVisible(false); // Ocultar el botón cuando la rutina se complete
+	    	            
 	    	        });
 	    	    }).start();
 	    	}
