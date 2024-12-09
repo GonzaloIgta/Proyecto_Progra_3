@@ -31,6 +31,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -49,8 +51,8 @@ import clases_de_apyo.Ejercicio_gym.EjAductor;
 import clases_de_apyo.Ejercicio_gym.EjAntebrazo;
 import clases_de_apyo.Ejercicio_gym.EjBiceps;
 import clases_de_apyo.Ejercicio_gym.EjCuadriceps;
-import clases_de_apyo.Ejercicio_gym.EjEspaldaInferior;
-import clases_de_apyo.Ejercicio_gym.EjEspaldaSuperior;
+import clases_de_apyo.Ejercicio_gym.EjEspaldaInf;
+import clases_de_apyo.Ejercicio_gym.EjEspaldaSup;
 import clases_de_apyo.Ejercicio_gym.EjFemoral;
 import clases_de_apyo.Ejercicio_gym.EjGluteo;
 import clases_de_apyo.Ejercicio_gym.EjHombro;
@@ -90,6 +92,12 @@ public class Nueva_Rutina extends JFrame {
 	private int numEjNat = 0; 
 	private int numEjTotal = 0;
 	private String usuario;
+	private boolean faltanCampos = false;
+	private int lengthAComprobar;
+	private int countCamposVacios;
+	private ArrayList<Boolean>comprobarCamposVacios;
+	private JTextField textFieldNumericoPesoyTiemp;
+	private boolean vistaPorDefecto=true; 
 
 	
 	public Nueva_Rutina(GestorBD gestor,String usuario) {
@@ -111,7 +119,14 @@ public class Nueva_Rutina extends JFrame {
 		panelboxl.setLayout(new BoxLayout(panelboxl, BoxLayout.Y_AXIS));
 
 		ventana_central_MuestraRutinas = new JPanel(new BorderLayout());
-
+		
+		
+		JLabel imagendefectoArriba= new JLabel();
+		imagendefectoArriba.setOpaque(true);
+		rescalar = new Rescalar_imagen();
+		rescalar.setScaledImage(imagendefectoArriba, "/resourses/images/vistaInicialPorDefecto.png", 740, 140);
+		ventana_nuevaRutinaUP.add(imagendefectoArriba);
+		
 		// FUENTE-EXTERNA
 		// URL: (https://chuidiang.org/index.php?title=Uso_de_Layouts)
 		// ADAPTADO (hemos analizado el codigo para entender como funcionaba el layout y
@@ -311,10 +326,7 @@ public class Nueva_Rutina extends JFrame {
 				dispose();
 				new Rutinas_guardadas(gestor,usuario);
 				;
-			} else {
-
-			}
-
+			} 
 		};
 
 		boton_CancelarRutina.addActionListener(listener_boton_CancelarRutina);
@@ -365,6 +377,10 @@ public class Nueva_Rutina extends JFrame {
 		ventana_central_MuestraRutinas.add(scrollPane, BorderLayout.CENTER);
 
 		scrollPane2 = new JScrollPane(panelboxl);
+		JLabel imagendefectoAbajo = new JLabel();
+		rescalar = new Rescalar_imagen();
+		rescalar.setScaledImage(imagendefectoAbajo, "/resourses/images/vistaInicialPorDefecto.png", 740, 140);
+		panelboxl.add(imagendefectoAbajo);
 
 		
 		// crear boton de guardar/pasar datos a rutina
@@ -372,8 +388,10 @@ public class Nueva_Rutina extends JFrame {
 		ActionListener listener_boton_Pasar_Rutina = e -> {
 			
 			if(modeloDatostablaEjercicios!=null) { //si ya hemos seleccionado un tipo de ejercicio (la tabla no es null) y no hay ninguna celda vacia
-				guardarEjercicioEnTablaAuxiliar();
-				añadirEjercicioRutina();	
+				añadirEjercicioRutina();
+				if (faltanCampos!=true) { //solo guardamos el ejercicio en la rutina si hemos completado todos sus campos
+					guardarEjercicioEnTablaAuxiliar();
+				}
 			}else if(modeloDatostablaEjercicios==null){ // si no hemos seleccionado ningun tipo de ejercicio (es decir es null el valor del a tabla) sale un mensaje
 				
 				JOptionPane.showMessageDialog(
@@ -506,6 +524,40 @@ public class Nueva_Rutina extends JFrame {
 		JComboBox<MuscBrazos> cbEjerciciosInicial = new JComboBox<>(MuscBrazos.values());
 		tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbEjerciciosInicial));
 
+		textFieldNumericoPesoyTiemp = new JTextField();
+		tablaEjercicios.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(textFieldNumericoPesoyTiemp));
+		
+		DocumentListener textFieldNumericoPesoyTiempListener = new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(!esNumerico(textFieldNumericoPesoyTiemp.getText())) {
+					JOptionPane.showMessageDialog(
+						    null, // Componente padre
+						    "Solo se aceptan valores númericos", // Mensaje
+						    "Advertencia", // Título del cuadro
+						    JOptionPane.WARNING_MESSAGE // Tipo de mensaje
+						);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+
+		// Agregar el DocumentListener al JTextField
+		textFieldNumericoPesoyTiemp.getDocument().addDocumentListener(textFieldNumericoPesoyTiempListener);
+
+		
 		ActionListener parteCuerpolistener = e -> {
 
 			if (cbParteCuerpo.getSelectedItem() != null) {
@@ -569,15 +621,15 @@ public class Nueva_Rutina extends JFrame {
 									tablaEjercicios.getColumnModel().getColumn(2)
 											.setCellEditor(new DefaultCellEditor(cbEjercicio));
 
-								} else if (cbMusculo.getSelectedItem().equals(MuscTorso.Espalda_Superior)) {
-									JComboBox<EjEspaldaSuperior> cbEjercicio = new JComboBox<>(
-											EjEspaldaSuperior.values());
+								} else if (cbMusculo.getSelectedItem().equals(MuscTorso.Espalda_Sup)) {
+									JComboBox<EjEspaldaSup> cbEjercicio = new JComboBox<>(
+											EjEspaldaSup.values());
 									tablaEjercicios.getColumnModel().getColumn(2)
 											.setCellEditor(new DefaultCellEditor(cbEjercicio));
 
 								} else {
-									JComboBox<EjEspaldaInferior> cbEjercicio = new JComboBox<>(
-											EjEspaldaInferior.values());
+									JComboBox<EjEspaldaInf> cbEjercicio = new JComboBox<>(
+											EjEspaldaInf.values());
 									tablaEjercicios.getColumnModel().getColumn(2)
 											.setCellEditor(new DefaultCellEditor(cbEjercicio));
 								}
@@ -733,6 +785,39 @@ public class Nueva_Rutina extends JFrame {
 
 		JComboBox<TipoCardio> cbTipoCardio = new JComboBox<>(TipoCardio.values());
 		tablaEjercicios.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cbTipoCardio));
+		
+		textFieldNumericoPesoyTiemp = new JTextField();
+		tablaEjercicios.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(textFieldNumericoPesoyTiemp));
+		
+		DocumentListener textFieldNumericoPesoyTiempListener = new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(!esNumerico(textFieldNumericoPesoyTiemp.getText())) {
+					JOptionPane.showMessageDialog(
+						    null, // Componente padre
+						    "Solo se aceptan valores númericos", // Mensaje
+						    "Advertencia", // Título del cuadro
+						    JOptionPane.WARNING_MESSAGE // Tipo de mensaje
+						);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+
+		// Agregar el DocumentListener al JTextField
+		textFieldNumericoPesoyTiemp.getDocument().addDocumentListener(textFieldNumericoPesoyTiempListener);	
 
 		// Crear la tabla
 		this.tablaEjercicios.setVisible(true);
@@ -828,6 +913,41 @@ public class Nueva_Rutina extends JFrame {
 
 		JComboBox<EstiloNat> cbEstilo = new JComboBox<>(EstiloNat.values());
 		tablaEjercicios.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbEstilo));
+		
+		textFieldNumericoPesoyTiemp = new JTextField();
+		tablaEjercicios.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(textFieldNumericoPesoyTiemp));
+		
+		DocumentListener textFieldNumericoPesoyTiempListener = new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(!esNumerico(textFieldNumericoPesoyTiemp.getText())) {
+					JOptionPane.showMessageDialog(
+						    null, // Componente padre
+						    "Solo se aceptan valores númericos", // Mensaje
+						    "Advertencia", // Título del cuadro
+						    JOptionPane.WARNING_MESSAGE // Tipo de mensaje
+						);
+								}
+				
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+
+		// Agregar el DocumentListener al JTextField
+		textFieldNumericoPesoyTiemp.getDocument().addDocumentListener(textFieldNumericoPesoyTiempListener);	
+
 
 		// Crear la tabla
 		this.tablaEjercicios.setVisible(true);
@@ -899,7 +1019,8 @@ public class Nueva_Rutina extends JFrame {
 	
 	private  void añadirEjercicioRutina() {
 		
-	
+			comprobarCamposVacios = new ArrayList<>();
+			faltanCampos = false;
 
 			JLabel lablnuevo = new JLabel();
 
@@ -913,9 +1034,27 @@ public class Nueva_Rutina extends JFrame {
 				int column = 0;
 				while (column < columnCount) {
 					Object value = tablaEjercicios.getValueAt(row, column);
+					if (value == null || value.toString()=="") {
+						comprobarCamposVacios.add(true);
 
-					if (value != null) {
-						sb.append(value.toString()).append(" ");
+					}else {
+						if(tablaEjercicios.getColumnName(column)=="Peso (kg)") {
+							sb.append(value.toString()).append("kg ");
+
+						}else if(tablaEjercicios.getColumnName(column)=="Duración (min)"){
+							
+							sb.append(value.toString()).append("min ");
+
+						}else if(tablaEjercicios.getColumnName(column)=="Series"){
+							
+							sb.append(value.toString()).append("series ");
+
+						}
+						
+						else {
+							sb.append(value.toString()).append(" ");
+
+						}
 					}
 
 					column++;
@@ -946,21 +1085,48 @@ public class Nueva_Rutina extends JFrame {
 
 				
 			}
+			//recorremos la lista "comprobarCamposVacios". si hay mas de 2 campos vacios por row, hay alguno campo que no es la imagen o el boton de cancelar que el usuario no ha rellenado
+			countCamposVacios=0;
+			for(Boolean bool : comprobarCamposVacios){
+				if (bool == true){
+					countCamposVacios++;
+				}
+			}
+
 			
-	        numEjTotal = numEjGym + numEjCard + numEjNat;
+			if(((rowCount*2)- countCamposVacios)==0) { //correcto: los unicos campos vacios son el boton de cancelar y la imagen
+		        numEjTotal = numEjGym + numEjCard + numEjNat;
 
-	        actualizar_barras();
-	        
-			lablnuevo.setOpaque(true);
-			lablnuevo.setBorder(new LineBorder(Color.BLACK, 1));
-			
-			panelboxl.add(lablnuevo);
+		      
+		        if(vistaPorDefecto==true) { //quitamos la imagen por defecto de añadir ejercicios a la rutina
+		        	vistaPorDefecto=false;
+		        	panelboxl.removeAll();
+		        }
+		        
+		        
+		        actualizar_barras();
+		        
+				lablnuevo.setOpaque(true);
+				lablnuevo.setBorder(new LineBorder(Color.BLACK, 1));
+				
+				panelboxl.add(lablnuevo);
 
-			panelboxl.revalidate();
-			panelboxl.repaint();
+				panelboxl.revalidate();
+				panelboxl.repaint();
 
-			scrollPane2.revalidate();
-			scrollPane2.repaint();
+				scrollPane2.revalidate();
+				scrollPane2.repaint();
+				
+			}else {
+				faltanCampos=true;
+				JOptionPane.showMessageDialog(
+					    null, // Componente padre
+					    "Rellena todos los campos antes de guardar el ejercicio en la rutina", // Mensaje
+					    "Advertencia", // Título del cuadro
+					    JOptionPane.WARNING_MESSAGE // Tipo de mensaje
+					);
+			}
+
 
 		
 	
@@ -1002,19 +1168,7 @@ public class Nueva_Rutina extends JFrame {
 		    barra_natacion.setValue(valorNatacion);
 		}
 	 
-	 /*
-	 private boolean comprobardatosTabla() {
-		 boolean esnull=false;
-		 for (int row=0; row<modeloDatostablaEjercicios.getRowCount();row++) {
-			 for (int column = 0; column < modeloDatostablaEjercicios.getColumnCount(); column++) {
-		            if (tablaEjercicios.getValueAt(row, column) == null) {
-		                esnull= true; // Si encontramos un null, retornamos true
-		            }
-		        }
-		 }
-		 
-		 return esnull;
-	 }*/ 
+
 	 
 	 private void guardarEjercicioEnTablaAuxiliar() {
 		    if (modeloDatostablaEjercicios != null) {
@@ -1041,6 +1195,11 @@ public class Nueva_Rutina extends JFrame {
 		        JOptionPane.showMessageDialog(null, "La tabla original es null, no se puede copiar.");
 		    }
 		}
+	 
+	 public boolean esNumerico(String texto) { 
+		    return texto != null && texto.matches("\\d+"); // CHATGPT
+		}
+
 
 
 

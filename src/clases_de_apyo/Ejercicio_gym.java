@@ -1,3 +1,4 @@
+
 package clases_de_apyo;
 
 import java.util.Objects;
@@ -19,7 +20,7 @@ public class Ejercicio_gym extends  Ejercicio{
 	}
 	public enum MuscTorso{
 		
-		Pecho, Abdominales, Espalda_Superior, Espalda_Inferior; 
+		Pecho, Abdominales, Espalda_Sup, Espalda_Inf; 
 	    @Override
 	    public String toString() {
 	        // Reemplaza las barras bajas por espacios y convierte a mayúsculas cada palabra
@@ -87,8 +88,8 @@ public class Ejercicio_gym extends  Ejercicio{
 	public enum EjPecho {
 	    PRESS_BANCA_PLANO, 
 	    PRESS_BANCA_INCLINADO,
-	    PRESS_BANCA_PLANO_CON_MANCUERNAS, 
-	    PRESS_BANCA_INCLINADO_CON_MANCUERNAS,
+	    PRESS_BANCA_PLANO_MANCUERNAS, 
+	    PRESS_BANCA_INCLINADO_MANCUERNAS,
 	    FONDOS_PARA_PECHO, 
 	    PRESS_EN_MAQUINA, 
 	    CRUCES_EN_POLEA_ARRIBA_ABAJO,
@@ -112,7 +113,7 @@ public class Ejercicio_gym extends  Ejercicio{
 	    }
 	}
 
-	public enum EjEspaldaSuperior {
+	public enum EjEspaldaSup {
 	    DOMINADAS, 
 	    REMO_CON_BARRA, 
 	    JALONES_EN_POLEA, 
@@ -125,7 +126,7 @@ public class Ejercicio_gym extends  Ejercicio{
 	    }
 	}
 
-	public enum EjEspaldaInferior {
+	public enum EjEspaldaInf {
 	    PESO_MUERTO, 
 	    PESO_MUERTO_RUMANO, 
 	    HIPEREXTENSIONES;
@@ -258,4 +259,3 @@ public class Ejercicio_gym extends  Ejercicio{
 
 	
 }
-
