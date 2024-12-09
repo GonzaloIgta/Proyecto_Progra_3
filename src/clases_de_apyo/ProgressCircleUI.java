@@ -1,7 +1,7 @@
 package clases_de_apyo;
 //FUENTE EXTERNA
-	//EXTENERNO (https://stackoverflow.com/questions/36594680/how-to-create-a-circular-progress-component-in-java-swing)
-	//SIN CAMBIOS
+//EXTENERNO (https://stackoverflow.com/questions/36594680/how-to-create-a-circular-progress-component-in-java-swing)
+//SIN CAMBIOS
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
