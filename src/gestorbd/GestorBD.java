@@ -1,5 +1,6 @@
 package gestorbd;
 
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -11,6 +12,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.logging.Filter;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+import java.util.logging.LogRecord;
 
 import clases_de_apyo.Ejercicio;
 import clases_de_apyo.Ejercicio_Natacion;
@@ -22,29 +28,32 @@ import clases_de_apyo.Rutina.Objetivo_de_la_sesion;
 
 public class GestorBD {
 
-	private final String PROPERTIES_FILE = "configuration/properties.txt";
+    private final String PROPERTIES_FILE = "configuration/properties";
 
-	private Properties properties;
-	private String driverName;
-	private String databaseFile;
-	private String connectionString;
+    private Properties properties;
+    private String driverName;
+    private String databaseFile;
+    private String connectionString;
+    private static Logger logger = Logger.getLogger(GestorBD.class.getName());
 
-	public GestorBD() {
+    public GestorBD() {
+        try (FileInputStream fis = new FileInputStream("configuration/logger.properties")) {
+            // Inicialización del Logger
+            LogManager.getLogManager().readConfiguration(fis);
 
-		try {
-			properties = new Properties();
-			properties.load(new FileReader(PROPERTIES_FILE));
+            properties = new Properties();
+            properties.load(new FileReader(PROPERTIES_FILE));
 
-			driverName = properties.getProperty("driver");
-			databaseFile = properties.getProperty("file");
-			connectionString = properties.getProperty("connection");
+            driverName = properties.getProperty("driver");
+            databaseFile = properties.getProperty("file");
+            connectionString = properties.getProperty("connection");
 
-			Class.forName(driverName);
-		} catch (Exception e) {
+            Class.forName(driverName);
+        } catch (Exception e) {
+            logger.warning(String.format("Error al cargar el driver de BBDD: %s", e.getMessage()));
+        }
+    }
 
-		}
-
-	}
 
 
 /**
@@ -111,7 +120,7 @@ public class GestorBD {
 					}
 
 				} catch (Exception ex) {
-					System.out.println(String.format("Error al crear las tablas: %s", ex.getMessage()));
+					logger.warning(String.format("Error al crear las tablas: %s", ex.getMessage()));
 				}
 			}
 		}
@@ -155,17 +164,17 @@ public class GestorBD {
 				pStmt9.execute();
 				
 
-				System.out.println("Se han borrado todas las tablas");
+				logger.info("Se han borrado todas las tablas");
 			} catch (Exception ex) {
-				System.out.println(String.format("Error al borrar las tablas: %s", ex.getMessage()));
+				logger.warning(String.format("Error al borrar las tablas: %s", ex.getMessage()));
 			}
 
 			try {
 				Files.delete(Paths.get(databaseFile));
-				System.out.println("Se ha borrado el fichero de la BBDD");
+				logger.info("Se ha borrado el fichero de la BBDD");
 				
 			} catch (Exception ex) {
-				System.out.println(String.format("Error al borrar el fichero de la BBDD: %s", ex.getMessage()));
+				logger.warning(String.format("Error al borrar el fichero de la BBDD: %s", ex.getMessage()));
 			}
 		}
 	}
@@ -204,15 +213,11 @@ public class GestorBD {
 				pStmt8.execute();
 				pStmt9.execute();
 
-				System.out.println("Se han borrado los datos de todas las tablas");
+				logger.info("Se han borrado los datos");
 			} catch (Exception ex) {
-				System.out.println(String.format("Error al borrar los datos: %s", ex.getMessage()));
+				logger.warning(String.format("Error al borrar los datos: %s", ex.getMessage()));
 			}
 		}
-	}
-
-	public void insertarEjercicio(Ejercicio ejercicio) {
-		
 	}
 
 
@@ -238,7 +243,7 @@ public class GestorBD {
 	            try {
 	                objetivoRutina = Objetivo_de_la_sesion.valueOf(objetivoRutinaString);
 	            } catch (IllegalArgumentException e) {
-	                System.out.println("Error: Objetivo de la rutina no válido en la base de datos: " + objetivoRutinaString);
+	            	logger.warning("Error: Objetivo de la rutina no válido en la base de datos: " + objetivoRutinaString);
 	            }
 
 	            Rutina rutina = new Rutina(nombreRutina, objetivoRutina);
@@ -285,7 +290,7 @@ public class GestorBD {
 	                        try {
 	                            estiloNatacion = EstiloNat.valueOf(estiloNatacionString);
 	                        } catch (IllegalArgumentException e) {
-	                            System.out.println("Error: Estilo de natación no válido en la base de datos: " + estiloNatacionString);
+	                        	logger.warning("Error: Estilo de natación no válido en la base de datos: " + estiloNatacionString);
 	                        }
 
 	                        int duracion = rsNatacion.getInt("DURACION");
@@ -299,7 +304,7 @@ public class GestorBD {
 	          
 	        }
 	    } catch (Exception e) {
-	        System.out.println("Error al obtener las rutinas: " + e.getMessage());
+	        logger.warning("Error al obtener las rutinas: " + e.getMessage());
 	    }
 	    return rutinas;
 	}
@@ -321,7 +326,7 @@ public class GestorBD {
 		
 			        }catch (SQLException e) {
 			            con.rollback();  // Deshacer la transacción en caso de error
-			            System.out.println("Error al insertar la rutina: " + e.getMessage());
+			            logger.warning("Error al insertar la rutina: " + e.getMessage());
 					}
 			        
 			       
@@ -358,10 +363,10 @@ public class GestorBD {
 	                        insertarStmt.setString(2, rutina.getObjetivo().toString());
 	                        insertarStmt.setString(3, usuario);
 	                        insertarStmt.executeUpdate();
-	                        System.out.println("Rutina insertada correctamente.");
+	                        logger.info("Rutina insertada correctamente.");
 	                    }
 	                } else {
-	                    System.out.println("La rutina ya existe en la base de datos.");
+	                    logger.info("La rutina ya existe en la base de datos.");
 	                }
 	            }
 	            
@@ -398,7 +403,7 @@ public class GestorBD {
 	        					insertarStmt.setString(1, cardio.getNombre());
 	        					insertarStmt.setInt(2, cardio.getDuracion());
 	        					insertarStmt.execute();
-	        					System.out.println("Ejercicio cardio insertado correctamente.");
+	        					logger.info("Ejercicio cardio insertado correctamente.");
 	        				
 	        				
 	        			} else if (ejercicio instanceof Ejercicio_Natacion) {
@@ -412,13 +417,13 @@ public class GestorBD {
 	        					insertarStmt.setString(2, natacion.getEstilo().toString());
 	        					insertarStmt.setInt(3, natacion.getDuracion());
 	        					insertarStmt.executeUpdate();
-	        					System.out.println("Ejercicio de natación insertado correctamente.");
+	        					logger.info("Ejercicio de natación insertado correctamente.");
 	        				
 	        			} else {
-	        				System.out.println("Tipo de ejercicio desconocido.");
+	        				logger.warning("Tipo de ejercicio desconocido.");
 	        			}
 	        		} catch (Exception e) {
-	        			System.out.println("Error al insertar el ejercicio: " + e.getMessage());
+	        			logger.warning("Error al insertar el ejercicio: " + e.getMessage());
 	        		}
 	            	
 	            	
@@ -465,11 +470,11 @@ public class GestorBD {
 	            con.commit();  // Confirmar la transacción
 	        } catch (SQLException e) {
 	            con.rollback();  // Deshacer la transacción en caso de error
-	            System.out.println("Error al insertar la rutina: " + e.getMessage());
+	            logger.warning("Error al insertar la rutina: " + e.getMessage());
 	        }
 	    } catch (Exception e) {
 	    	
-	        System.out.println("Error al conectar a la base de datos: " + e.getMessage());
+	    	 logger.warning("Error al conectar a la base de datos: " + e.getMessage());
 	    }
 	}
 
@@ -487,9 +492,9 @@ public class GestorBD {
 			return true;
 		} catch (SQLException e) {
 			if (e.getMessage().contains("PRIMARY")) {
-				System.out.println("El usuario ya existe.");
+				 logger.warning("El usuario ya existe.");
 			} else {
-				System.out.println("Error al insertar el usuario: " + e.getMessage());
+				 logger.warning("Error al insertar el usuario: " + e.getMessage());
 			}
 		}
 		return false;
@@ -507,7 +512,7 @@ public class GestorBD {
 				return rs.getString("contraseña").equals(contraseña);
 			}
 		} catch (SQLException e) {
-			System.out.println("Error al verificar el usuario: " + e.getMessage());
+			 logger.warning("Error al verificar el usuario: " + e.getMessage());
 		}
 		return false;
 	}
