@@ -125,6 +125,29 @@ public class GestorBD {
 			}
 		}
 
+		public void eliminarRutina(Rutina rutina ) {
+		    String sqlEliminarRutina = "DELETE FROM RUTINA WHERE NOMBRE = ? AND OBJETIVO = ?";
+		    String nombreRutina = rutina.getNombre();
+		    String objetivoRutina = rutina.getObjetivo().toString();
+		    try (Connection con = DriverManager.getConnection(connectionString);
+		         PreparedStatement pStmt = con.prepareStatement(sqlEliminarRutina)) {
+
+		        // Establecer los parámetros de la rutina a eliminar
+		        pStmt.setString(1, nombreRutina);
+		        pStmt.setString(2, objetivoRutina);
+		        
+		        // Ejecutar la eliminación
+		        int filasEliminadas = pStmt.executeUpdate();
+		        
+		        if (filasEliminadas > 0) {
+		            System.out.println("Rutina eliminada con éxito, y todas las referencias han sido eliminadas en cascada.");
+		        } else {
+		            System.out.println("No se encontró la rutina especificada.");
+		        }
+		    } catch (SQLException ex) {
+		        logger.warning(String.format("Error al eliminar la rutina: %s", ex.getMessage()));
+		    }
+		}
 
 
 	/**

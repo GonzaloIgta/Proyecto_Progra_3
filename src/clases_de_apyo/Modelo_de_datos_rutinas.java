@@ -15,6 +15,14 @@ private static final long serialVersionUID = 1L;
 		    "Nº Ejercicios"		);
 
 
+	public List<Rutina> getRutinas() {
+		return rutinas;
+	}
+
+	public void setRutinas(List<Rutina> rutinas) {
+		this.rutinas = rutinas;
+	}
+
 	public Modelo_de_datos_rutinas(List<Rutina> rutinas) {
 		this.rutinas = rutinas;
 	}
