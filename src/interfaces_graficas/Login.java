@@ -9,6 +9,8 @@ import clases_de_apyo.Rescalar_imagen;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Login extends JFrame implements ActionListener {
 
@@ -43,6 +45,10 @@ public class Login extends JFrame implements ActionListener {
         label_de_foto_usuario.setHorizontalAlignment(SwingConstants.CENTER);
         new Rescalar_imagen().setScaledImage(label_de_foto_usuario, "/resourses/images/icono_usuario.png", 120, 120);
         add(label_de_foto_usuario, BorderLayout.NORTH);
+        
+        
+        //Iniciamos el thread para mostrar hora y fecha
+	    iniciarHiloHora();
 
         // Panel para los campos de entrada
         JPanel panel = new JPanel(new GridLayout(3, 1));
@@ -86,11 +92,13 @@ public class Login extends JFrame implements ActionListener {
         botonRegistrar.addActionListener(e -> openRegisterWindow());
         panelBoton2.add(botonRegistrar);
         panel.add(panelBoton2);
-
+	 
         this.add(panel, BorderLayout.CENTER);
         
         ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
         this.setIconImage(icono.getImage());
+        
+	    
 
         // Estado del login
         statusLabel = new JLabel(" ");
@@ -189,6 +197,29 @@ public class Login extends JFrame implements ActionListener {
         frameRegistrar.add(panel, BorderLayout.CENTER);
         frameRegistrar.setVisible(true);
     }
+    
+    private void iniciarHiloHora() {
+	    
+		Thread hiloHora = new Thread (() -> {
+			while(true) {
+				try {
+					LocalDateTime ahora = LocalDateTime.now();
+					DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss - dd/MM/yyyy");
+					 String horaFechaFormateada = ahora.format(formato);
+					 
+					 SwingUtilities.invokeLater(() -> label_de_foto_usuario.setText(horaFechaFormateada));
+					 
+					// Actualiza cada segundo
+					 Thread.sleep(1000); 
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		hiloHora.start();
+	}
+    
+    
 
     
 }
