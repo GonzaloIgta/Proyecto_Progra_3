@@ -22,7 +22,7 @@ public class Login extends JFrame implements ActionListener {
     private JTextField nuevoUsuario;
     private JPasswordField nuevaContraseña;
     private JButton botonRegistrar;
-    private JLabel statusLabel;
+    private JLabel statusLabel,dondehora;
     private JLabel label_de_foto_usuario;
     private JButton botonMostrarContraseña;
     private boolean mostrandoContraseña = false;
@@ -41,11 +41,17 @@ public class Login extends JFrame implements ActionListener {
         setLayout(new BorderLayout());
 
         // Imagen de usuario en la parte superior
+        JPanel panel_arriba = new JPanel(new BorderLayout());
         label_de_foto_usuario = new JLabel();
+        dondehora = new JLabel();
+        dondehora.setHorizontalAlignment(SwingConstants.RIGHT);
         label_de_foto_usuario.setHorizontalAlignment(SwingConstants.CENTER);
         new Rescalar_imagen().setScaledImage(label_de_foto_usuario, "/resourses/images/icono_usuario.png", 120, 120);
         
-        add(label_de_foto_usuario, BorderLayout.NORTH);
+        panel_arriba.add(label_de_foto_usuario, BorderLayout.CENTER);
+        panel_arriba.add(dondehora, BorderLayout.NORTH);
+
+        this.add(panel_arriba, BorderLayout.NORTH);
 
         //Iniciamos el thread para mostrar hora y fecha
 	    iniciarHiloHora();
@@ -207,7 +213,7 @@ public class Login extends JFrame implements ActionListener {
 					DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss - dd/MM/yyyy");
 					 String horaFechaFormateada = ahora.format(formato);
 					 
-					 SwingUtilities.invokeLater(() -> label_de_foto_usuario.setText(horaFechaFormateada));
+					 SwingUtilities.invokeLater(() -> dondehora.setText(horaFechaFormateada));
 					 
 					// Actualiza cada segundo
 					 Thread.sleep(1000); 
