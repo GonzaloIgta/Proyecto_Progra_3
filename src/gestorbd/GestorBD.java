@@ -539,4 +539,19 @@ public class GestorBD {
 		}
 		return false;
 	}
+
+
+
+	public void actualizarContraseña(String usuario, String contrasena) {
+		String sql = "UPDATE USUARIOS SET contraseña = ? WHERE usuario = ?";
+		try (Connection con = DriverManager.getConnection(connectionString);
+			PreparedStatement stmt = con.prepareStatement(sql)) {
+			stmt.setString(1, contrasena);
+			stmt.setString(2, usuario);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			 logger.warning("Error al actualizar el usuario: " + e.getMessage());
+		}
+		
+	}
 }

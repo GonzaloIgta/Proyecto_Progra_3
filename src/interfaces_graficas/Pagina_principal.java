@@ -3,6 +3,10 @@ package interfaces_graficas;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -13,6 +17,7 @@ public class Pagina_principal extends JFrame {
     private static final long serialVersionUID = 1;
 	private GestorBD gestor;
     private  String usuario;
+    private boolean mostrandoContraseña = false;
     
   
     public Pagina_principal(GestorBD gestor,String usuario) {
@@ -70,12 +75,48 @@ public class Pagina_principal extends JFrame {
 			new Rutinas_guardadas(gestor,usuario);
         });
         
-        
-
-
-        // Agregar el panel de botones en la capa superior
         layeredPane.add(ventana_principal, Integer.valueOf(1)); // Agregar el panel en la capa 1 (superior)
 
+  
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu menu = new JMenu("Opciones");
+        JMenuItem cerrarSesion = new JMenuItem("Cerrar sesión");
+
+
+        
+        
+        cerrarSesion.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Mostrar el JOptionPane de confirmación
+                int confirmacion = JOptionPane.showConfirmDialog(
+                    null,
+                    "¿Estás seguro de que quieres cerrar sesión?",
+                    "Confirmar cierre de sesión",
+                    JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    dispose(); 
+            		new Login(gestor);
+
+                    
+                }
+            }
+        });
+        
+        JMenuItem actualizarperfil = new JMenuItem("Actualizar perfil");
+        actualizarperfil.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarDialogoActualizarContrasena();
+            }
+        });       
+        menu.add(actualizarperfil);
+        menu.addSeparator();
+        menu.add(cerrarSesion);
+        menuBar.add(menu);
+        this.setJMenuBar(menuBar);
         // Configurar la ventana principal
         setContentPane(layeredPane);
         pack();
@@ -85,5 +126,79 @@ public class Pagina_principal extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+    
+    
+    private  void mostrarDialogoActualizarContrasena() {
+        // Crear componentes
+        JPasswordField campoContrasena = new JPasswordField(15);
+        JPasswordField campoRepetirContrasena = new JPasswordField(15);
+
+        // Inicialmente oculta la contraseña
+        campoContrasena.setEchoChar('•');
+        campoRepetirContrasena.setEchoChar('•');
+
+        JButton botonMostrar = new JButton();
+        botonMostrar.setText("Mostrar");
+        // Acción del botón de mostrar/ocultar contraseña
+        botonMostrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleMostrarContraseña(campoContrasena, campoRepetirContrasena, botonMostrar);
+            }
+
+			
+        });
+
+        // Crear un panel para los campos
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 2, 5, 5));
+
+        panel.add(new JLabel("Nueva contraseña:"));
+        panel.add(campoContrasena);
+        panel.add(new JLabel("Repetir contraseña:"));
+        panel.add(campoRepetirContrasena);
+        panel.add(new JLabel()); // Espacio vacío
+        panel.add(botonMostrar);
+
+        // Mostrar el cuadro de diálogo
+        int resultado = JOptionPane.showConfirmDialog(
+            null,
+            panel,
+            "Actualizar Contraseña",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (resultado == JOptionPane.OK_OPTION) {
+            String contrasena = new String(campoContrasena.getPassword());
+            String repetirContrasena = new String(campoRepetirContrasena.getPassword());
+
+            // Validar las contraseñas
+            if (contrasena.isEmpty() || repetirContrasena.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Los campos no pueden estar vacíos.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (!contrasena.equals(repetirContrasena)) {
+                JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Contraseña actualizada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                gestor.actualizarContraseña(usuario,contrasena);
+            }
+        }
+    }
+
+    private  void toggleMostrarContraseña(JPasswordField campo1, JPasswordField campo2, JButton boton) {
+        mostrandoContraseña = !mostrandoContraseña;
+        if (mostrandoContraseña) {
+            campo1.setEchoChar((char) 0); // Muestra el texto
+            campo2.setEchoChar((char) 0);
+            boton.setText("Ocultar");
+        } else {
+            campo1.setEchoChar('•'); 
+            campo2.setEchoChar('•');
+            boton.setText("Mostrar");
+
+        }
+    }
+
+ 
 
 }
