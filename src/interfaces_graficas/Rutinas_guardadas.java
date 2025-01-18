@@ -96,11 +96,12 @@ public class Rutinas_guardadas extends JFrame {
 		
 		
 		JButton generarRutinas = new JButton();
+		generarRutinas.setFocusable(false);
 		generarRutinas.setText("Generar Rutinas");
 		
 		generarRutinas.addActionListener(e -> {
 			
-			new GenerarRutinasRecursividad(ejercicios);
+			//new GenerarRutinasRecursividad(ejercicios);
 		});
 		
 		

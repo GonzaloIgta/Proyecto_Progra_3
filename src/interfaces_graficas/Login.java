@@ -113,7 +113,9 @@ public class Login extends JFrame implements ActionListener {
 
         setVisible(true);
     }
-
+    
+    //IAG: ChatGPT
+    //Modificado: Usado para mostrar la contraseña tanto al iniciar sesion como al registrarse
     private void toggleMostrarContraseña() {
         mostrandoContraseña = !mostrandoContraseña;
         if (mostrandoContraseña) {
