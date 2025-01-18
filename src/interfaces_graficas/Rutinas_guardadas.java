@@ -81,6 +81,9 @@ public class Rutinas_guardadas extends JFrame {
 		initRutinas();
 
 		JPanel lo_de_arriba = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		
+		
+		
 		JButton home = new JButton();
 		home.setFocusable(false);
 
@@ -90,6 +93,20 @@ public class Rutinas_guardadas extends JFrame {
 		});
 		rescalar.setScaledImage(home, "/resourses/images/casa.png", 20, 20);
 		lo_de_arriba.add(home);
+		
+		
+		JButton generarRutinas = new JButton();
+		generarRutinas.setText("Generar Rutinas");
+		
+		generarRutinas.addActionListener(e -> {
+			
+			new GenerarRutinasRecursividad(ejercicios);
+		});
+		
+		
+		lo_de_arriba.add(generarRutinas);
+		
+		
 		ventana_principal.add(lo_de_arriba, BorderLayout.NORTH);
 		constantes.gridx = 0;
 		constantes.gridy = 0;
