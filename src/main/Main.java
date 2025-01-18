@@ -3,30 +3,34 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 
-import clases_de_apyo.Ejercicio;
-import clases_de_apyo.Ejercicio_Natacion;
-import clases_de_apyo.Ejercicio_cardio;
-import clases_de_apyo.Ejercicio_gym;
-import clases_de_apyo.Ejercicio_Natacion.EstiloNat;
-import clases_de_apyo.Ejercicio_cardio.TipoCardio;
-import clases_de_apyo.Ejercicio_gym.EjAbdominales;
-import clases_de_apyo.Ejercicio_gym.EjAductor;
-import clases_de_apyo.Ejercicio_gym.EjAntebrazo;
-import clases_de_apyo.Ejercicio_gym.EjBiceps;
-import clases_de_apyo.Ejercicio_gym.EjCuadriceps;
-import clases_de_apyo.Ejercicio_gym.EjEspaldaInf;
-import clases_de_apyo.Ejercicio_gym.EjEspaldaSup;
-import clases_de_apyo.Ejercicio_gym.EjFemoral;
-import clases_de_apyo.Ejercicio_gym.EjGluteo;
-import clases_de_apyo.Ejercicio_gym.EjHombro;
-import clases_de_apyo.Ejercicio_gym.EjIsquiotibiales;
-import clases_de_apyo.Ejercicio_gym.EjPecho;
-import clases_de_apyo.Ejercicio_gym.EjTriceps;
-import gestorbd.GestorBD;
-import interfaces_graficas.Login;
+import domain.Ejercicio;
+import domain.Ejercicio_Natacion;
+import domain.Ejercicio_cardio;
+import domain.Ejercicio_gym;
+import domain.Ejercicio_Natacion.EstiloNat;
+import domain.Ejercicio_cardio.TipoCardio;
+import domain.Ejercicio_gym.EjAbdominales;
+import domain.Ejercicio_gym.EjAductor;
+import domain.Ejercicio_gym.EjAntebrazo;
+import domain.Ejercicio_gym.EjBiceps;
+import domain.Ejercicio_gym.EjCuadriceps;
+import domain.Ejercicio_gym.EjEspaldaInf;
+import domain.Ejercicio_gym.EjEspaldaSup;
+import domain.Ejercicio_gym.EjFemoral;
+import domain.Ejercicio_gym.EjGluteo;
+import domain.Ejercicio_gym.EjHombro;
+import domain.Ejercicio_gym.EjIsquiotibiales;
+import domain.Ejercicio_gym.EjPecho;
+import domain.Ejercicio_gym.EjTriceps;
+import db.GestorBD;
+import gui.Login;
 
 
 public class Main {
+	
+	
+    public static List<Ejercicio> ejercicios;
+
 
 	public static void main(String[] args) {
 
@@ -36,7 +40,7 @@ public class Main {
 		gestor.crearBBDD();
 		new Login(gestor);
 		
-		List<Ejercicio>ejercicios = new ArrayList<>();
+		ejercicios = new ArrayList<>();
 
 		
         // Agregar ejercicios de cardio

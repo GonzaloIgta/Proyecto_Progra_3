@@ -1,4 +1,4 @@
-package interfaces_graficas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -37,34 +37,34 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import clases_de_apyo.Ejercicio;
-import clases_de_apyo.Ejercicio_Natacion;
-import clases_de_apyo.Ejercicio_cardio;
-import clases_de_apyo.Ejercicio_gym;
-import clases_de_apyo.Rescalar_imagen;
-import clases_de_apyo.Rutina;
-import clases_de_apyo.Ejercicio_Natacion.EstiloNat;
-import clases_de_apyo.Ejercicio_Natacion.TipoNat;
-import clases_de_apyo.Ejercicio_cardio.TipoCardio;
-import clases_de_apyo.Ejercicio_gym.EjAbdominales;
-import clases_de_apyo.Ejercicio_gym.EjAductor;
-import clases_de_apyo.Ejercicio_gym.EjAntebrazo;
-import clases_de_apyo.Ejercicio_gym.EjBiceps;
-import clases_de_apyo.Ejercicio_gym.EjCuadriceps;
-import clases_de_apyo.Ejercicio_gym.EjEspaldaInf;
-import clases_de_apyo.Ejercicio_gym.EjEspaldaSup;
-import clases_de_apyo.Ejercicio_gym.EjFemoral;
-import clases_de_apyo.Ejercicio_gym.EjGluteo;
-import clases_de_apyo.Ejercicio_gym.EjHombro;
-import clases_de_apyo.Ejercicio_gym.EjIsquiotibiales;
-import clases_de_apyo.Ejercicio_gym.EjPecho;
-import clases_de_apyo.Ejercicio_gym.EjTriceps;
-import clases_de_apyo.Ejercicio_gym.MuscBrazos;
-import clases_de_apyo.Ejercicio_gym.MuscPierna;
-import clases_de_apyo.Ejercicio_gym.MuscTorso;
-import clases_de_apyo.Ejercicio_gym.PartesDelCuerpo;
-import clases_de_apyo.Rutina.Objetivo_de_la_sesion;
-import gestorbd.GestorBD;
+import db.GestorBD;
+import domain.Ejercicio;
+import domain.Ejercicio_Natacion;
+import domain.Ejercicio_cardio;
+import domain.Ejercicio_gym;
+import domain.Rescalar_imagen;
+import domain.Rutina;
+import domain.Ejercicio_Natacion.EstiloNat;
+import domain.Ejercicio_Natacion.TipoNat;
+import domain.Ejercicio_cardio.TipoCardio;
+import domain.Ejercicio_gym.EjAbdominales;
+import domain.Ejercicio_gym.EjAductor;
+import domain.Ejercicio_gym.EjAntebrazo;
+import domain.Ejercicio_gym.EjBiceps;
+import domain.Ejercicio_gym.EjCuadriceps;
+import domain.Ejercicio_gym.EjEspaldaInf;
+import domain.Ejercicio_gym.EjEspaldaSup;
+import domain.Ejercicio_gym.EjFemoral;
+import domain.Ejercicio_gym.EjGluteo;
+import domain.Ejercicio_gym.EjHombro;
+import domain.Ejercicio_gym.EjIsquiotibiales;
+import domain.Ejercicio_gym.EjPecho;
+import domain.Ejercicio_gym.EjTriceps;
+import domain.Ejercicio_gym.MuscBrazos;
+import domain.Ejercicio_gym.MuscPierna;
+import domain.Ejercicio_gym.MuscTorso;
+import domain.Ejercicio_gym.PartesDelCuerpo;
+import domain.Rutina.Objetivo_de_la_sesion;
 
 public class Nueva_Rutina extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -124,7 +124,7 @@ public class Nueva_Rutina extends JFrame {
 		JLabel imagendefectoArriba= new JLabel();
 		imagendefectoArriba.setOpaque(true);
 		rescalar = new Rescalar_imagen();
-		rescalar.setScaledImage(imagendefectoArriba, "/resourses/images/vistaInicialPorDefecto.png", 740, 140);
+		rescalar.setScaledImage(imagendefectoArriba, "resources/images/vistaInicialPorDefecto.png", 740, 140);
 		ventana_nuevaRutinaUP.add(imagendefectoArriba);
 		
 		// FUENTE-EXTERNA
@@ -189,7 +189,7 @@ public class Nueva_Rutina extends JFrame {
 		// Crear el botón y asignarle la imagen
 		JButton boton_GuardarRutina = new JButton();
 		rescalar = new Rescalar_imagen();
-		rescalar.setScaledImage(boton_GuardarRutina, "/resourses/images/GuardarIcono.png", 20, 20);
+		rescalar.setScaledImage(boton_GuardarRutina, "resources/images/GuardarIcono.png", 20, 20);
 		boton_GuardarRutina.setFocusable(false);
 
 		ActionListener listener_boton_GuardarRutina = e -> {
@@ -314,7 +314,7 @@ public class Nueva_Rutina extends JFrame {
 		// Crear el botón y asignarle la imagen
 		JButton boton_CancelarRutina = new JButton();
 		rescalar = new Rescalar_imagen();
-		rescalar.setScaledImage(boton_CancelarRutina, "/resourses/images/IconoCancelar.png", 20, 20);
+		rescalar.setScaledImage(boton_CancelarRutina, "resources/images/IconoCancelar.png", 20, 20);
 		boton_CancelarRutina.setFocusable(false);
 
 		// FUENTE EXTERNA: OptionDialog implementado con ayuda de Chat
@@ -355,7 +355,7 @@ public class Nueva_Rutina extends JFrame {
 		ventana_nuevaRutinaUP.setBackground(new Color(130, 195, 65));
 
 		// añadimos el icono de la aplicacion en la parte de arriba
-		ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
+		ImageIcon icono = new ImageIcon("resources/images/deustoicon.png");
 		this.setIconImage(icono.getImage());
 
 		setResizable(false);
@@ -379,7 +379,7 @@ public class Nueva_Rutina extends JFrame {
 		scrollPane2 = new JScrollPane(panelboxl);
 		JLabel imagendefectoAbajo = new JLabel();
 		rescalar = new Rescalar_imagen();
-		rescalar.setScaledImage(imagendefectoAbajo, "/resourses/images/vistaInicialPorDefecto.png", 740, 140);
+		rescalar.setScaledImage(imagendefectoAbajo, "resources/images/vistaInicialPorDefecto.png", 740, 140);
 		panelboxl.add(imagendefectoAbajo);
 
 		
@@ -490,7 +490,7 @@ public class Nueva_Rutina extends JFrame {
 						jlabel.setForeground(Color.GRAY);
 						break;
 					case 3:
-						rescalar.setScaledImage(jlabel, "/resourses/images/falta_implementar.png", 60, 40);
+						rescalar.setScaledImage(jlabel, "resources/images/falta_implementar.png", 60, 40);
 						jlabel.setVerticalAlignment(SwingConstants.CENTER);
 						jlabel.setHorizontalAlignment(SwingConstants.CENTER);
 						break;
@@ -508,7 +508,7 @@ public class Nueva_Rutina extends JFrame {
 
 		JButton btnEliminarFila = new JButton();
 		rescalar = new Rescalar_imagen();
-		rescalar.setScaledImage(btnEliminarFila, "/resourses/images/IconoCancelar.png", 20, 20);
+		rescalar.setScaledImage(btnEliminarFila, "resources/images/IconoCancelar.png", 20, 20);
 
 		// Crear un editor para la celda que contiene el botón
 		ButtonCellEditor editor = new ButtonCellEditor(btnEliminarFila);

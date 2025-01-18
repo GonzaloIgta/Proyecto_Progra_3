@@ -1,0 +1,6 @@
+driver=org.sqlite.JDBC
+file=resources/db/basededatos.db
+connection=jdbc:sqlite:resources/db/basededatos.db
+cleanBBDD= false
+createBBDD=false
+deleteBBDD=false

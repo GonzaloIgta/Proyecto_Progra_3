@@ -1,5 +1,5 @@
 
-package interfaces_graficas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -37,14 +37,14 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.StyledEditorKit.ForegroundAction;
 
-import clases_de_apyo.Ejercicio;
-import clases_de_apyo.Ejercicio_Natacion;
-import clases_de_apyo.Ejercicio_cardio;
-import clases_de_apyo.Ejercicio_gym;
-import clases_de_apyo.ProgressCircleUI;
-import clases_de_apyo.Rescalar_imagen;
-import clases_de_apyo.Rutina;
-import gestorbd.GestorBD;
+import db.GestorBD;
+import domain.Ejercicio;
+import domain.Ejercicio_Natacion;
+import domain.Ejercicio_cardio;
+import domain.Ejercicio_gym;
+import domain.ProgressCircleUI;
+import domain.Rescalar_imagen;
+import domain.Rutina;
 
 public class Planning extends JFrame {
 
@@ -64,7 +64,7 @@ public class Planning extends JFrame {
 		this.todasRutinas = new ArrayList<Rutina>();
 		this.mapaRutinasPorDia = new HashMap<String, ArrayList<Rutina>>();
 
-		ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
+		ImageIcon icono = new ImageIcon("resources/images/deustoicon.png");
 		this.setIconImage(icono.getImage());
 		this.setTitle("Planning Semanal");
 
@@ -84,7 +84,7 @@ public class Planning extends JFrame {
 		JButton botonVolver = new JButton();
 		botonVolver.setFocusable(false);
 		Rescalar_imagen rescalar = new Rescalar_imagen();
-		rescalar.setScaledImage(botonVolver, "/resourses/images/casa.png", 20, 20);
+		rescalar.setScaledImage(botonVolver, "resources/images/casa.png", 20, 20);
 
 		botonVolver.addActionListener(new ActionListener() { // listener del boton
 
@@ -318,7 +318,6 @@ public class Planning extends JFrame {
 				SwingUtilities.invokeLater(() -> {
 					botonCompletarSerie.setVisible(false);
 					labelEjercicio.setText("Ejercicio: " + ejercicio.getNombre());
-
 					if (ejercicio instanceof Ejercicio_cardio) {
 						labelEjercicio.setText(labelEjercicio.getText() + " - Duración: "
 								+ ((Ejercicio_cardio) ejercicio).getDuracion() + " min.");
@@ -407,7 +406,7 @@ public class Planning extends JFrame {
 				JLabel foto = new JLabel();
 				foto.setHorizontalAlignment(SwingConstants.CENTER);
 				Rescalar_imagen rescalar = new Rescalar_imagen();
-				foto.setIcon(new ImageIcon("src/resourses/images/fiesta.gif"));
+				foto.setIcon(new ImageIcon("resources/images/fiesta.gif"));
 				ventanaterminado.add(foto, BorderLayout.CENTER);
 
 				ventanaRutina.add(ventanaterminado);

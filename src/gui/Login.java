@@ -1,10 +1,10 @@
-package interfaces_graficas;
+package gui;
 
-import gestorbd.GestorBD;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-import clases_de_apyo.Rescalar_imagen;
+import db.GestorBD;
+import domain.Rescalar_imagen;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -46,7 +46,7 @@ public class Login extends JFrame implements ActionListener {
         dondehora = new JLabel();
         dondehora.setHorizontalAlignment(SwingConstants.RIGHT);
         label_de_foto_usuario.setHorizontalAlignment(SwingConstants.CENTER);
-        new Rescalar_imagen().setScaledImage(label_de_foto_usuario, "/resourses/images/icono_usuario.png", 120, 120);
+        new Rescalar_imagen().setScaledImage(label_de_foto_usuario, "resources/images/icono_usuario.png", 120, 120);
         
         panel_arriba.add(label_de_foto_usuario, BorderLayout.CENTER);
         panel_arriba.add(dondehora, BorderLayout.NORTH);
@@ -101,8 +101,8 @@ public class Login extends JFrame implements ActionListener {
 	 
         this.add(panel, BorderLayout.CENTER);
         
-        ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
-        this.setIconImage(icono.getImage());
+		ImageIcon icono = new ImageIcon("resources/images/deustoicon.png");
+		this.setIconImage(icono.getImage());
         
 	    
 
@@ -126,7 +126,7 @@ public class Login extends JFrame implements ActionListener {
         setIconoOjo(botonMostrarContraseña, mostrandoContraseña); 
     }
     private void setIconoOjo(JButton boton, boolean abierto) {
-        String iconPath = abierto ? "/resourses/images/ojo_abierto.png" : "/resourses/images/ojo_cerrado.png";
+        String iconPath = abierto ? "resources/images/ojo_abierto.png" : "resources/images/ojo_cerrado.png";
         new Rescalar_imagen().setScaledImage(boton, iconPath, 20, 20); 
     }
 
@@ -153,7 +153,7 @@ public class Login extends JFrame implements ActionListener {
         
         label_de_foto_usuario = new JLabel();
         label_de_foto_usuario.setHorizontalAlignment(SwingConstants.CENTER); // Centra la imagen en el panel
-        new Rescalar_imagen().setScaledImage(label_de_foto_usuario, "/resourses/images/icono_usuario.png", 100, 100); // Tamaño 100x100
+        new Rescalar_imagen().setScaledImage(label_de_foto_usuario, "resourses/images/icono_usuario.png", 100, 100); // Tamaño 100x100
         frameRegistrar.add(label_de_foto_usuario, BorderLayout.NORTH);
 
 

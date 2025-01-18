@@ -1,6 +1,6 @@
-package clases_de_apyo;
+package domain;
 //FUENTE EXTERNA
-//EXTENERNO (https://stackoverflow.com/questions/36594680/how-to-create-a-circular-progress-component-in-java-swing)
+//EXTERNO (https://stackoverflow.com/questions/36594680/how-to-create-a-circular-progress-component-in-java-swing)
 //SIN CAMBIOS
 import java.awt.Dimension;
 import java.awt.Graphics;

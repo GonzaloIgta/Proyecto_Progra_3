@@ -1,4 +1,4 @@
-package interfaces_graficas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,15 +30,16 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import clases_de_apyo.Ejercicio;
-import clases_de_apyo.Ejercicio_Natacion;
-import clases_de_apyo.Ejercicio_gym;
-import clases_de_apyo.Ejercicio_cardio;
-import clases_de_apyo.Modelo_de_datos_ejercicio;
-import clases_de_apyo.Modelo_de_datos_rutinas;
-import clases_de_apyo.Rescalar_imagen;
-import clases_de_apyo.Rutina;
-import gestorbd.GestorBD;
+import domain.Ejercicio;
+import domain.Ejercicio_Natacion;
+import domain.Ejercicio_gym;
+import domain.Ejercicio_cardio;
+import domain.Modelo_de_datos_ejercicio;
+import domain.Modelo_de_datos_rutinas;
+import domain.Rescalar_imagen;
+import domain.Rutina;
+import db.GestorBD;
+import main.Main;
 
 public class Rutinas_guardadas extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -65,7 +66,7 @@ public class Rutinas_guardadas extends JFrame {
 		this.gestor = gestor;
 		this.setVisible(true);
 		this.rutinas = gestor.getTodasRutinas(usuario);
-		ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
+		ImageIcon icono = new ImageIcon("resources/images/deustoicon.png");
 		this.setIconImage(icono.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("DEUSTOGYM");
@@ -91,7 +92,7 @@ public class Rutinas_guardadas extends JFrame {
 			dispose();
 			new Pagina_principal(gestor, usuario);
 		});
-		rescalar.setScaledImage(home, "/resourses/images/casa.png", 20, 20);
+		rescalar.setScaledImage(home, "resources/images/casa.png", 20, 20);
 		lo_de_arriba.add(home);
 		
 		
@@ -101,7 +102,7 @@ public class Rutinas_guardadas extends JFrame {
 		
 		generarRutinas.addActionListener(e -> {
 			
-			//new GenerarRutinasRecursividad(ejercicios);
+			new GenerarRutinasRecursividad(Main.ejercicios);
 		});
 		
 		
@@ -245,11 +246,11 @@ public class Rutinas_guardadas extends JFrame {
 				if (column == 1) {
 					jlabel.setHorizontalAlignment(SwingConstants.CENTER);
 					if (value.toString().equals("MUSCULACION")) {
-						rescalar.setScaledImage(jlabel, "/resourses/images/musculacion.png", 40, 40);
+						rescalar.setScaledImage(jlabel, "resources/images/musculacion.png", 40, 40);
 					} else if (value.toString().equals("CARDIOVASCULAR")) {
-						rescalar.setScaledImage(jlabel, "/resourses/images/cardio.png", 40, 40);
+						rescalar.setScaledImage(jlabel, "resources/images/cardio.png", 40, 40);
 					} else if (value.toString().equals("PERDIDA_DE_PESO")) {
-						rescalar.setScaledImage(jlabel, "/resourses/images/perdida_de_peso.png", 40, 40);
+						rescalar.setScaledImage(jlabel, "resources/images/perdida_de_peso.png", 40, 40);
 					} else {
 						jlabel.setText("FALTA DE METER IMAGEN EN INIT TABLE");
 					}
@@ -307,7 +308,7 @@ public class Rutinas_guardadas extends JFrame {
 				jlabel.setBackground(Color.WHITE);
 
 				if (column == 2) {
-					rescalar.setScaledImage(jlabel, "/resourses/images/falta_implementar.png", 60, 40);
+					rescalar.setScaledImage(jlabel, "resources/images/falta_implementar.png", 60, 40);
 					jlabel.setVerticalAlignment(SwingConstants.CENTER);
 					jlabel.setHorizontalAlignment(SwingConstants.CENTER);
 				} else {

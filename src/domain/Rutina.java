@@ -1,9 +1,9 @@
-package clases_de_apyo;
+package domain;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-import clases_de_apyo.Ejercicio_gym.PartesDelCuerpo;
+import domain.Ejercicio_gym.PartesDelCuerpo;
 
 public class Rutina {
 	public enum Objetivo_de_la_sesion{
@@ -123,6 +123,9 @@ public class Rutina {
 		return Objects.equals(lista_ejercicios, other.lista_ejercicios) && Objects.equals(nombre, other.nombre)
 				&& objetivo == other.objetivo;
 	}
+	
+	
+	
 
 	public int getNumeroEjercicios() {
 		if(this.lista_ejercicios!=null) {

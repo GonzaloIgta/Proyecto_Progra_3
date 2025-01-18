@@ -1,4 +1,4 @@
-package clases_de_apyo;
+package domain;
 
 
 import java.util.Objects;

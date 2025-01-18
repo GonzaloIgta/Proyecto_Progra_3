@@ -1,4 +1,4 @@
-package clases_de_apyo;
+package domain;
 
 import java.awt.Image;
 
@@ -14,7 +14,7 @@ public class Rescalar_imagen {
 	public Rescalar_imagen() {}
     public void setScaledImage(JLabel jlabel, String imagePath, int widthancho, int heightalto) {
         // Cargar la imagen desde el recurso
-        ImageIcon originalIcon = new ImageIcon(this.getClass().getResource(imagePath));
+        ImageIcon originalIcon = new ImageIcon(imagePath);
         
         // Escalar la imagen al tamaño deseado
         Image scaledImage = originalIcon.getImage().getScaledInstance(widthancho, heightalto, Image.SCALE_SMOOTH);
@@ -24,7 +24,7 @@ public class Rescalar_imagen {
     }
     public void setScaledImage(JButton jbutton, String imagePath, int width, int height) {
         // Cargar la imagen desde el recurso
-        ImageIcon originalIcon = new ImageIcon(this.getClass().getResource(imagePath));
+        ImageIcon originalIcon = new ImageIcon(imagePath);
         
         // Escalar la imagen al tamaño deseado
         Image scaledImage = originalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);

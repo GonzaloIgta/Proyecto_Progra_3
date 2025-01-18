@@ -1,4 +1,4 @@
-package interfaces_graficas;
+package gui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import clases_de_apyo.Rutina;
-import gestorbd.GestorBD;
+import db.GestorBD;
+import domain.Rutina;
 
 public class Pagina_principal extends JFrame {
     private static final long serialVersionUID = 1;
@@ -25,7 +25,7 @@ public class Pagina_principal extends JFrame {
         this.gestor = gestor;
         //CREAR OBJETOS PARA CADA VENTANA
         Planning planing = new Planning(gestor.getTodasRutinas(usuario),gestor,usuario);
-        ImageIcon icono = new ImageIcon(this.getClass().getResource("/resourses/images/deustoicon.png"));
+        ImageIcon icono = new ImageIcon("resources/images/deustoicon.png");
         this.setIconImage(icono.getImage());
         
         //FUENTE EXTERNA
@@ -37,7 +37,7 @@ public class Pagina_principal extends JFrame {
         layeredPane.setPreferredSize(new Dimension(480, 680));
 
         // Agregar la imagen de fondo en la capa inferior
-        ImageIcon imagen_fondo = new ImageIcon(this.getClass().getResource("/resourses/images/Deustogym.jpg"));
+        ImageIcon imagen_fondo = new ImageIcon("resources/images/Deustogym.jpg");
         JLabel label_fondo = new JLabel(imagen_fondo);
         label_fondo.setBounds(0, 0, 480, 680);
         layeredPane.add(label_fondo, Integer.valueOf(0)); // Agregar imagen en la capa 0 (fondo)
