@@ -3,11 +3,16 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -22,6 +27,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import db.GestorBD;
 import domain.Ejercicio;
 import domain.Ejercicio_Natacion;
 import domain.Ejercicio_cardio;
@@ -29,6 +35,7 @@ import domain.Ejercicio_gym;
 import domain.Rutina;
 import domain.Rutina.Objetivo_de_la_sesion;
 
+import java.util.LinkedHashMap;
 
 public class GenerarRutinasRecursividad extends JFrame {
 	
@@ -42,10 +49,12 @@ public class GenerarRutinasRecursividad extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private List<Ejercicio> listaEjercicios;
 	private List<List<Ejercicio>> combinacionEjercicios;
-	public static int idRutinaAL;
-	
-	public GenerarRutinasRecursividad(List<Ejercicio >listaEjercicios) {
+	private GestorBD gestor = new GestorBD();
+	private String usuario;
+	public GenerarRutinasRecursividad(List<Ejercicio >listaEjercicios, String usuario, GestorBD gestor) {
 		
+		this.usuario = usuario;
+		this.gestor = gestor;
 		this.listaEjercicios = new ArrayList<>(listaEjercicios);
 	
 		JPanel panelGenerarRutinas = new JPanel(new BorderLayout());
@@ -144,32 +153,105 @@ public class GenerarRutinasRecursividad extends JFrame {
                 }
             }
         });
+        
+
         generar.addActionListener(e -> {
-        	
-
-        	combinacionEjercicios = new ArrayList<>(generarRutinas(spinnerValue[0] , listaEjercicios, spinnerValue2[0], selectedValue));
-        	
 
 
-        	for(List<Ejercicio> lej : combinacionEjercicios) {
+        	// Obtener combinacionEjercicios
+        	combinacionEjercicios = new ArrayList<>(generarRutinas(spinnerValue[0], listaEjercicios, spinnerValue2[0], selectedValue));
+
+        	// Crear un mapa donde el Key sea "RutinaAL" seguido de un contador y el Value sea la lista de ejercicios
+        	Map<String, List<Ejercicio>> mapaRutinas = new LinkedHashMap<>();
+
+        	// Recorrer la lista de listas y agregar al mapa
+        	for (int i = 0; i < combinacionEjercicios.size(); i++) {
+        	    // Crear la clave "RutinaAL" + contador
+        	    String key = "RutinaAL" + (i + 1); // "RutinaAL1", "RutinaAL2", etc.
+        	    
+        	    // Obtener la lista correspondiente al índice
+        	    List<Ejercicio> value = combinacionEjercicios.get(i);
+        	    
+        	    // Agregar la clave y el valor al mapa
+        	    mapaRutinas.put(key, value);
+        	}
+
+
+
+        	for(Map.Entry<String, List<Ejercicio>> entry : mapaRutinas.entrySet()) {
         		JButton btn = new JButton();
         		
-        		idRutinaAL++;
-        		String nombreLabel = "RutinaAL"+idRutinaAL+": ";
-        		for(Ejercicio ej : lej) {
+        		// Crear un ActionListener para los botones
+        		ActionListener buttonActionListener = new ActionListener() {
+        		    @Override
+        		    public void actionPerformed(ActionEvent e) {
+        		        // Obtener el botón que fue presionado
+        		        JButton btn = (JButton) e.getSource();
+
+        		        // Obtener el texto del botón que corresponde a la rutina
+        		        String textButton = btn.getText(); // Ejemplo: "RutinaAL1: [Bici...]"
+        		        
+        		        // Extraer solo el "Key" antes del ":"
+        		        String key = textButton.split(":")[0].trim(); // Esto obtiene "RutinaAL1", "RutinaAL2", etc.
+
+        		        // Obtener la lista de ejercicios asociada al Key (nombre de la rutina) en el mapa
+        		        List<Ejercicio> listaEjerciciosDeLaRutina = mapaRutinas.get(key);
+
+        		        // Si la lista de ejercicios no es null, crear una nueva rutina
+        		        if (listaEjerciciosDeLaRutina != null) {
+        		            // Crear una nueva rutina con el nombre y los ejercicios
+        		            Random random = new Random();
+        		            int randomNumber = random.nextInt(3); // Asumimos que los objetivos son 3 tipos
+        		            ArrayList<Ejercicio>listaEjerciciosRutina = new ArrayList<>(listaEjerciciosDeLaRutina);
+        		            Rutina nuevaRutina = new Rutina(key, Objetivo_de_la_sesion.values()[randomNumber], listaEjerciciosRutina);
+
+        		            
+        		            // Mostrar la nueva rutina en consola (o hacer cualquier otra acción con ella)
+        		            System.out.println("Rutina creada: " + nuevaRutina);
+        		            
+        					gestor.insertarRutina(nuevaRutina,usuario);
+
+        					dispose();
+        					new Rutinas_guardadas(gestor,usuario);
+
+        					
+        					
+        		        } else {
+        		            // Si no se encuentra la lista de ejercicios, mostrar un mensaje de error
+        		            System.out.println("No se encontraron ejercicios para la rutina: " + key);
+        		        }
+        		    }
+        		};
+
+
+        	    
+        		String nombreLabel ="";
+        		
+        		for(Ejercicio ej : entry.getValue()) {
         			
-        			System.out.println(ej.getNombre());
-        			nombreLabel = nombreLabel+ej.getNombre()+", ";
+        			//System.out.println(ej.getNombre());
+
+        			nombreLabel =entry.getKey() + ": " + entry.getValue();
         		}
+        		
+
+        		btn.addActionListener(buttonActionListener);
         		btn.setText(nombreLabel);
         		btn.setVisible(true);
         		panelDWN.add(btn);
         		panelDWN.revalidate(); // Revalidar el panel después de agregar los nuevos componentes
                 panelDWN.repaint(); // Repintar para asegurar que se muestre todo
         		this.repaint();
-        		       		
+	
         	}
 		});
+        
+
+    
+    
+
+
+		    
         
         
         

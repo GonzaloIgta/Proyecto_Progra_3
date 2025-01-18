@@ -102,7 +102,9 @@ public class Rutinas_guardadas extends JFrame {
 		
 		generarRutinas.addActionListener(e -> {
 			
-			new GenerarRutinasRecursividad(Main.ejercicios);
+			this.usuario = usuario;
+			this.gestor = gestor;
+			new GenerarRutinasRecursividad(Main.ejercicios, usuario, gestor );
 		});
 		
 		

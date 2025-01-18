@@ -43,6 +43,8 @@ public class Rutina {
 		this.lista_ejercicios = new ArrayList<>();
 	}
 	
+
+	
 	public boolean añadir_ejercicio(Ejercicio ejercicio) {
 		return  this.lista_ejercicios.add(ejercicio);
 	}
@@ -136,6 +138,16 @@ public class Rutina {
 	public void agregarEjercicio(Ejercicio ejercicio) {
 		this.getLista_ejercicios().add(ejercicio);
 		
+	}
+	
+	public String toString() {
+		String strP = "";
+		for(Ejercicio ejp : this.getLista_ejercicios()) {
+			
+			strP = strP+ejp.getNombre() + ", ";
+		}
+		
+		return this.getNombre()+this.getObjetivo().toString()+strP;
 	}
 	
 	
