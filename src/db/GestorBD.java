@@ -142,7 +142,8 @@ public class GestorBD {
 		        int filasEliminadas = pStmt.executeUpdate();
 		        
 		        if (filasEliminadas > 0) {
-		            System.out.println("Rutina eliminada con éxito, y todas las referencias han sido eliminadas en cascada.");
+		        	//Hemos comentado esta linea ya que nos sirve a nosotros a la hora depurar pero preferimos que no se imprima nada por consola para que la experiencia de usuario sea más limpia.
+		           // System.out.println("Rutina eliminada con éxito, y todas las referencias han sido eliminadas en cascada.");
 		        } else {
 		            System.out.println("No se encontró la rutina especificada.");
 		        }
@@ -462,7 +463,7 @@ public class GestorBD {
 	        					insertarStmt.setInt(2, gym.getSeries());
 	        					insertarStmt.setInt(3, gym.getPeso());
 	        					insertarStmt.execute();
-	        					System.out.println("Ejercicio gym insertado correctamente.");
+	        					//System.out.println("Ejercicio gym insertado correctamente.");
 	        				
 	        			} else if (ejercicio instanceof Ejercicio_cardio) {
 	        				Ejercicio_cardio cardio = (Ejercicio_cardio) ejercicio;
@@ -473,7 +474,7 @@ public class GestorBD {
 	        					insertarStmt.setString(1, cardio.getNombre());
 	        					insertarStmt.setInt(2, cardio.getDuracion());
 	        					insertarStmt.execute();
-	        					logger.info("Ejercicio cardio insertado correctamente.");
+	        					//logger.info("Ejercicio cardio insertado correctamente.");
 	        				
 	        				
 	        			} else if (ejercicio instanceof Ejercicio_Natacion) {
@@ -487,7 +488,7 @@ public class GestorBD {
 	        					insertarStmt.setString(2, natacion.getEstilo().toString());
 	        					insertarStmt.setInt(3, natacion.getDuracion());
 	        					insertarStmt.executeUpdate();
-	        					logger.info("Ejercicio de natación insertado correctamente.");
+	        					//logger.info("Ejercicio de natación insertado correctamente.");
 	        				
 	        			} else {
 	        				logger.warning("Tipo de ejercicio desconocido.");
@@ -500,7 +501,6 @@ public class GestorBD {
 	            	
 	            	String sqlInsertarRelacion = "";
 	        		if (ejercicio instanceof Ejercicio_gym) {
-	        		System.out.println("llego");
 	        			sqlInsertarRelacion = "INSERT INTO TIENE_GYM (RUTINA_NOMBRE, RUTINA_OBJETIVO, EJERCICIO_NOMBRE, SERIES, PESO) VALUES (?, ?, ?, ?, ?)";
 	        			try (PreparedStatement stmt = con.prepareStatement(sqlInsertarRelacion)) {
 	        				Ejercicio_gym gym = (Ejercicio_gym) ejercicio;

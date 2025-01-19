@@ -95,21 +95,10 @@ public class Planning extends JFrame {
 			}
 		});
 
-		JButton botonGuardarRutina = new JButton("Guardar rutina");
-
-		botonGuardarRutina.addActionListener(e -> {
-			String nombre = JOptionPane.showInputDialog(getContentPane(), "Nombre de rutina:", "Guardar rutina",
-					JOptionPane.PLAIN_MESSAGE);
-
-			if (nombre != null && !nombre.trim().isEmpty()) {
-
-				gestor.insertarRutinaSemanal(nombre, mapaRutinasPorDia);
-			}
-		});
+		
 
 		JPanel panelVolver = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panelVolver.add(botonVolver);
-		panelVolver.add(botonGuardarRutina);
 
 		String[] diaSemana = { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo" };
 
@@ -462,7 +451,7 @@ public class Planning extends JFrame {
 		ArrayList<Rutina> rutinas = mapaRutinasPorDia.get(dia);
 		if (rutinas != null) {
 			rutinas.add(rutina);
-			System.out.println("Rutina agregada a " + dia + ": " + rutina.getNombre());
+			//System.out.println("Rutina agregada a " + dia + ": " + rutina.getNombre());
 		} else {
 			System.out.println("Día inválido: " + dia);
 		}
