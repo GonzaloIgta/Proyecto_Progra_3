@@ -190,7 +190,7 @@ public class GenerarRutinasRecursividad extends JFrame {
             	Map<String, List<Ejercicio>> mapaRutinas = new LinkedHashMap<>();
 
             	for (int i = 0; i < combinacionEjercicios.size(); i++) {
-            	    String key = "RutinaAL" + (i + 1);
+            	    String key = "RutinaComb" + (i + 1);
             	    
             	    List<Ejercicio> value = combinacionEjercicios.get(i);
             	    
@@ -235,7 +235,7 @@ public class GenerarRutinasRecursividad extends JFrame {
 
             		            	JPanel panelCambiarNombre = new JPanel();
             		            	JTextField nombreField = new JTextField(20);
-            		            	nombreField.setText("RutinaAL");
+            		            	nombreField.setText("RutinaComb");
             		            	panelCambiarNombre.add(new JLabel("Nombre de la nueva rutina: "));
             		            	panelCambiarNombre.add(nombreField);
 
