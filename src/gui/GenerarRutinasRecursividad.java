@@ -226,14 +226,10 @@ public class GenerarRutinasRecursividad extends JFrame {
             		            Rutina nuevaRutina = new Rutina(key, Objetivo_de_la_sesion.values()[randomNumber], listaEjerciciosRutina);
 
             		            
-            		            //Esto borrarlo 
-            		            System.out.println("Rutina creada: " + nuevaRutina);
             		            
             		            if(!gestor.existeNombreRutina(nuevaRutina.getNombre())) {
             		            	
-            		            	System.out.println("No existe ninguna rutina con este nombre: RUTINA AÑADIDA");
                 					gestor.insertarRutina(nuevaRutina,usuario);
-                					System.out.println("Intentando cerrar ventana anterior...");
 
                 					ventanaAnterior.dispose();
 
@@ -242,7 +238,6 @@ public class GenerarRutinasRecursividad extends JFrame {
 
             		            }else {
             		            	
-            		            	System.out.println("Ya existe una rutina con este nombre");
 
             		            	JPanel panelCambiarNombre = new JPanel();
             		            	JTextField nombreField = new JTextField(20);
@@ -263,9 +258,7 @@ public class GenerarRutinasRecursividad extends JFrame {
 
             		            	if (respuesta == JOptionPane.OK_OPTION && !nombreField.getText().trim().equals("") && !gestor.existeNombreRutina(nombreField.getText())) {
             		            	    nuevaRutina.setNombre(nombreField.getText());
-            		            	    System.out.println("No existe ninguna rutina con este nombre: RUTINA AÑADIDA");
             		            	    gestor.insertarRutina(nuevaRutina, usuario);
-            		            	    System.out.println("Intentando cerrar ventana anterior...");
 
             		            	    dispose();
             		            	    ventanaAnterior.dispose();
