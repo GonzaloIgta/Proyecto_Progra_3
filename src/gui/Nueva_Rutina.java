@@ -145,8 +145,8 @@ public class Nueva_Rutina extends JFrame {
 
 			ventana_central_MuestraRutinas.add(init_tabla_fuerza());
 
-			ventana_central_MuestraRutinas.revalidate(); // FUENTE EXTERNA: revalidate y repaint sacados con ayuda de
-															// ChatGPT
+			ventana_central_MuestraRutinas.revalidate(); //IAG: ChatGPT
+															// SIN CAMBIOS: no conociamos el método revalidate
 			ventana_central_MuestraRutinas.repaint();
 		};
 
@@ -161,8 +161,8 @@ public class Nueva_Rutina extends JFrame {
 
 			ventana_central_MuestraRutinas.add(init_tabla_cardio());
 
-			ventana_central_MuestraRutinas.revalidate(); // FUENTE EXTERNA: revalidate y repaint sacados con ayuda de
-															// ChatGPT
+			ventana_central_MuestraRutinas.revalidate(); 
+			
 			ventana_central_MuestraRutinas.repaint();
 		};
 
@@ -177,8 +177,8 @@ public class Nueva_Rutina extends JFrame {
 
 			ventana_central_MuestraRutinas.add(init_tabla_natacion());
 
-			ventana_central_MuestraRutinas.revalidate(); // FUENTE EXTERNA: revalidate y repaint sacados con ayuda de
-															// ChatGPT
+			ventana_central_MuestraRutinas.revalidate();
+															
 			ventana_central_MuestraRutinas.repaint();
 		};
 
@@ -332,7 +332,8 @@ public class Nueva_Rutina extends JFrame {
 		rescalar.setScaledImage(boton_CancelarRutina, "resources/images/IconoCancelar.png", 20, 20);
 		boton_CancelarRutina.setFocusable(false);
 
-		// FUENTE EXTERNA: OptionDialog implementado con ayuda de Chat
+		//IAG: ChatGPT
+		//ADAPTADO: hemos utilizado ChatGPT para que nos diera el formato del optionDialog, pero hemos cambiado los valores
 		ActionListener listener_boton_CancelarRutina = e -> {
 			int respuesta = JOptionPane.showOptionDialog(null, "¿Estás seguro de que quieres eliminar la Rutina?", "",
 					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
@@ -984,7 +985,8 @@ public class Nueva_Rutina extends JFrame {
 
 	};
 
-	// FUENTE EXTERNA: chat
+	//IAG: ChatGPT
+	//SIN CAMBIOS
 
 	class ButtonCellEditor extends AbstractCellEditor implements TableCellEditor {
 
@@ -1039,7 +1041,8 @@ public class Nueva_Rutina extends JFrame {
 
 			JLabel lablnuevo = new JLabel();
 
-			StringBuilder sb = new StringBuilder(); // FUENTE EXTERNA CHATGP: solo el sb
+			StringBuilder sb = new StringBuilder(); //IAG: ChatGPT
+													//ADAPTADO: no conociamos exactamente como funcionaba el StringBuilder(), lo hemos utilizado para que nos explicara su funcionamiento
 
 			int rowCount = tablaEjercicios.getRowCount();
 			int columnCount = tablaEjercicios.getColumnCount();
@@ -1080,7 +1083,8 @@ public class Nueva_Rutina extends JFrame {
 				row++;
 			}
 
-			lablnuevo.setText("<html>" + sb.toString() + "</html>"); // FUENTE EXTERNA CHATGP
+			lablnuevo.setText("<html>" + sb.toString() + "</html>"); //IAG: ChatGPT
+																	//SIN CAMBIOS
 			
 			if(modeloDatostablaEjercicios.getColumnCount()==7) { //ejercicio de fuerza
 				lablnuevo.setBackground(new Color(90, 155, 121));
@@ -1212,7 +1216,8 @@ public class Nueva_Rutina extends JFrame {
 		}
 	 
 	 public boolean esNumerico(String texto) { 
-		    return texto != null && texto.matches("\\d+"); // CHATGPT
+		    return texto != null && texto.matches("\\d+"); //IAG: ChatGPT
+		    												//SIN CAMBIOS
 		}
 
 

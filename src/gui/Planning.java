@@ -117,9 +117,8 @@ public class Planning extends JFrame {
 			mapaRutinasPorDia.put(dia, new ArrayList<Rutina>());
 		}
 
-		// FUENTE EXTERNA
-		// IAG
-		// ADAPTADO
+		// IAG: ChatGPT
+		// ADAPTADO: hemos cambiado los nombres de los paneles para adaptarlos a las necesidades de nuestro proyecto.
 
 		for (String dia : diaSemana) {
 

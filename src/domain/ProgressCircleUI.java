@@ -15,6 +15,9 @@ import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 
 public class ProgressCircleUI extends BasicProgressBarUI {
+	
+	//IAG: ChatGPT
+	//SIN CAMBIOS
   @Override public Dimension getPreferredSize(JComponent c) {
     Dimension d = super.getPreferredSize(c);
     int v = Math.max(d.width, d.height);

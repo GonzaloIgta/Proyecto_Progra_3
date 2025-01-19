@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 //SIN CAMBIOS 
 
 public class Rescalar_imagen {
+	
+
 
 	public Rescalar_imagen() {}
     public void setScaledImage(JLabel jlabel, String imagePath, int widthancho, int heightalto) {
@@ -17,7 +19,8 @@ public class Rescalar_imagen {
         ImageIcon originalIcon = new ImageIcon(imagePath);
         
         // Escalar la imagen al tamaño deseado
-        Image scaledImage = originalIcon.getImage().getScaledInstance(widthancho, heightalto, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(widthancho, heightalto, Image.SCALE_SMOOTH);		//IAG: ChatGPT
+        																												//SIN CAMBIOS: solo getScaledInstance
         
         // Crear un nuevo ImageIcon con la imagen escalada y establecerlo en el JLabel
         jlabel.setIcon(new ImageIcon(scaledImage));

@@ -68,26 +68,26 @@ public class GenerarRutinasRecursividad extends JFrame {
 
 		JPanel panelUP = new JPanel(new FlowLayout());
 		
-		panelUP.setPreferredSize(new Dimension(800, 75)); // Ajusta el ancho y alto
+		panelUP.setPreferredSize(new Dimension(800, 75)); 
         
         
 		panelUP.add(new JLabel("NumEjercicios"));
 
-		 // Crear el JSpinner con un modelo de números
-        SpinnerNumberModel modelEjercicio = new SpinnerNumberModel(0, 0, 10, 1); // valor inicial, mínimo, máximo, incremento
+		//IAG: ChatGOT
+		//SIN CAMBIOS: No sabíamos como funcionaba el modelo de spinner
+        SpinnerNumberModel modelEjercicio = new SpinnerNumberModel(0, 0, 10, 1); 
         JSpinner spinnerEjercicio = new JSpinner(modelEjercicio);
-        spinnerEjercicio.setBounds(100, 50, 100, 30); // Posición y tamaño
+        spinnerEjercicio.setBounds(100, 50, 100, 30); 
 
         
         panelUP.add(spinnerEjercicio);
         
 		panelUP.add(new JLabel("Num MAX Rutinas"));
 
-		 // Crear el JSpinner con un modelo de números
-        SpinnerNumberModel modelEjercicio2= new SpinnerNumberModel(0, 0, 12, 1); // valor inicial, mínimo, máximo, incremento
+        SpinnerNumberModel modelEjercicio2= new SpinnerNumberModel(0, 0, 12, 1); 
 
        JSpinner spinnerRutinas = new JSpinner(modelEjercicio2);
-       spinnerRutinas.setBounds(100, 50, 100, 30); // Posición y tamaño
+       spinnerRutinas.setBounds(100, 50, 100, 30); 
 
        
        panelUP.add(spinnerRutinas);
@@ -97,25 +97,24 @@ public class GenerarRutinasRecursividad extends JFrame {
         generar.setText("Generar");
 		
         
-        //IA
-        // Variable para guardar el valor del spinner
-        final int[] spinnerValue = {0}; // Usamos un array para que sea efectivamente final
+        //IAG: ChatGPT
+        //ADAPTADO: no sabíamos exactamente como funcionaba un spinner
+        
+        final int[] spinnerValue = {0}; // Usamos un array para que sea final 
 
-        // Agregar un ChangeListener al spinner
         spinnerEjercicio.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                spinnerValue[0] = (int) spinnerEjercicio.getValue(); // Actualizar la variable
+                spinnerValue[0] = (int) spinnerEjercicio.getValue(); 
             }
         });
         
-        final int[] spinnerValue2 = {0}; // Usamos un array para que sea efectivamente final
+        final int[] spinnerValue2 = {0}; 
 
-        // Agregar un ChangeListener al spinner
         spinnerRutinas.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-            	spinnerValue2[0] = (int) spinnerRutinas.getValue(); // Actualizar la variable
+            	spinnerValue2[0] = (int) spinnerRutinas.getValue(); 
             }
         });
         
@@ -141,6 +140,10 @@ public class GenerarRutinasRecursividad extends JFrame {
         
 		
         JPanel panelDWN = new JPanel();
+        
+        
+        //IAG: IA
+        //SIN CAMBIOS
         panelDWN.setLayout(new BoxLayout(panelDWN, BoxLayout.Y_AXIS)); // Configurar el BoxLayout vertical (Y_AXIS)
 
 		JScrollPane scrollPane = new JScrollPane(panelDWN);
@@ -148,8 +151,8 @@ public class GenerarRutinasRecursividad extends JFrame {
 		panelGenerarRutinas.add(scrollPane, BorderLayout.CENTER);
 
         
-		//IA
-        // Variable para almacenar el valor seleccionado
+		//IAG: ChatGPT
+        // SIN CAMBIOS
 
         // Agregar un ItemListener para capturar los cambios de selección
         comboBoxTipoEj.addItemListener(new ItemListener() {
@@ -177,25 +180,20 @@ public class GenerarRutinasRecursividad extends JFrame {
         	if(combinacionEjercicios.isEmpty() || spinnerValue[0]==0 || spinnerValue2[0]==0) {
         		
         		JOptionPane.showMessageDialog(
-					    null, // Componente padre
-					    "No se ha podido crear ninguna rutina con estos parámetros, por favor prueba a introducir otros valores.", // Mensaje
-					    "Advertencia", // Título del cuadro
-					    JOptionPane.WARNING_MESSAGE // Tipo de mensaje
+					    null, 
+					    "No se ha podido crear ninguna rutina con estos parámetros, por favor prueba a introducir otros valores.", 
+					    "Advertencia", 
+					    JOptionPane.WARNING_MESSAGE 
 					);
         	}else {
         		
-            	// Crear un mapa donde el Key sea "RutinaAL" seguido de un contador y el Value sea la lista de ejercicios
             	Map<String, List<Ejercicio>> mapaRutinas = new LinkedHashMap<>();
 
-            	// Recorrer la lista de listas y agregar al mapa
             	for (int i = 0; i < combinacionEjercicios.size(); i++) {
-            	    // Crear la clave "RutinaAL" + contador
-            	    String key = "RutinaAL" + (i + 1); // "RutinaAL1", "RutinaAL2", etc.
+            	    String key = "RutinaAL" + (i + 1);
             	    
-            	    // Obtener la lista correspondiente al índice
             	    List<Ejercicio> value = combinacionEjercicios.get(i);
             	    
-            	    // Agregar la clave y el valor al mapa
             	    mapaRutinas.put(key, value);
             	}
 
@@ -204,24 +202,20 @@ public class GenerarRutinasRecursividad extends JFrame {
             	for(Map.Entry<String, List<Ejercicio>> entry : mapaRutinas.entrySet()) {
             		JButton btn = new JButton();
             		
-            		// Crear un ActionListener para los botones
             		ActionListener buttonActionListener = new ActionListener() {
             		    @Override
             		    public void actionPerformed(ActionEvent e) {
-            		        // Obtener el botón que fue presionado
             		        JButton btn = (JButton) e.getSource();
 
-            		        // Obtener el texto del botón que corresponde a la rutina: "RutinaAL1: [Bici...]"
             		        String textButton = btn.getText();  
             		        
-            		        // Extraer solo el "Key" antes del ":"
-            		        String key = textButton.split(":")[0].trim(); // Esto obtiene "RutinaAL1", "RutinaAL2", etc.
+            		        String key = textButton.split(":")[0].trim(); 
 
             		        List<Ejercicio> listaEjerciciosDeLaRutina = mapaRutinas.get(key);
 
             		        if (listaEjerciciosDeLaRutina != null) {
             		            Random random = new Random();
-            		            int randomNumber = random.nextInt(3); // Asumimos que los objetivos son 3 tipos
+            		            int randomNumber = random.nextInt(3); 
             		            ArrayList<Ejercicio>listaEjerciciosRutina = new ArrayList<>(listaEjerciciosDeLaRutina);
             		            Rutina nuevaRutina = new Rutina(key, Objetivo_de_la_sesion.values()[randomNumber], listaEjerciciosRutina);
 
@@ -246,14 +240,14 @@ public class GenerarRutinasRecursividad extends JFrame {
             		            	panelCambiarNombre.add(nombreField);
 
             		            	int respuesta = JOptionPane.showOptionDialog(
-            		            	    null, // Componente padre
-            		            	    panelCambiarNombre, // Panel con contenido
-            		            	    "Hay otra rutina con el mismo nombre", // Título del cuadro
-            		            	    JOptionPane.OK_CANCEL_OPTION, // Opciones OK y Cancel
-            		            	    JOptionPane.WARNING_MESSAGE, // Tipo de mensaje
-            		            	    null, // Icono (null para usar el predeterminado)
-            		            	    new Object[]{"Aceptar", "Cancelar"}, // Botones personalizados
-            		            	    "Aceptar" // Botón seleccionado por defecto
+            		            	    null, 
+            		            	    panelCambiarNombre, 
+            		            	    "Hay otra rutina con el mismo nombre", 
+            		            	    JOptionPane.OK_CANCEL_OPTION, 
+            		            	    JOptionPane.WARNING_MESSAGE,
+            		            	    null, 
+            		            	    new Object[]{"Aceptar", "Cancelar"},
+            		            	    "Aceptar" 
             		            	);
 
             		            	if (respuesta == JOptionPane.OK_OPTION && !nombreField.getText().trim().equals("") && !gestor.existeNombreRutina(nombreField.getText())) {
@@ -266,10 +260,10 @@ public class GenerarRutinasRecursividad extends JFrame {
 
             		            	} else if (respuesta == JOptionPane.OK_OPTION) {
             		            	    JOptionPane.showMessageDialog(
-            		            	        null, // Referencia al componente padre
-            		            	        "El nombre de la rutina ya existe o ha introducido un nombre incorrecto", // Mensaje
-            		            	        "Error", // Título del cuadro de diálogo
-            		            	        JOptionPane.ERROR_MESSAGE // Tipo de mensaje
+            		            	        null, 
+            		            	        "El nombre de la rutina ya existe o ha introducido un nombre incorrecto", 
+            		            	        "Error", 
+            		            	        JOptionPane.ERROR_MESSAGE 
             		            	    );
             		            	}
 
@@ -280,7 +274,6 @@ public class GenerarRutinasRecursividad extends JFrame {
             					
             					
             		        } else {
-            		            // Si no se encuentra la lista de ejercicios, mostrar un mensaje de error
             		            System.out.println("No se encontraron ejercicios para la rutina: " + key);
             		        }
             		    }
@@ -292,7 +285,6 @@ public class GenerarRutinasRecursividad extends JFrame {
             		
             		for(Ejercicio ej : entry.getValue()) {
             			
-            			//System.out.println(ej.getNombre());
 
             			nombreLabel =entry.getKey() + ": " + entry.getValue();
             		}
@@ -302,8 +294,8 @@ public class GenerarRutinasRecursividad extends JFrame {
             		btn.setText(nombreLabel);
             		btn.setVisible(true);
             		panelDWN.add(btn);
-            		panelDWN.revalidate(); // Revalidar el panel después de agregar los nuevos componentes
-                    panelDWN.repaint(); // Repintar para asegurar que se muestre todo
+            		panelDWN.revalidate(); 
+                    panelDWN.repaint(); 
             		this.repaint();
     	
             	}

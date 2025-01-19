@@ -28,9 +28,8 @@ public class Pagina_principal extends JFrame {
         ImageIcon icono = new ImageIcon("resources/images/deustoicon.png");
         this.setIconImage(icono.getImage());
         
-        //FUENTE EXTERNA
-        //IAG
-        //SIN ADAPTAR, SOLAMENTE EL JLayeredPane
+        //IAG: ChatGPT
+        //SIN CAMBIOS, SOLAMENTE EL JLayeredPane
         
         // Crear un JLayeredPane para manejar capas
         JLayeredPane layeredPane = new JLayeredPane();
