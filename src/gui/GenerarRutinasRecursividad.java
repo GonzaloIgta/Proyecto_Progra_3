@@ -241,6 +241,7 @@ public class GenerarRutinasRecursividad extends JFrame {
                 					new Rutinas_guardadas(gestor,usuario);
 
             		            }else {
+            		            	
             		            	System.out.println("Ya existe una rutina con este nombre");
 
             		            	JPanel panelCambiarNombre = new JPanel();
@@ -248,41 +249,37 @@ public class GenerarRutinasRecursividad extends JFrame {
             		            	nombreField.setText("RutinaAL");
             		            	panelCambiarNombre.add(new JLabel("Nombre de la nueva rutina: "));
             		            	panelCambiarNombre.add(nombreField);
-            		            	
-            		            	int respuesta = JOptionPane.showOptionDialog(null,panelCambiarNombre, "Hay otra rutina con el mismo nombre",
-            		    					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
 
-            		    			if (respuesta == JOptionPane.YES_OPTION &&  !nombreField.getText().trim().equals("") && !gestor.existeNombreRutina(nombreField.getText())) {
-            		    				nuevaRutina.setNombre(nombreField.getText());
-                		            	System.out.println("No existe ninguna rutina con este nombre: RUTINA AÑADIDA");
-                    					gestor.insertarRutina(nuevaRutina,usuario);
-                    					System.out.println("Intentando cerrar ventana anterior...");
+            		            	int respuesta = JOptionPane.showOptionDialog(
+            		            	    null, // Componente padre
+            		            	    panelCambiarNombre, // Panel con contenido
+            		            	    "Hay otra rutina con el mismo nombre", // Título del cuadro
+            		            	    JOptionPane.OK_CANCEL_OPTION, // Opciones OK y Cancel
+            		            	    JOptionPane.WARNING_MESSAGE, // Tipo de mensaje
+            		            	    null, // Icono (null para usar el predeterminado)
+            		            	    new Object[]{"Aceptar", "Cancelar"}, // Botones personalizados
+            		            	    "Aceptar" // Botón seleccionado por defecto
+            		            	);
 
-                    					dispose();
+            		            	if (respuesta == JOptionPane.OK_OPTION && !nombreField.getText().trim().equals("") && !gestor.existeNombreRutina(nombreField.getText())) {
+            		            	    nuevaRutina.setNombre(nombreField.getText());
+            		            	    System.out.println("No existe ninguna rutina con este nombre: RUTINA AÑADIDA");
+            		            	    gestor.insertarRutina(nuevaRutina, usuario);
+            		            	    System.out.println("Intentando cerrar ventana anterior...");
 
-                    					ventanaAnterior.dispose();
-                    					new Rutinas_guardadas(gestor,usuario);
+            		            	    dispose();
+            		            	    ventanaAnterior.dispose();
+            		            	    new Rutinas_guardadas(gestor, usuario);
 
-         
+            		            	} else if (respuesta == JOptionPane.OK_OPTION) {
+            		            	    JOptionPane.showMessageDialog(
+            		            	        null, // Referencia al componente padre
+            		            	        "El nombre de la rutina ya existe o ha introducido un nombre incorrecto", // Mensaje
+            		            	        "Error", // Título del cuadro de diálogo
+            		            	        JOptionPane.ERROR_MESSAGE // Tipo de mensaje
+            		            	    );
+            		            	}
 
-            		    				
-            		    			} else if (respuesta == JOptionPane.YES_OPTION){
-            		    				
-            		    				
-
-            		    				
-           		    				 JOptionPane.showMessageDialog(
-           		    					        null, // Referencia al componente padre
-           		    					        "El nombre de la rutina ya existe o ha introducido un nombre incorrecto", // Mensaje
-           		    					        "Error", // Título del cuadro de diálogo
-           		    					        JOptionPane.ERROR_MESSAGE // Tipo de mensaje
-           		    					    );
-           		    				
-           		    			            		    				
-            		    			}
-            		    			
-            		    			
-            		    			
             		            }
 
 
