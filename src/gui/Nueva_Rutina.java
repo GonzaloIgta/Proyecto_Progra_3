@@ -193,6 +193,8 @@ public class Nueva_Rutina extends JFrame {
 		boton_GuardarRutina.setFocusable(false);
 
 		ActionListener listener_boton_GuardarRutina = e -> {
+			
+			
 
 			JPanel panel = new JPanel();
 			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -208,7 +210,7 @@ public class Nueva_Rutina extends JFrame {
 			if (opcion == JOptionPane.OK_OPTION) {
 				objetivo = (Objetivo_de_la_sesion) comboBox.getSelectedItem();
 			}
-			if (nombreField.getText() != null && !nombreField.getText().trim().isEmpty()) { // Fuente Externa: trim
+			if (nombreField.getText() != null && !nombreField.getText().trim().isEmpty() && !gestor.existeNombreRutina(nombreField.getText())) { // Fuente Externa: trim
 																							// elimina espacios en
 																							// blanco adicionales, de
 																							// modo que si el usuario
@@ -305,6 +307,19 @@ public class Nueva_Rutina extends JFrame {
 				new Rutinas_guardadas(gestor,usuario);
 				
 
+			}else if (opcion == JOptionPane.YES_OPTION){
+				
+				
+
+				
+				 JOptionPane.showMessageDialog(
+					        null, // Referencia al componente padre
+					        "El nombre de la rutina ya existe o ha introducido un nombre incorrecto", // Mensaje
+					        "Error", // Título del cuadro de diálogo
+					        JOptionPane.ERROR_MESSAGE // Tipo de mensaje
+					    );
+				
+			            		    				
 			}
 
 		};
@@ -759,7 +774,7 @@ public class Nueva_Rutina extends JFrame {
 						resultcell.setForeground(Color.GRAY);
 						break;
 					case 1:
-						rescalar.setScaledImage(resultcell, "/resourses/images/falta_implementar.png", 60, 40);
+						rescalar.setScaledImage(resultcell, "resources/images/falta_implementar.png", 60, 40);
 						resultcell.setVerticalAlignment(SwingConstants.CENTER);
 						resultcell.setHorizontalAlignment(SwingConstants.CENTER);
 						break;
@@ -777,7 +792,7 @@ public class Nueva_Rutina extends JFrame {
 
 		JButton btnEliminarFila = new JButton();
 		rescalar = new Rescalar_imagen();
-		rescalar.setScaledImage(btnEliminarFila, "/resourses/images/IconoCancelar.png", 20, 20);
+		rescalar.setScaledImage(btnEliminarFila, "resources/images/IconoCancelar.png", 20, 20);
 		// Crear un editor para la celda que contiene el botón
 		ButtonCellEditor editor = new ButtonCellEditor(btnEliminarFila);
 		tablaEjercicios.getColumnModel().getColumn(3).setCellEditor(editor); // Columna "Acción"
@@ -884,7 +899,7 @@ public class Nueva_Rutina extends JFrame {
 						resultcell.setForeground(Color.GRAY);
 						break;
 					case 2:
-						rescalar.setScaledImage(resultcell, "/resourses/images/falta_implementar.png", 60, 40);
+						rescalar.setScaledImage(resultcell, "resources/images/falta_implementar.png", 60, 40);
 						resultcell.setVerticalAlignment(SwingConstants.CENTER);
 						resultcell.setHorizontalAlignment(SwingConstants.CENTER);
 						break;
@@ -902,7 +917,7 @@ public class Nueva_Rutina extends JFrame {
 
 		JButton btnEliminarFila = new JButton();
 		rescalar = new Rescalar_imagen();
-		rescalar.setScaledImage(btnEliminarFila, "/resourses/images/IconoCancelar.png", 20, 20);
+		rescalar.setScaledImage(btnEliminarFila, "resources/images/IconoCancelar.png", 20, 20);
 		// Crear un editor para la celda que contiene el botón
 		ButtonCellEditor editor = new ButtonCellEditor(btnEliminarFila);
 		tablaEjercicios.getColumnModel().getColumn(4).setCellEditor(editor); // Columna "Acción"

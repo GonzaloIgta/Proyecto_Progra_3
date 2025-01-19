@@ -104,7 +104,8 @@ public class Rutinas_guardadas extends JFrame {
 			
 			this.usuario = usuario;
 			this.gestor = gestor;
-			new GenerarRutinasRecursividad(Main.ejercicios, usuario, gestor );
+			new GenerarRutinasRecursividad(Main.ejercicios, usuario, gestor, this );
+			
 		});
 		
 		

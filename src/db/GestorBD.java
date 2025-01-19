@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Filter;
 import java.util.logging.Level;
@@ -243,6 +244,51 @@ public class GestorBD {
 			}
 		}
 	}
+	
+	
+	//metodo para comprobar si ya existe una rutina con el nombre de la rutina que vamos a insertar
+	public boolean existeNombreRutina(String nombreRutina) {
+		
+
+		List<String> nombreRutinasExistentes = new ArrayList<>();
+		String sql = "SELECT NOMBRE FROM RUTINA";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		    PreparedStatement pstmt = con.prepareStatement(sql);) {			
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet
+			ResultSet rs = pstmt.executeQuery();			
+			Rutina rutina;
+			
+			//Se recorre el ResultSet y se crean objetos
+			while (rs.next()) {
+				
+				nombreRutinasExistentes.add(rs.getString("NOMBRE"));
+				
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error al recuperar las rutinas: %s", ex.getMessage()));						
+		}		
+		
+		if(nombreRutinasExistentes.contains(nombreRutina)) {
+			
+			return true;
+
+		}else {
+			return false;
+		}
+		
+	
+		
+		
+		
+		
+	}
 
 
 
@@ -447,7 +493,7 @@ public class GestorBD {
 	        				logger.warning("Tipo de ejercicio desconocido.");
 	        			}
 	        		} catch (Exception e) {
-	        			logger.warning("Error al insertar el ejercicio: " + e.getMessage());
+	        			//logger.warning("Error al insertar el ejercicio: " + e.getMessage());
 	        		}
 	            	
 	            	

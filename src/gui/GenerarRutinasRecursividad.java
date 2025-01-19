@@ -19,10 +19,14 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -45,14 +49,17 @@ public class GenerarRutinasRecursividad extends JFrame {
 	
     private String selectedValue = "Ejercicio_cardio";
 
+
 	private Ejercicio ej;
 	private static final long serialVersionUID = 1L;
 	private List<Ejercicio> listaEjercicios;
 	private List<List<Ejercicio>> combinacionEjercicios;
 	private GestorBD gestor = new GestorBD();
 	private String usuario;
-	public GenerarRutinasRecursividad(List<Ejercicio >listaEjercicios, String usuario, GestorBD gestor) {
+	private JFrame ventanaAnterior; 
+	public GenerarRutinasRecursividad(List<Ejercicio >listaEjercicios, String usuario, GestorBD gestor, JFrame ventana) {
 		
+		ventanaAnterior=ventana;
 		this.usuario = usuario;
 		this.gestor = gestor;
 		this.listaEjercicios = new ArrayList<>(listaEjercicios);
@@ -77,7 +84,7 @@ public class GenerarRutinasRecursividad extends JFrame {
 		panelUP.add(new JLabel("Num MAX Rutinas"));
 
 		 // Crear el JSpinner con un modelo de números
-        SpinnerNumberModel modelEjercicio2= new SpinnerNumberModel(0, 0, 10, 1); // valor inicial, mínimo, máximo, incremento
+        SpinnerNumberModel modelEjercicio2= new SpinnerNumberModel(0, 0, 12, 1); // valor inicial, mínimo, máximo, incremento
 
        JSpinner spinnerRutinas = new JSpinner(modelEjercicio2);
        spinnerRutinas.setBounds(100, 50, 100, 30); // Posición y tamaño
@@ -123,6 +130,8 @@ public class GenerarRutinasRecursividad extends JFrame {
 
         panelUP.add(generar);
 
+        panelUP.add(new JSeparator());
+        panelUP.add(new JLabel("Seleccione la Rutina que quiere añadir a sus rutinas: "));
 
         
         panelGenerarRutinas.add(panelUP, BorderLayout.NORTH);
@@ -158,93 +167,160 @@ public class GenerarRutinasRecursividad extends JFrame {
         generar.addActionListener(e -> {
 
 
+        	panelDWN.removeAll();
+        	panelDWN.repaint();
+        	panelDWN.revalidate();
         	// Obtener combinacionEjercicios
         	combinacionEjercicios = new ArrayList<>(generarRutinas(spinnerValue[0], listaEjercicios, spinnerValue2[0], selectedValue));
 
-        	// Crear un mapa donde el Key sea "RutinaAL" seguido de un contador y el Value sea la lista de ejercicios
-        	Map<String, List<Ejercicio>> mapaRutinas = new LinkedHashMap<>();
+        	
+        	if(combinacionEjercicios.isEmpty() || spinnerValue[0]==0 || spinnerValue2[0]==0) {
+        		
+        		JOptionPane.showMessageDialog(
+					    null, // Componente padre
+					    "No se ha podido crear ninguna rutina con estos parámetros, por favor prueba a introducir otros valores.", // Mensaje
+					    "Advertencia", // Título del cuadro
+					    JOptionPane.WARNING_MESSAGE // Tipo de mensaje
+					);
+        	}else {
+        		
+            	// Crear un mapa donde el Key sea "RutinaAL" seguido de un contador y el Value sea la lista de ejercicios
+            	Map<String, List<Ejercicio>> mapaRutinas = new LinkedHashMap<>();
 
-        	// Recorrer la lista de listas y agregar al mapa
-        	for (int i = 0; i < combinacionEjercicios.size(); i++) {
-        	    // Crear la clave "RutinaAL" + contador
-        	    String key = "RutinaAL" + (i + 1); // "RutinaAL1", "RutinaAL2", etc.
-        	    
-        	    // Obtener la lista correspondiente al índice
-        	    List<Ejercicio> value = combinacionEjercicios.get(i);
-        	    
-        	    // Agregar la clave y el valor al mapa
-        	    mapaRutinas.put(key, value);
+            	// Recorrer la lista de listas y agregar al mapa
+            	for (int i = 0; i < combinacionEjercicios.size(); i++) {
+            	    // Crear la clave "RutinaAL" + contador
+            	    String key = "RutinaAL" + (i + 1); // "RutinaAL1", "RutinaAL2", etc.
+            	    
+            	    // Obtener la lista correspondiente al índice
+            	    List<Ejercicio> value = combinacionEjercicios.get(i);
+            	    
+            	    // Agregar la clave y el valor al mapa
+            	    mapaRutinas.put(key, value);
+            	}
+
+
+
+            	for(Map.Entry<String, List<Ejercicio>> entry : mapaRutinas.entrySet()) {
+            		JButton btn = new JButton();
+            		
+            		// Crear un ActionListener para los botones
+            		ActionListener buttonActionListener = new ActionListener() {
+            		    @Override
+            		    public void actionPerformed(ActionEvent e) {
+            		        // Obtener el botón que fue presionado
+            		        JButton btn = (JButton) e.getSource();
+
+            		        // Obtener el texto del botón que corresponde a la rutina: "RutinaAL1: [Bici...]"
+            		        String textButton = btn.getText();  
+            		        
+            		        // Extraer solo el "Key" antes del ":"
+            		        String key = textButton.split(":")[0].trim(); // Esto obtiene "RutinaAL1", "RutinaAL2", etc.
+
+            		        List<Ejercicio> listaEjerciciosDeLaRutina = mapaRutinas.get(key);
+
+            		        if (listaEjerciciosDeLaRutina != null) {
+            		            Random random = new Random();
+            		            int randomNumber = random.nextInt(3); // Asumimos que los objetivos son 3 tipos
+            		            ArrayList<Ejercicio>listaEjerciciosRutina = new ArrayList<>(listaEjerciciosDeLaRutina);
+            		            Rutina nuevaRutina = new Rutina(key, Objetivo_de_la_sesion.values()[randomNumber], listaEjerciciosRutina);
+
+            		            
+            		            //Esto borrarlo 
+            		            System.out.println("Rutina creada: " + nuevaRutina);
+            		            
+            		            if(!gestor.existeNombreRutina(nuevaRutina.getNombre())) {
+            		            	
+            		            	System.out.println("No existe ninguna rutina con este nombre: RUTINA AÑADIDA");
+                					gestor.insertarRutina(nuevaRutina,usuario);
+                					System.out.println("Intentando cerrar ventana anterior...");
+
+                					ventanaAnterior.dispose();
+
+                					dispose();
+                					new Rutinas_guardadas(gestor,usuario);
+
+            		            }else {
+            		            	System.out.println("Ya existe una rutina con este nombre");
+
+            		            	JPanel panelCambiarNombre = new JPanel();
+            		            	JTextField nombreField = new JTextField(20);
+            		            	nombreField.setText("RutinaAL");
+            		            	panelCambiarNombre.add(new JLabel("Nombre de la nueva rutina: "));
+            		            	panelCambiarNombre.add(nombreField);
+            		            	
+            		            	int respuesta = JOptionPane.showOptionDialog(null,panelCambiarNombre, "Hay otra rutina con el mismo nombre",
+            		    					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+
+            		    			if (respuesta == JOptionPane.YES_OPTION &&  !nombreField.getText().trim().equals("") && !gestor.existeNombreRutina(nombreField.getText())) {
+            		    				nuevaRutina.setNombre(nombreField.getText());
+                		            	System.out.println("No existe ninguna rutina con este nombre: RUTINA AÑADIDA");
+                    					gestor.insertarRutina(nuevaRutina,usuario);
+                    					System.out.println("Intentando cerrar ventana anterior...");
+
+                    					dispose();
+
+                    					ventanaAnterior.dispose();
+                    					new Rutinas_guardadas(gestor,usuario);
+
+         
+
+            		    				
+            		    			} else if (respuesta == JOptionPane.YES_OPTION){
+            		    				
+            		    				
+
+            		    				
+           		    				 JOptionPane.showMessageDialog(
+           		    					        null, // Referencia al componente padre
+           		    					        "El nombre de la rutina ya existe o ha introducido un nombre incorrecto", // Mensaje
+           		    					        "Error", // Título del cuadro de diálogo
+           		    					        JOptionPane.ERROR_MESSAGE // Tipo de mensaje
+           		    					    );
+           		    				
+           		    			            		    				
+            		    			}
+            		    			
+            		    			
+            		    			
+            		            }
+
+
+
+            					
+            					
+            		        } else {
+            		            // Si no se encuentra la lista de ejercicios, mostrar un mensaje de error
+            		            System.out.println("No se encontraron ejercicios para la rutina: " + key);
+            		        }
+            		    }
+            		};
+
+
+            	    
+            		String nombreLabel ="";
+            		
+            		for(Ejercicio ej : entry.getValue()) {
+            			
+            			//System.out.println(ej.getNombre());
+
+            			nombreLabel =entry.getKey() + ": " + entry.getValue();
+            		}
+            		
+
+            		btn.addActionListener(buttonActionListener);
+            		btn.setText(nombreLabel);
+            		btn.setVisible(true);
+            		panelDWN.add(btn);
+            		panelDWN.revalidate(); // Revalidar el panel después de agregar los nuevos componentes
+                    panelDWN.repaint(); // Repintar para asegurar que se muestre todo
+            		this.repaint();
+    	
+            	}
+    		
         	}
-
-
-
-        	for(Map.Entry<String, List<Ejercicio>> entry : mapaRutinas.entrySet()) {
-        		JButton btn = new JButton();
-        		
-        		// Crear un ActionListener para los botones
-        		ActionListener buttonActionListener = new ActionListener() {
-        		    @Override
-        		    public void actionPerformed(ActionEvent e) {
-        		        // Obtener el botón que fue presionado
-        		        JButton btn = (JButton) e.getSource();
-
-        		        // Obtener el texto del botón que corresponde a la rutina
-        		        String textButton = btn.getText(); // Ejemplo: "RutinaAL1: [Bici...]"
-        		        
-        		        // Extraer solo el "Key" antes del ":"
-        		        String key = textButton.split(":")[0].trim(); // Esto obtiene "RutinaAL1", "RutinaAL2", etc.
-
-        		        // Obtener la lista de ejercicios asociada al Key (nombre de la rutina) en el mapa
-        		        List<Ejercicio> listaEjerciciosDeLaRutina = mapaRutinas.get(key);
-
-        		        // Si la lista de ejercicios no es null, crear una nueva rutina
-        		        if (listaEjerciciosDeLaRutina != null) {
-        		            // Crear una nueva rutina con el nombre y los ejercicios
-        		            Random random = new Random();
-        		            int randomNumber = random.nextInt(3); // Asumimos que los objetivos son 3 tipos
-        		            ArrayList<Ejercicio>listaEjerciciosRutina = new ArrayList<>(listaEjerciciosDeLaRutina);
-        		            Rutina nuevaRutina = new Rutina(key, Objetivo_de_la_sesion.values()[randomNumber], listaEjerciciosRutina);
-
-        		            
-        		            // Mostrar la nueva rutina en consola (o hacer cualquier otra acción con ella)
-        		            System.out.println("Rutina creada: " + nuevaRutina);
-        		            
-        					gestor.insertarRutina(nuevaRutina,usuario);
-
-        					dispose();
-        					new Rutinas_guardadas(gestor,usuario);
-
-        					
-        					
-        		        } else {
-        		            // Si no se encuentra la lista de ejercicios, mostrar un mensaje de error
-        		            System.out.println("No se encontraron ejercicios para la rutina: " + key);
-        		        }
-        		    }
-        		};
-
-
-        	    
-        		String nombreLabel ="";
-        		
-        		for(Ejercicio ej : entry.getValue()) {
-        			
-        			//System.out.println(ej.getNombre());
-
-        			nombreLabel =entry.getKey() + ": " + entry.getValue();
-        		}
-        		
-
-        		btn.addActionListener(buttonActionListener);
-        		btn.setText(nombreLabel);
-        		btn.setVisible(true);
-        		panelDWN.add(btn);
-        		panelDWN.revalidate(); // Revalidar el panel después de agregar los nuevos componentes
-                panelDWN.repaint(); // Repintar para asegurar que se muestre todo
-        		this.repaint();
-	
-        	}
-		});
+        	
+});
         
 
     

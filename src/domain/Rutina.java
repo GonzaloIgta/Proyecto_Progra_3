@@ -43,6 +43,7 @@ public class Rutina {
 		this.lista_ejercicios = new ArrayList<>();
 	}
 	
+	
 
 	
 	public boolean añadir_ejercicio(Ejercicio ejercicio) {
